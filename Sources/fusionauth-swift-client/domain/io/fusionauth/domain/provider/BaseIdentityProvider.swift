@@ -1,0 +1,22 @@
+//
+//  BaseIdentityProvider.swift
+//
+//
+//  Created by Everaldlee Johnson on 10/25/20.
+//
+import Foundation
+
+public protocol BaseIdentityProvider:Enableable, IdentityProvider{
+    
+    associatedtype D
+    
+    var applicationConfiguration:[UUID:D]? { get set }
+    var data:[String:JSONObject]? {get set}
+    var debug:Bool? { get set }
+    var id:UUID? { get set }
+    var name:String? { get set }
+    var type:IdentityProviderType? { get }
+    
+    
+    
+}
