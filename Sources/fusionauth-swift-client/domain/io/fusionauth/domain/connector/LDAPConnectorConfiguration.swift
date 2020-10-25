@@ -8,9 +8,9 @@
 import Foundation
 
 public class LDAPConnectorConfiguration:BaseConnectorConfiguration{
-    public var authenticationURL:String
-    public var baseStructure:String
+    public var authenticationURL:String?
+    public var baseStructure:String?
     public var connectTimeout:Int?
-    public var identifyingAttribute:String
-    public var lambdaConfiguration:ConnectorLambdaConfiguration
+    public var identifyingAttribute:String?
+    public var lambdaConfiguration:ConnectorLambdaConfiguration?
 }
