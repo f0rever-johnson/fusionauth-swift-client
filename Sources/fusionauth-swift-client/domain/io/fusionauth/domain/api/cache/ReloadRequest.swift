@@ -1,9 +1,10 @@
 //
 //  ReloadRequest.swift
+//  FusionAuth Swift Client
 //
+//  Created by Everaldlee Johnson on 11/9/19.
+//  Copyright © 2019 F0rever_Johnson. All rights reserved.
 //
-//  Created by Everaldlee Johnson on 10/25/20.
-//2
 
 import Foundation
 

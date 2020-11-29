@@ -1,9 +1,11 @@
 //
 //  RefreshRequest.swift
+//  FusionAuth Swift Client
 //
+//  Created by Everaldlee Johnson on 12/11/18.
+//  Copyright © 2018 F0rever_Johnson. All rights reserved.
 //
-//  Created by Everaldlee Johnson on 10/25/20.
-//
+
 import Foundation
 
 public struct RefreshRequest:Codable{
