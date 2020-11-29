@@ -9,7 +9,7 @@ import Foundation
 
 
 public protocol SecureIdentity:Codable{
-    var encryptionScheme:EncryptionScheme? { get }
+    var encryptionScheme:String? { get }
     var factor:Int? { get }
     var id:UUID? { get }
     var password:String? { get }

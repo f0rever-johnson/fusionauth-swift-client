@@ -12,7 +12,7 @@ import Foundation
  */
 
 public class User:SecureIdentity, Codable{
-    public var encryptionScheme:EncryptionScheme? = nil
+    public var encryptionScheme: String? = nil
     public var factor: Int? = nil
     public var id: UUID? = nil
     public var password: String? = nil
@@ -46,7 +46,7 @@ public class User:SecureIdentity, Codable{
     public var username:String? = nil
     public var usernameStatus:ContentStatus? = nil
 
-    public init(encryptionScheme: EncryptionScheme? = nil, factor: Int? = nil, id: UUID? = nil, password: String? = nil, passwordChangeRequired: Bool? = nil, passwordLastUpdateInstant: Date? = nil, salt: String? = nil, verified: Bool? = nil, active: Bool? = nil, birthDate: String? = nil, cleanSpeakId: UUID? = nil, data: [String:JSONObject]? = nil, email: String? = nil, expiry: Date? = nil, firstName: String? = nil, fullName: String? = nil, imageUrl: String? = nil, insertInstant: Date? = nil, lastLoginInstant: Date? = nil, lastName: String? = nil, memberships: [GroupMember]? = nil, middleName: String? = nil, mobilePhone: String? = nil, parentEmail: String? = nil, preferredLanguages: [String]? = nil, registrations: [UserRegistration]? = nil, tenantId: UUID? = nil, timezone: String? = nil, twoFactorDelivery: TwoFactorDelivery? = nil, twoFactorEnabled: Bool? = nil, twoFactorSecret: String? = nil, username: String? = nil, usernameStatus: ContentStatus? = nil) {
+    public init(encryptionScheme:String? = nil, factor: Int? = nil, id: UUID? = nil, password: String? = nil, passwordChangeRequired: Bool? = nil, passwordLastUpdateInstant: Date? = nil, salt: String? = nil, verified: Bool? = nil, active: Bool? = nil, birthDate: String? = nil, cleanSpeakId: UUID? = nil, data: [String:JSONObject]? = nil, email: String? = nil, expiry: Date? = nil, firstName: String? = nil, fullName: String? = nil, imageUrl: String? = nil, insertInstant: Date? = nil, lastLoginInstant: Date? = nil, lastName: String? = nil, memberships: [GroupMember]? = nil, middleName: String? = nil, mobilePhone: String? = nil, parentEmail: String? = nil, preferredLanguages: [String]? = nil, registrations: [UserRegistration]? = nil, tenantId: UUID? = nil, timezone: String? = nil, twoFactorDelivery: TwoFactorDelivery? = nil, twoFactorEnabled: Bool? = nil, twoFactorSecret: String? = nil, username: String? = nil, usernameStatus: ContentStatus? = nil) {
         self.encryptionScheme = encryptionScheme
         self.factor = factor
         self.id = id

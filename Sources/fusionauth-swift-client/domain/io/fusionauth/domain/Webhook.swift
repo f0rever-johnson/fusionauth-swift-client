@@ -15,7 +15,7 @@ import Foundation
 public struct Webhook:Codable {
     public var applicationIds:[UUID]? = nil
     public var connectTimeout:Int? = nil
-    public var date:WebhookData? = nil
+    public var data:[String:JSONObject]? = nil
     public var description:String? = nil
     public var global:Bool? = nil
     public var headers:HTTPHeaders? = nil
@@ -27,10 +27,10 @@ public struct Webhook:Codable {
     public var url:String? = nil
 
 
-    public init(applicationIds: [UUID]? = nil, connectTimeout: Int? = nil, date: WebhookData? = nil, description: String? = nil, global: Bool? = nil, headers: HTTPHeaders? = nil, httpAuthenticationPassword: String? = nil, httpAuthenticationUsername: String? = nil, id: UUID? = nil, readTimeout: Int? = nil, sslCertificate: String? = nil, url: String? = nil) {
+    public init(applicationIds: [UUID]? = nil, connectTimeout: Int? = nil, data: [String:JSONObject]? = nil, description: String? = nil, global: Bool? = nil, headers: HTTPHeaders? = nil, httpAuthenticationPassword: String? = nil, httpAuthenticationUsername: String? = nil, id: UUID? = nil, readTimeout: Int? = nil, sslCertificate: String? = nil, url: String? = nil) {
         self.applicationIds = applicationIds
         self.connectTimeout = connectTimeout
-        self.date = date
+        self.data = data
         self.description = description
         self.global = global
         self.headers = headers
