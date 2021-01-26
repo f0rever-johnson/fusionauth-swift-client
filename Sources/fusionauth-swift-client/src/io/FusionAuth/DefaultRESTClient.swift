@@ -13,25 +13,14 @@ public class DefaultRESTClient{
     private(set) var apiKey:String?
     private(set) var baseUrl:String
     private(set) var tenantId:String?
-    private(set) var port:Int = 9011
+    private(set) var port:Int? = 9011
     private(set) var timeout:Int = 2000
-
-    public init(baseUrl:String, port:Int = 9011, timeout:Int = 2000){
+    private(set) var urlScheme:String = "https"
+    
+    public init(baseUrl:String, apiKey:String? = nil, tenantId:String? = nil, urlScheme:String = "https", port:Int? = 9011, timeout:Int = 2000){
+        self.urlScheme = urlScheme
         self.baseUrl = baseUrl
-        self.port = port
-        self.timeout = timeout
-    }
-
-    public init(apiKey:String, baseUrl:String, port:Int = 9011, timeout:Int = 2000) {
         self.apiKey = apiKey
-        self.baseUrl = baseUrl
-        self.port = port
-        self.timeout = timeout
-    }
-
-    public init(apiKey:String, baseUrl:String, tenantId:String, port:Int = 9011, timeout:Int = 2000) {
-        self.apiKey = apiKey
-        self.baseUrl = baseUrl
         self.tenantId = tenantId
         self.port = port
         self.timeout = timeout
@@ -44,7 +33,7 @@ public class DefaultRESTClient{
         var clientResponse:ClientResponse<T> = ClientResponse()
 
         var urlComponents:URLComponents = URLComponents()
-        urlComponents.scheme = "http"
+        urlComponents.scheme = urlScheme
         urlComponents.host = baseUrl
         urlComponents.path = urlPath
         urlComponents.port = port
@@ -94,14 +83,14 @@ public class DefaultRESTClient{
             if let httpResponse = response as? HTTPURLResponse {
 
                 do{
-
                 clientResponse.statusCode = httpResponse.statusCode
 
                 if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299){
                     //debugPrint("Success" )
                     clientResponse.successResponse = try JSONDecoder().decode(T.self, from: data!)
                }else{
-                   //debugPrint("HTTPResponse Error \(httpResponse.statusCode)")
+                   debugPrint("HTTPResponse Error \(httpResponse.statusCode)")
+                
                     clientResponse.errorResponse = try JSONDecoder().decode(Errors.self, from: data!)
                 }
 

@@ -14,21 +14,11 @@ import Foundation
 
 public class FusionAuthClient{
 
-    private var fusionAuthRESTClient:DefaultRESTClient? = nil
-
-    public init(baseUrl:String, port:Int = 9011, timeout:Int = 2000){
-        fusionAuthRESTClient = DefaultRESTClient(baseUrl: baseUrl, port:port, timeout:timeout)
+    private var fusionAuth:DefaultRESTClient
+    
+    public init(fusionAuth:DefaultRESTClient){
+        self.fusionAuth = fusionAuth
     }
-
-    public init(apiKey:String, baseUrl:String, port:Int = 9011, timeout:Int = 2000) {
-        fusionAuthRESTClient = DefaultRESTClient(apiKey: apiKey, baseUrl: baseUrl, port:port, timeout: timeout)
-    }
-
-    public init(apiKey:String, baseUrl:String, tenantId:String, port:Int = 9011, timeout:Int = 2000) {
-        fusionAuthRESTClient = DefaultRESTClient(apiKey: apiKey, baseUrl: baseUrl, tenantId: tenantId, port: port, timeout: timeout)
-    }
-
-
 
     /**
      * Takes an action on a user. The user being actioned is called the "actionee" and the user taking the action is called the
@@ -50,7 +40,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
             clientResponse(response)
         })
 
@@ -74,7 +64,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<FamilyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<FamilyResponse>) in
             clientResponse(response)
         }
     }
@@ -95,7 +85,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
             clientResponse(response)
         })
     }
@@ -118,7 +108,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [changePasswordId]
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ChangePasswordResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ChangePasswordResponse>) in
             clientResponse(response)
         })
     }
@@ -140,7 +130,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -160,7 +150,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserCommentResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserCommentResponse>) in
             clientResponse(response)
         })
 
@@ -183,7 +173,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [applicationId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
             clientResponse(response)
         })
     }
@@ -207,7 +197,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [applicationId.uuidString, "role", roleId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
             clientResponse(response)
         })
     }
@@ -229,7 +219,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<AuditLogResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<AuditLogResponse>) in
             clientResponse(response)
         })
     }
@@ -251,7 +241,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ConsentResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ConsentResponse>) in
             clientResponse(response)
         })
     }
@@ -273,7 +263,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
             clientResponse(response)
         })
     }
@@ -296,7 +286,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<FamilyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<FamilyResponse>) in
             clientResponse(response)
         })
     }
@@ -319,7 +309,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
             clientResponse(response)
         })
     }
@@ -340,7 +330,7 @@ public class FusionAuthClient{
         let httpMethod:HTTPMethod = .POST
 
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<MemberResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<MemberResponse>) in
             clientResponse(response)
         })
     }
@@ -362,7 +352,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
             clientResponse(response)
         })
 
@@ -385,7 +375,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
             clientResponse(response)
         })
     }
@@ -408,7 +398,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [(tenantId?.uuidString) ?? ""]
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<TenantResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<TenantResponse>) in
             clientResponse(response)
         })
     }
@@ -430,7 +420,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ThemeResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ThemeResponse>) in
             clientResponse(response)
         })
     }
@@ -452,7 +442,7 @@ public class FusionAuthClient{
         let urlSegments:[String] = [userId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
             clientResponse(response)
         })
     }
@@ -475,7 +465,7 @@ public class FusionAuthClient{
         let urlSegments:[String] = [userActionId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
             clientResponse(response)
         })
     }
@@ -498,7 +488,7 @@ public class FusionAuthClient{
         let urlSegments:[String] = [userActionReasonId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserActionReasonResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserActionReasonResponse>) in
             clientResponse(response)
         })
     }
@@ -520,7 +510,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<UserConsentResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<UserConsentResponse>) in
             clientResponse(response)
         })
     }
@@ -543,7 +533,7 @@ public class FusionAuthClient{
         let httpMethod:HTTPMethod = .POST
 
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<WebhookResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<WebhookResponse>) in
             clientResponse(response)
         })
     }
@@ -564,7 +554,7 @@ public class FusionAuthClient{
         let urlSegments:[String] = [applicationId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -584,7 +574,7 @@ public class FusionAuthClient{
         let urlSegments:[String] = [userId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -604,7 +594,7 @@ public class FusionAuthClient{
         let urlSegments:[String] = [userActionId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -631,7 +621,7 @@ public class FusionAuthClient{
         }
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -655,7 +645,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "hardDelete", value: "true")]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod,urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod,urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -677,7 +667,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [applicationId.uuidString, "role", roleID.uuidString]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -697,7 +687,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [consentId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -717,7 +707,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [emailTemplateId.uuidString]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -737,7 +727,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [groupId.uuidString]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -758,7 +748,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -778,7 +768,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [identityProviderId.uuidString]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
 
@@ -799,7 +789,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [keyId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -819,7 +809,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [lambdaId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -843,7 +833,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [userId.uuidString, applicationId.uuidString]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -863,7 +853,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [tenantId.uuidString]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -883,7 +873,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [themeId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -906,7 +896,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "hardDelete", value: String(hardDelete))]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -929,7 +919,7 @@ public class FusionAuthClient{
         let httpMethod:HTTPMethod = .DELETE
 
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -949,7 +939,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [userActionReasonId.uuidString]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -969,7 +959,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -989,7 +979,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [webhookId.uuidString]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1011,7 +1001,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId.uuidString), URLQueryItem(name: "code", value: code)]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1033,7 +1023,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1053,7 +1043,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RefreshResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RefreshResponse>) in
             clientResponse(response)
         })
     }
@@ -1074,7 +1064,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ForgotPasswordResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ForgotPasswordResponse>) in
             clientResponse(response)
         })
     }
@@ -1095,7 +1085,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "email", value: email), URLQueryItem(name: "sendVerifyPasswordEmail", value: "false")]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyEmailResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyEmailResponse>) in
             clientResponse(response)
         })
     }
@@ -1117,7 +1107,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
             clientResponse(response)
         })
     }
@@ -1139,7 +1129,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "email", value: email), URLQueryItem(name: "applicationId", value: applicationId.uuidString)]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyRegistrationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyRegistrationResponse>) in
             clientResponse(response)
         })
     }
@@ -1159,7 +1149,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/two-factor/secret"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<SecretResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<SecretResponse>) in
             clientResponse(response)
         })
 
@@ -1184,7 +1174,7 @@ public class FusionAuthClient{
         let authorization:String = ("JWT" + encodedJWT)
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, authorization:authorization, fusionAuthClientResponse: { (response:ClientResponse<SecretResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, authorization:authorization, fusionAuthClientResponse: { (response:ClientResponse<SecretResponse>) in
             clientResponse(response)
         })
     }
@@ -1206,7 +1196,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
             clientResponse(response)
         })
     }
@@ -1228,7 +1218,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
             clientResponse(response)
         })
     }
@@ -1250,7 +1240,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1276,7 +1266,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "applicationId", value: applicationId.uuidString)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, authorization: authorization, fusionAuthClientResponse: { (response:ClientResponse<IssueResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, authorization: authorization, fusionAuthClientResponse: { (response:ClientResponse<IssueResponse>) in
             clientResponse(response)
         })
     }
@@ -1296,7 +1286,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
             clientResponse(response)
         })
     }
@@ -1323,7 +1313,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =  [URLQueryItem(name: "ipAddress", value: callerIPAddress)]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1348,7 +1338,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "global", value: String(global)), URLQueryItem(name: "refreshToken", value: refreshToken)]
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1369,7 +1359,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "domain", value: domain)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LookupResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LookupResponse>) in
             clientResponse(response)
         })
     }
@@ -1392,7 +1382,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
             clientResponse(response)
         })
     }
@@ -1412,7 +1402,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
             clientResponse(response)
         })
     }
@@ -1434,7 +1424,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "reactivate", value: "true")]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
             clientResponse(response)
         })
     }
@@ -1455,7 +1445,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "reactivate", value: "true")]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
             clientResponse(response)
         })
     }
@@ -1476,7 +1466,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "reactivate", value: "true")]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
             clientResponse(response)
         })
     }
@@ -1496,7 +1486,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
             clientResponse(response)
         })
     }
@@ -1517,7 +1507,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/user/search"
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1543,7 +1533,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [userId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RegistrationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RegistrationResponse>) in
             clientResponse(response)
         })
     }
@@ -1564,7 +1554,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [familyId?.uuidString ?? "", userId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1584,7 +1574,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "email", value: email)]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyEmailResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyEmailResponse>) in
             clientResponse(response)
         })
     }
@@ -1605,7 +1595,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "email", value: email), URLQueryItem(name: "applicationId", value: applicationId.uuidString)]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyEmailResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyEmailResponse>) in
             clientResponse(response)
         })
     }
@@ -1625,7 +1615,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [actionId.uuidString]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
             clientResponse(response)
         })
     }
@@ -1645,7 +1635,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId?.uuidString ?? "")]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
             clientResponse(response)
         })
     }
@@ -1665,7 +1655,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? ""), URLQueryItem(name: "preventingLogin", value: "true")]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
             clientResponse(response)
         })
     }
@@ -1686,7 +1676,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? ""), URLQueryItem(name: "active", value: "true")]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
             clientResponse(response)
         })
     }
@@ -1706,7 +1696,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [applicationId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
             clientResponse(response)
         })
     }
@@ -1724,7 +1714,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/application"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
             clientResponse(response)
         })
     }
@@ -1744,7 +1734,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [String(auditLogId)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<AuditLogResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<AuditLogResponse>) in
             clientResponse(response)
         })
     }
@@ -1764,7 +1754,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [consentId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ConsentResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ConsentResponse>) in
             clientResponse(response)
         })
     }
@@ -1782,7 +1772,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/consent"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ConsentResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ConsentResponse>) in
             clientResponse(response)
         })
     }
@@ -1805,7 +1795,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "application", value: applicationId?.uuidString), URLQueryItem(name: "start", value: String(start)), URLQueryItem(name: "end", value: String(end))]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<DailyActiveUserReportResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<DailyActiveUserReportResponse>) in
             clientResponse(response)
         })
     }
@@ -1825,7 +1815,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [emailTemplateId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
             clientResponse(response)
         })
     }
@@ -1847,7 +1837,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<PreviewResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<PreviewResponse>) in
             clientResponse(response)
         })
     }
@@ -1865,7 +1855,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/email/template"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
             clientResponse(response)
         })
     }
@@ -1885,7 +1875,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [String(eventLogId)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<EventLogResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<EventLogResponse>) in
             clientResponse(response)
         })
     }
@@ -1905,7 +1895,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? "")]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<FamilyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<FamilyResponse>) in
             clientResponse(response)
         })
     }
@@ -1926,7 +1916,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [groupId.uuidString]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
             clientResponse(response)
         })
     }
@@ -1944,7 +1934,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/group"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
             clientResponse(response)
         })
     }
@@ -1966,7 +1956,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [identityProviderId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
             clientResponse(response)
         })
     }
@@ -1984,7 +1974,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/identity-provider"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
             clientResponse(response)
         })
     }
@@ -2003,7 +1993,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "inactive", value: "true")]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
             clientResponse(response)
         })
     }
@@ -2022,7 +2012,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "inactive", value: "true")]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
             clientResponse(response)
         })
     }
@@ -2040,7 +2030,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/integration"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<IntegrationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<IntegrationResponse>) in
             clientResponse(response)
         })
     }
@@ -2062,7 +2052,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [keyId]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<PublicKeyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<PublicKeyResponse>) in
             clientResponse(response)
         })
     }
@@ -2083,7 +2073,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "applicationId", value: applicationId)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<PublicKeyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<PublicKeyResponse>) in
             clientResponse(response)
         })
     }
@@ -2102,7 +2092,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/jwt/public-key"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<PublicKeyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<PublicKeyResponse>) in
             clientResponse(response)
         })
     }
@@ -2122,7 +2112,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [keyId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
             clientResponse(response)
         })
     }
@@ -2139,7 +2129,7 @@ public class FusionAuthClient{
     public func RetrieveKeys(clientResponse: @escaping(ClientResponse<KeyResponse>) ->()){
         let urlPath:String = "/api/key"
         let httpMethod:HTTPMethod = .GET
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
             clientResponse(response)
         })
     }
@@ -2159,7 +2149,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [lambdaId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
             clientResponse(response)
         })
     }
@@ -2177,7 +2167,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/lambda"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
             clientResponse(response)
         })
     }
@@ -2197,7 +2187,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "type", value: type.rawValue)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
             clientResponse(response)
         })
     }
@@ -2220,7 +2210,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "applicationId", value: applicationId?.uuidString), URLQueryItem(name: "start", value: String(start)), URLQueryItem(name: "end", value: String(end))]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LoginReportResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LoginReportResponse>) in
             clientResponse(response)
         })
     }
@@ -2243,7 +2233,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "applicationId", value: applicationId?.uuidString), URLQueryItem(name: "start", value: String(start)), URLQueryItem(name: "end", value: String(end))]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<MonthlyActiveUserReportResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<MonthlyActiveUserReportResponse>) in
             clientResponse(response)
         })
     }
@@ -2263,7 +2253,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [applicationId.uuidString, "oauth-configuration"]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<OAuthConfigurationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<OAuthConfigurationResponse>) in
             clientResponse(response)
         })
     }
@@ -2281,7 +2271,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/system-configuration/password-validation-rules"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<PasswordValidationRules>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<PasswordValidationRules>) in
             clientResponse(response)
         })
     }
@@ -2303,7 +2293,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [tenantId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<PasswordValidatonRulesResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<PasswordValidatonRulesResponse>) in
             clientResponse(response)
         })
     }
@@ -2323,7 +2313,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "parentEmail", value: parentEmail)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<PendingResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<PendingResponse>) in
             clientResponse(response)
         })
     }
@@ -2344,7 +2334,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "offset", value: String(offset)), URLQueryItem(name: "limit", value: String(limit))]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RecentLoginResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RecentLoginResponse>) in
             clientResponse(response)
         })
     }
@@ -2365,7 +2355,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId.uuidString)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RefreshResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RefreshResponse>) in
             clientResponse(response)
         })
     }
@@ -2386,7 +2376,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [userId.uuidString, applicationId.uuidString]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RegistrationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RegistrationResponse>) in
             clientResponse(response)
         })
     }
@@ -2409,7 +2399,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "applicationId", value: applicationId?.uuidString), URLQueryItem(name: "start", value: String(start)), URLQueryItem(name: "end", value: String(end))]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RegistrationReportResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RegistrationReportResponse>) in
             clientResponse(response)
         })
     }
@@ -2427,7 +2417,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/system-configuration"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<SystemConfigurationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<SystemConfigurationResponse>) in
             clientResponse(response)
         })
     }
@@ -2447,7 +2437,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [tenantId.uuidString]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<TenantResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<TenantResponse>) in
             clientResponse(response)
         })
     }
@@ -2465,7 +2455,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/tenant"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<TenantResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<TenantResponse>) in
             clientResponse(response)
         })
     }
@@ -2485,7 +2475,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [themeId?.uuidString  ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ThemeResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ThemeResponse>) in
             clientResponse(response)
         })
     }
@@ -2504,7 +2494,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/report/totals"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<TotalsReportResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<TotalsReportResponse>) in
             clientResponse(response)
         })
     }
@@ -2524,7 +2514,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [userId.uuidString]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
             clientResponse(response)
         })
     }
@@ -2545,7 +2535,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [userActionId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
             clientResponse(response)
         })
     }
@@ -2566,7 +2556,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [userActionReasonId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserActionReasonResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserActionReasonResponse>) in
             clientResponse(response)
         })
     }
@@ -2584,7 +2574,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/user-action-reason"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserActionReasonResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserActionReasonResponse>) in
             clientResponse(response)
         })
     }
@@ -2602,7 +2592,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/user-action-action"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
             clientResponse(response)
         })
     }
@@ -2624,7 +2614,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "changePasswordId", value: changePasswordId)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
             clientResponse(response)
         })
     }
@@ -2643,7 +2633,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/user"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "email", value: email)]
 
-        fusionAuthRESTClient?.RESTClient(urlPath:urlPath, httpMethod: HTTPMethod.GET, urlParameters:urlParameter){(response:ClientResponse<UserResponse>) in
+        fusionAuth.RESTClient(urlPath:urlPath, httpMethod: HTTPMethod.GET, urlParameters:urlParameter){(response:ClientResponse<UserResponse>) in
             clientResponse(response)
         }
     }
@@ -2663,7 +2653,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "loginId", value: loginId)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
             clientResponse(response)
         })
     }
@@ -2683,7 +2673,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "username", value: username)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
             clientResponse(response)
         })
     }
@@ -2704,7 +2694,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "verificationId", value: verificationId)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
             clientResponse(response)
         })
     }
@@ -2724,7 +2714,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [userId.uuidString]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserCommentResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserCommentResponse>) in
             clientResponse(response)
         })
     }
@@ -2744,7 +2734,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [userConsentId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserConsentResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserConsentResponse>) in
             clientResponse(response)
         })
     }
@@ -2754,7 +2744,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? "")]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlpath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserConsentResponse>) in
+        fusionAuth.RESTClient(urlPath: urlpath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserConsentResponse>) in
             clientResponse(response)
         })
     }
@@ -2776,7 +2766,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId.uuidString), URLQueryItem(name: "offset", value: String(offset)), URLQueryItem(name: "limit", value: String(limit))]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LoginReportResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LoginReportResponse>) in
             clientResponse(response)
         })
     }
@@ -2800,7 +2790,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "applicationId", value: applicationId?.uuidString ?? ""), URLQueryItem(name: "loginId", value: loginId), URLQueryItem(name: "start", value: String(start)), URLQueryItem(name: "end", value: String(end))]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LoginReportResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LoginReportResponse>) in
             clientResponse(response)
         })
     }
@@ -2822,7 +2812,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId.uuidString), URLQueryItem(name: "offset", value: String(offset)), URLQueryItem(name: "limit", value: String(limit))]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RecentLoginResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RecentLoginResponse>) in
             clientResponse(response)
         })
     }
@@ -2842,7 +2832,7 @@ public class FusionAuthClient{
         let authorization:String = ("JWT" + encodedJWT)
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, authorization:authorization, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, authorization:authorization, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
             clientResponse(response)
         })
     }
@@ -2862,7 +2852,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [webhookId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<WebhookResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<WebhookResponse>) in
             clientResponse(response)
         })
     }
@@ -2881,7 +2871,7 @@ public class FusionAuthClient{
         let urlPath:String = "/api/webhook"
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<WebhookResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<WebhookResponse>) in
             clientResponse(response)
         })
     }
@@ -2904,7 +2894,7 @@ public class FusionAuthClient{
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "token", value: token), URLQueryItem(name: "userId", value: userId?.uuidString), URLQueryItem(name: "applicationId", value: applicationId?.uuidString)]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -2926,7 +2916,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [userConsentId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -2946,7 +2936,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginRecordSearchResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginRecordSearchResponse>) in
             clientResponse(response)
         })
     }
@@ -2966,7 +2956,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<EventLogSearchResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<EventLogSearchResponse>) in
             clientResponse(response)
         })
     }
@@ -2986,7 +2976,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginRecordSearchResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginRecordSearchResponse>) in
             clientResponse(response)
         })
     }
@@ -3013,7 +3003,7 @@ public class FusionAuthClient{
         }
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<SearchResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<SearchResponse>) in
             clientResponse(response)
         })
     }
@@ -3035,7 +3025,7 @@ public class FusionAuthClient{
         let httpMethod:HTTPMethod = .POST
 
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<SearchResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<SearchResponse>) in
             clientResponse(response)
         })
 
@@ -3059,7 +3049,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<SendResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<SendResponse>) in
             clientResponse(response)
         })
     }
@@ -3079,7 +3069,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -3099,7 +3089,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
 
@@ -3121,7 +3111,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -3141,7 +3131,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [twoFactorId]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -3162,7 +3152,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -3182,7 +3172,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
             clientResponse(response)
         })
     }
@@ -3204,7 +3194,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
             clientResponse(response)
         })
     }
@@ -3227,7 +3217,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
             clientResponse(response)
         })
     }
@@ -3249,7 +3239,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ConsentResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ConsentResponse>) in
             clientResponse(response)
         })
 
@@ -3272,7 +3262,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
             clientResponse(response)
         })
     }
@@ -3294,7 +3284,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
             clientResponse(response)
         })
     }
@@ -3316,7 +3306,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
             clientResponse(response)
         })
     }
@@ -3336,7 +3326,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<IntegrationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<IntegrationResponse>) in
             clientResponse(response)
         })
     }
@@ -3358,7 +3348,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
             clientResponse(response)
         })
     }
@@ -3380,7 +3370,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
             clientResponse(response)
         })
     }
@@ -3402,7 +3392,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RegistrationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RegistrationResponse>) in
             clientResponse(response)
         })
     }
@@ -3422,7 +3412,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<SystemConfigurationResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<SystemConfigurationResponse>) in
             clientResponse(response)
         })
     }
@@ -3444,7 +3434,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<TenantResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<TenantResponse>) in
             clientResponse(response)
         })
     }
@@ -3466,7 +3456,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ThemeResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ThemeResponse>) in
             clientResponse(response)
         })
     }
@@ -3488,7 +3478,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
             clientResponse(response)
         })
     }
@@ -3510,7 +3500,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
             clientResponse(response)
         })
 
@@ -3533,7 +3523,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
             clientResponse(response)
         })
     }
@@ -3555,7 +3545,7 @@ public class FusionAuthClient{
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserConsentResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserConsentResponse>) in
             clientResponse(response)
         })
     }
@@ -3578,7 +3568,7 @@ public class FusionAuthClient{
         let httpMethod:HTTPMethod = .PUT
 
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<WebhookResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<WebhookResponse>) in
             clientResponse(response)
         })
     }
@@ -3601,7 +3591,7 @@ public class FusionAuthClient{
         let authorization:String = ("JWT" + encodedJWT)
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, httpMethod: httpMethod, authorization: authorization, fusionAuthClientResponse: { (response:ClientResponse<ValidateResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, authorization: authorization, fusionAuthClientResponse: { (response:ClientResponse<ValidateResponse>) in
             clientResponse(response)
         })
     }
@@ -3621,7 +3611,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [verificationId]
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
 
@@ -3642,7 +3632,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [verificationId]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuthRESTClient?.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
