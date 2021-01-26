@@ -11,20 +11,22 @@ import XCTest
 
 class FusionAuthClientTest: XCTestCase {
 
-    let apiKey:String = "-cpbXSCFMXl3ZZjmkVIC-nRS8cqr5Atit3mm324Mp6U"
+    let apiKey:String = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
     let applicationId:UUID = UUID.init()
     let emailAddress:String = "swiftclient@fusionauth.io"
     let username:String = "swiftClient"
     let password:String = "verySecurePassword:)"
-
+    let baseUrl:String = "factoryWinventory.ddns.net"
     var application:Application?
     var client:FusionAuthClient?
     var token:String?
     var user:User?
+    
 
     override func setUp() {
+        let defaultRestClient = DefaultRESTClient(baseUrl: baseUrl, apiKey:apiKey, urlScheme: "https", port: 443)
 
-        client = FusionAuthClient(baseUrl: "159.203.191.202", port: 80)
+        client = FusionAuthClient(fusionAuth: defaultRestClient)
     }
 
     override func tearDown() {
@@ -34,7 +36,7 @@ class FusionAuthClientTest: XCTestCase {
     }
 
     func newFusionAuthClient(tenantId:UUID) -> FusionAuthClient{
-        return FusionAuthClient(apiKey: apiKey, baseUrl: "159.203.191.202", tenantId: tenantId.uuidString)
+        return FusionAuthClient(fusionAuth: DefaultRESTClient(baseUrl: baseUrl, apiKey: apiKey, tenantId: tenantId.uuidString, port: 443))
     }
     func AssertSuccess<T>(response: ClientResponse<T>){
         let message:String = response.exception == nil ? "No Errors" : response.exception!.localizedDescription
@@ -228,7 +230,8 @@ class FusionAuthClientTest: XCTestCase {
     }
 
     func testDeleteApplication(){
-        let deleteApplicationResponse:ClientResponse<RESTVoid> = DeleteApplication(applicationId: applicationId)
+        let applicationIdUUID:UUID = UUID(uuidString: "c8409c19-2f45-4025-9a95-210c382cae79")!
+        let deleteApplicationResponse:ClientResponse<RESTVoid> = DeleteApplication(applicationId: applicationIdUUID)
 
         if deleteApplicationResponse.WasSuccessful{
             print("Delete Application Command Successful")
