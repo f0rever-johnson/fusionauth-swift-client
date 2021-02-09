@@ -14,4 +14,5 @@ public enum HTTPMethod:String, Codable{
     case DELETE = "DELETE"
     case HEAD = "HEAD"
     case OPTIONS = "OPTIONS"
+    case PATCH = "PATCH"
 }

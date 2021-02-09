@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+public class RefreshTokenImportRequest:Codable{
+    public var refreshTokens:[RefreshToken]?
+    public var validateDbConstraints:Bool?
+    
+    public init(refreshTokens: [RefreshToken]? = nil, validateDbConstraints: Bool? = nil) {
+        self.refreshTokens = refreshTokens
+        self.validateDbConstraints = validateDbConstraints
+    }
+    
+}

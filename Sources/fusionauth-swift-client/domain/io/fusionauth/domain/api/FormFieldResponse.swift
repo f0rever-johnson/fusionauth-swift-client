@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class FormFieldReponse:Codable{
+public class FormFieldResponse:Codable{
     public var field:FormField? = nil
     public var fields:[FormField]? = nil
     

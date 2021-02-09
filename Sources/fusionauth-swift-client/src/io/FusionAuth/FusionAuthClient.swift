@@ -34,13 +34,12 @@ public class FusionAuthClient{
      * IOException.
      */
 
-    public func ActionUser(actioneeUserId:UUID, request:ActionRequest, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
+    public func ActionUser(request:ActionRequest, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
-        let urlSegment:[String] = [actioneeUserId.uuidString]
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
             clientResponse(response)
         })
 
@@ -223,17 +222,29 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    //TODO
+    public func CreateConnectorAsync(connectorId:UUID?, request:ConnectorRequest, clientResponse: @escaping(ClientResponse<ConnectorResponse>) -> ()){
+        let urlPath:String = "/api/connector"
+        let urlSegment:[String] = [connectorId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ConnectorResponse>) in
+            clientResponse(response)
+        }
+    }
 
     /**
-       * Creates a user consent type. You can optionally specify an Id for the consent type, if not provided one will be generated.
-       *
-       * @param consentId (Optional) The Id for the consent. If not provided a secure random UUID will be generated.
-       * @param request The request object that contains all of the information used to create the consent.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
+     * Creates a user consent type. You can optionally specify an Id for the consent type, if not provided one will be generated.
+     *
+     * @param consentId (Optional) The Id for the consent. If not provided a secure random UUID will be generated.
+     * @param request The request object that contains all of the information used to create the consent.
+     * @return When successful, the response will contain the log of the action. If there was a validation error or any
+     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+     * IOException.
+     */
 
     public  func CreateConsent(consentId:UUID?, request:ConsentRequest, clientResponse: @escaping(ClientResponse<ConsentResponse>) -> ()){
         let urlPath:String = "/api/consent"
@@ -290,7 +301,30 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
+    
+    //TODO
+    public func CreateForm(formId:UUID?, request:FormRequest, clientResponse:@escaping(ClientResponse<FormResponse>) -> ()){
+        let urlPath:String = "/api/form"
+        let urlSegment:[String] = [formId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data) { (response:ClientResponse<FormResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    public func CreateFormField(fieldId:UUID?, request:FormFieldRequest, clientResponse: @escaping(ClientResponse<FormFieldResponse>) -> ()){
+        let urlPath:String = "/api/form/field"
+        let urlSegment:[String] = [fieldId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data) { (response:ClientResponse<FormFieldResponse>) in
+            clientResponse(response)
+        }
+    }
 
     /**
      * Creates a group. You can optionally specify an Id for the group, if not provided one will be generated.
@@ -599,17 +633,8 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Deactivates the users with the given ids.
-     *
-     * @param userIds The ids of the users to deactivate.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-    public func DeactivateUsers(userIds:[String], clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+    //TODO
+    public func DeactivateUsersById(userIds:[String], clientResponse: @escaping(ClientResponse<UserDeleteResponse>) -> ()){
         let urlPath:String = "/api/user/bulk"
         var urlParameter:[URLQueryItem]{
             var returnValue:[URLQueryItem] = [URLQueryItem]()
@@ -617,11 +642,13 @@ public class FusionAuthClient{
                     let urlQueryItem = URLQueryItem(name: "userId", value: string)
                     returnValue.append(urlQueryItem)
                 }
+            returnValue.append(URLQueryItem(name: "dryRun", value: "false"))
+            returnValue.append(URLQueryItem(name: "hardDelete", value: "false"))
             return returnValue
         }
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<UserDeleteResponse>) in
             clientResponse(response)
         })
     }
@@ -671,6 +698,18 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    //TODO
+    public func DeleteConnector(connectorId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/connector"
+        let urlSegment:[String] = [connectorId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+        
+    }
 
     /**
        * Deletes the consent for the given Id.
@@ -710,6 +749,28 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
+    }
+    
+    //TODO
+    
+    public func DeleteForm(formId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/form"
+        let urlSegment:[String] = [formId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
+    public func DeleteFormField(fieldId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/form/field"
+        let urlSegment:[String] = [fieldId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
     }
 
     /**
@@ -857,6 +918,17 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    public func DeleteTenantAsync(tenantId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/tenant"
+        let urlSegment:[String] = [tenantId.uuidString]
+        let urlParameter:[URLQueryItem] = [URLQueryItem(name: "async", value: "true")]
+        let httpMethod:HTTPMethod = .DELETE
+
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        })
+    }
 
     /**
        * Deletes the theme for the given Id.
@@ -954,12 +1026,12 @@ public class FusionAuthClient{
      * IOException.
      */
 
-    public func DeleteUsers(request:UserDeleteRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+    public func DeleteUsersByQueryAsync(request:UserDeleteRequest, clientResponse: @escaping(ClientResponse<UserDeleteResponse>) -> ()){
         let urlPath:String = "/api/user/bulk"
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<UserDeleteResponse>) in
             clientResponse(response)
         })
     }
@@ -1027,6 +1099,59 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    //TODO
+    
+    public func ExchangeOAuthCodeForAccessToken(code:String, clientId:String, clientSecret:String, redirectUri:String, clientResponse:@escaping(ClientResponse<AccessToken>) -> ()){
+        let contentType:ContentType = .formURLEncoded
+        let urlPath:String = "/oauth2/token"
+        let parameters:[String:String] = ["code": code,
+                                    "client_id": clientId,
+                                    "client_secret": clientSecret,
+                                    "grant_type": "authorization_code",
+                                    "redirect_uri": redirectUri]
+        guard let data:Data = parameters.percentEncoded() else{return}
+        let httpMethod:HTTPMethod = .POST
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod:httpMethod, data:data, contentType:contentType) { (response:ClientResponse<AccessToken>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func ExchangeOAuthCodeForAccessTokensUsingPKCE(code:String, clientId:String, clientSecret:String, redirectUri:String, codeVerifier:String, clientResponse:@escaping(ClientResponse<AccessToken>) -> ()){
+        let contentType:ContentType = .formURLEncoded
+        let urlPath:String = "/oauth2/token"
+        let parameters:[String:String] = ["code":code,
+                                          "client_id":clientId,
+                                          "client_secret":clientSecret,
+                                          "grant_type":"authorization_code",
+                                          "redirect_uri":redirectUri,
+                                          "code_verifier":codeVerifier]
+        guard let data:Data = parameters.percentEncoded() else{return}
+        let httpMethod:HTTPMethod = .POST
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod:httpMethod, data:data, contentType:contentType) { (response:ClientResponse<AccessToken>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func ExchangeRefreshTokenForAccessToken(refreshToken:String, clientId:String, clientSecret:String, scope:String, userCode:String, clientResponse:@escaping(ClientResponse<AccessToken>) -> ()){
+        let contentType:ContentType = .formURLEncoded
+        let urlPath:String = "/oauth2/token"
+        let parameters:[String:String] = ["refresh_token":refreshToken,
+                                          "client_id":clientId,
+                                          "client_secret":clientSecret,
+                                          "grant_type":"refresh_token",
+                                          "scope":scope,
+                                          "user_code":userCode]
+        guard let data:Data = parameters.percentEncoded() else{return}
+        let httpMethod:HTTPMethod = .POST
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod:httpMethod, data:data, contentType:contentType) { (response:ClientResponse<AccessToken>) in
+            clientResponse(response)
+        }
+    }
 
     /**
      * Exchange a refresh token for a new JWT.
@@ -1046,6 +1171,25 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RefreshResponse>) in
             clientResponse(response)
         })
+    }
+    
+    //TODO
+    
+    public func ExchangeUserCredentialsForAccessToken(username:String, password:String, clientId:String, clientSecret:String, scope:String, userCode:String, clientResponse:@escaping(ClientResponse<AccessToken>) -> ()){
+        let urlPath:String = "/oauth2/token"
+        let parameters:[String:String] = ["username":username,
+                                          "password":password,
+                                          "client_id":clientId,
+                                          "clientSecret":clientSecret,
+                                          "grant_type":"password",
+                                          "scope":scope,
+                                          "user_Code":userCode]
+        guard let data = parameters.percentEncoded() else{return}
+        let contentType:ContentType = .formURLEncoded
+        let httpMethod:HTTPMethod = .POST
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod:httpMethod, data:data, contentType:contentType) { (response:ClientResponse<AccessToken>) in
+            clientResponse(response)
+        }
     }
 
     /**
@@ -1152,9 +1296,6 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<SecretResponse>) in
             clientResponse(response)
         })
-
-
-
     }
 
     /**
@@ -1222,6 +1363,18 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    //TODO
+    
+    public func ImportRefreshTokens(request:RefreshTokenImportRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/user/refresh-token/import"
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        })
+    }
 
     /**
      * Bulk imports multiple users. This does some validation, but then tries to run batch inserts of users. This reduces
@@ -1259,6 +1412,21 @@ public class FusionAuthClient{
      * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
      * IOException.
      */
+    
+    //TODO
+    
+    public func IntrospectAccessTokenAsync(clientId:String, token:String, clientResponse:@escaping(ClientResponse<IntrospectResponse>) -> ()){
+        let urlPath:String = "/oauth2/introspect"
+        let parameters:[String:String] = ["client_id":clientId,
+                                          "token":token]
+        let contentType:ContentType = .formURLEncoded
+        let httpMethod:HTTPMethod = .POST
+        guard let data:Data = parameters.percentEncoded() else{return}
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod,data:data, contentType: contentType, fusionAuthClientResponse: { (response:ClientResponse<IntrospectResponse>) in
+            clientResponse(response)
+        })
+    }
 
     public func IssueJWT(applicationId:UUID, encodedJWT:String, clientResponse: @escaping(ClientResponse<IssueResponse>) -> ()){
         let urlPath:String = "/api/jwt/issue"
@@ -1406,7 +1574,212 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
+    
+    //TODO
+    
+    public func PatchApplication(applicationID:UUID?, request:[String:JSONObject], clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
+        let urlPath:String = "/api/application"
+        let urlSegment:[String] = [applicationID?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ApplicationResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchApplicationRole(applicationId:UUID?, roleId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ApplicationResponse>) -> ()){
+        let urlPath:String = "/api/application"
+        let urlSegment:[String] = [applicationId?.uuidString ?? "", "role", roleId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ApplicationResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchConnector(connectorId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ConnectorResponse>) -> ()){
+        let urlPath:String = "/api/connector"
+        let urlSegment:[String] = [connectorId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ConnectorResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchConsent(consentId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ConsentResponse>) -> ()){
+        let urlPath:String = "/api/consent"
+        let urlSegment:[String] = [consentId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ConsentResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchEmailTemplate(emailTemplateId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<EmailTemplateResponse>) -> ()){
+        let urlPath:String = "/api/email/template"
+        let urlSegment:[String] = [emailTemplateId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<EmailTemplateResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchGroup(groupId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<GroupResponse>) -> ()){
+        let urlPath:String = "/api/group"
+        let urlSegment:[String] = [groupId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<GroupResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchIdentityProvider(identityProvider:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<IdentityProviderResponse>) -> ()){
+        let urlPath:String = "/api/identity-provider"
+        let urlSegment:[String] = [identityProvider?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<IdentityProviderResponse>) in
+            clientResponse(response)
+        }
+        
+    }
+    
+    //TODO
+    
+    public func PatchIntegrations(request:[String:JSONObject], clientResponse:@escaping(ClientResponse<IntegrationResponse>) -> ()){
+        let urlPath:String = "/api/integration"
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<IntegrationResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchRegistrations(userId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<RegistrationResponse>) -> ()){
+        let urlPath:String = "/api/user/registration"
+        let urlSegment:[String] = [userId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+    
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<RegistrationResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchSystemConfiguration(request:[String:JSONObject], clientResponse:@escaping(ClientResponse<SystemConfigurationResponse>) -> ()){
+        let urlPath:String = "/api/system-configuration"
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<SystemConfigurationResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchTenant(tenantId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<TenantResponse>) -> ()) {
+        let urlPath:String = "/api/tenant"
+        let urlSegment:[String] = [tenantId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<TenantResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchTheme(themeId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ThemeResponse>) -> ()){
+        let urlPath:String = "/api/theme"
+        let urlSegment:[String] = [themeId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ThemeResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchUser(userId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserResponse>) -> ()){
+        let urlPath:String = "/api/user"
+        let urlSegment:[String] = [userId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<UserResponse>) in
+            clientResponse(response)
+        }
+    }
+    //TODO
+    
+    public func PatchUserAction(userActionId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserActionResponse>) -> ()){
+        let urlPath:String = "/api/user-action"
+        let urlSegment:[String] = [userActionId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<UserActionResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchUserActionReason(userActionReasonId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserActionReasonResponse>) -> ()){
+        let urlPath:String = "/api/user-action-reason"
+        let urlSegment:[String] = [userActionReasonId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<UserActionReasonResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func PatchUserConsent(userConsentId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserConsentResponse>) -> ()){
+        let urlPath:String = "/api/user/consent"
+        let urlSegment:[String] = [userConsentId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<UserConsentResponse>) in
+            clientResponse(response)
+        }
+    }
 
     /**
      * Reactivates the application with the given Id.
@@ -1578,6 +1951,18 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    //TODO
+    
+    public func ResendEmailVerificationWithApplicationTemplate(applicationId:UUID?, email:String, clientResponse:@escaping(ClientResponse<VerifyEmailResponse>)-> ()){
+        let urlPath:String = "/api/user/verify-email"
+        let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "applicationId", value: applicationId?.uuidString ?? ""), URLQueryItem(name: "email", value: email)]
+        let httpMethod:HTTPMethod = .PUT
+
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyEmailResponse>) in
+            clientResponse(response)
+        })
+    }
 
     /**
      * Re-sends the application registration verification email to the user.
@@ -1590,9 +1975,9 @@ public class FusionAuthClient{
      * IOException.
      */
 
-    public func ResendRegistrationVerification(email:String, applicationId:UUID, clientResponse: @escaping(ClientResponse<VerifyEmailResponse>) -> ()){
+    public func ResendRegistrationVerification(email:String, applicationId:UUID?, clientResponse: @escaping(ClientResponse<VerifyEmailResponse>) -> ()){
         let urlPath:String = "/api/user/verify-registration"
-        let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "email", value: email), URLQueryItem(name: "applicationId", value: applicationId.uuidString)]
+        let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "email", value: email), URLQueryItem(name: "applicationId", value: applicationId?.uuidString ?? "")]
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyEmailResponse>) in
@@ -1738,6 +2123,17 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    //TODO
+    
+    public func RetrieveConnectors(clientResponse:@escaping(ClientResponse<ConnectorResponse>) -> ()){
+        let urlPath:String = "/api/connector"
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<ConnectorResponse>) in
+            clientResponse(response)
+        }
+    }
 
     /**
      * Retrieves the Consent for the given Id.
@@ -1871,7 +2267,7 @@ public class FusionAuthClient{
        */
 
     public func RetrieveEventLog(eventLogId:Int, clientResponse: @escaping(ClientResponse<EventLogResponse>) -> ()){
-        let urlPath = "/api/system/event-log"
+        let urlPath:String = "/api/system/event-log"
         let urlSegment:[String] = [String(eventLogId)]
         let httpMethod:HTTPMethod = .GET
 
@@ -1891,11 +2287,69 @@ public class FusionAuthClient{
        */
 
     public func RetrieveFamilies(userId:UUID?, clientResponse: @escaping(ClientResponse<FamilyResponse>) -> ()){
-        let urlPath = "/api/user/family"
+        let urlPath:String = "/api/user/family"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? "")]
         let httpMethod:HTTPMethod = .GET
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<FamilyResponse>) in
+            clientResponse(response)
+        })
+    }
+    
+    //TODO
+    
+    public func RetrieveFamilyMembersByFamilyId(familyId:UUID?, clientResponse:@escaping(ClientResponse<FamilyResponse>) -> ()){
+        let urlPath:String = "/api/user/family"
+        let urlSegment:[String] = [familyId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<FamilyResponse>) in
+            clientResponse(response)
+        })
+    }
+    
+    //TODO
+    
+    public func RetrieveForm(formId:UUID?, clientResponse:@escaping(ClientResponse<FormResponse>) -> ()){
+        let urlPath:String = "/api/form"
+        let urlSegment:[String] = [formId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<FormResponse>) in
+            clientResponse(response)
+        })
+    }
+    
+    //TODO
+    
+    public func RetrieveForms(clientResponse:@escaping(ClientResponse<FormResponse>) -> ()){
+        let urlPath:String = "/api/form"
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<FormResponse>) in
+            clientResponse(response)
+        })
+    }
+    
+    //TODO
+    
+    public func RetrieveFormField(fieldId:UUID?, clientResponse:@escaping(ClientResponse<FormFieldResponse>) -> ()){
+        let urlPath:String = "/api/form/field"
+        let urlSegment:[String] = [fieldId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<FormFieldResponse>) in
+            clientResponse(response)
+        })
+    }
+    
+    //TODO
+    
+    public func RetrieveFormFields(clientResponse:@escaping(ClientResponse<FormFieldResponse>) -> ()){
+        let urlPath:String = "/api/form/field"
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<FormFieldResponse>) in
             clientResponse(response)
         })
     }
@@ -1977,6 +2431,18 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
             clientResponse(response)
         })
+    }
+    
+    //TODO
+    
+    public func RetrieveInactiveActions(userId:UUID?, clientResponse:@escaping(ClientResponse<ActionResponse>) -> ()){
+        let urlPath:String = "/api/user/action"
+        let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? ""), URLQueryItem(name: "active", value: "false")]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter) { (response:ClientResponse<ActionResponse>) in
+            clientResponse(response)
+        }
     }
 
     /**
@@ -2257,6 +2723,17 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    //TODO
+    
+    public func RetrieveOpenIdConfigurations(clientResponse:@escaping(ClientResponse<OpenIdConfiguration>) -> ()){
+        let urlPath:String = "/.well-known/openid-configuration"
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<OpenIdConfiguration>) in
+            clientResponse(response)
+        }
+    }
 
     /**
      * Retrieves the password validation rules.
@@ -2371,7 +2848,7 @@ public class FusionAuthClient{
      * IOException.
      */
 
-    public func RetrieveRegistration(userId:UUID, applicationId:UUID, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
+    public func RetrieveRegistrations(userId:UUID, applicationId:UUID, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
         let urlSegment:[String] = [userId.uuidString, applicationId.uuidString]
         let httpMethod:HTTPMethod = .GET
@@ -2476,6 +2953,17 @@ public class FusionAuthClient{
         let httpMethod:HTTPMethod = .GET
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ThemeResponse>) in
+            clientResponse(response)
+        })
+    }
+    
+    //TODO
+    
+    public func RetrieveThemes(clientResponse: @escaping(ClientResponse<ThemeResponse>) -> ()){
+        let urlPath:String = "/api/theme"
+        let httpMethod:HTTPMethod = .GET
+
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<ThemeResponse>) in
             clientResponse(response)
         })
     }
@@ -2748,6 +3236,19 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    //TODO
+    
+    public func RetrieveUserInfoFromAccessToken(encodedJWT:String, clientResponse:@escaping(ClientResponse<UserResponse>) -> ()){
+        let urlPath:String = "oauth2/userinfo"
+        let authorization:String = ("Bearer " + encodedJWT)
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, authorization:authorization) { (response:ClientResponse<UserResponse>) in
+            clientResponse(response)
+        }
+        
+    }
 
     /**
      * Retrieves the last number of login records for a user.
@@ -2991,7 +3492,7 @@ public class FusionAuthClient{
      * IOException.
      */
 
-    public func SearchUsers(ids:[UUID], clientResponse: @escaping(ClientResponse<SearchResponse>) -> ()){
+    public func SearchUsersByIds(ids:[UUID], clientResponse: @escaping(ClientResponse<SearchResponse>) -> ()){
         let urlPath:String = "/api/user/search"
         var urlParameter:[URLQueryItem]{
             var returnValue:[URLQueryItem] = [URLQueryItem]()
@@ -3019,7 +3520,7 @@ public class FusionAuthClient{
      * IOException.
      */
 
-    public func SearchUsersByQueryString(request:SearchRequest, clientResponse: @escaping(ClientResponse<SearchResponse>) -> ()){
+    public func SearchUsersByQuery(request:SearchRequest, clientResponse: @escaping(ClientResponse<SearchResponse>) -> ()){
         let urlPath:String = "/api/user/search"
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
@@ -3135,6 +3636,18 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    //TODO
+    
+    public func StartIdentityProviderLogin(request:IdentityProviderStartLoginRequest, clientResponse:@escaping(ClientResponse<IdentityProviderStartLoginResponse>) -> ()){
+        let urlPath:String = "/api/identity-provider/start"
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderStartLoginResponse>) in
+            clientResponse(response)
+        })
+    }
 
     /**
     * Start a passwordless login request by generating a passwordless code. This code can be sent to the User using the Send
@@ -3221,6 +3734,19 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    //TODO
+    
+    public func UpdateConnector(connectorId:UUID?, request:ConnectorRequest, clientResponse:@escaping(ClientResponse<ConnectorResponse>) -> ()){
+        let urlPath:String = "/api/connector"
+        let urlSegment:[String] = [connectorId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpmethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpmethod, data:data) { (response:ClientResponse<ConnectorResponse>) in
+            clientResponse(response)
+        }
+    }
 
     /**
      * Updates the consent with the given Id.
@@ -3265,6 +3791,32 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
             clientResponse(response)
         })
+    }
+    
+    //TODO
+    
+    public func UpdateForm(formId:UUID?, request:FormRequest, clientResponse:@escaping(ClientResponse<FormResponse>) -> ()){
+        let urlPath:String = "/api/form"
+        let urlSegment:[String] = [formId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<FormResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    //TODO
+    
+    public func UpdateFormField(fieldId:UUID?, request:FormRequest, clientResponse:@escaping(ClientResponse<FormFieldResponse>) -> ()){
+        let urlPath:String = "/api/form/field"
+        let urlSegment:[String] = [fieldId?.uuidString ?? ""]
+        let data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<FormFieldResponse>) in
+            clientResponse(response)
+        }
     }
 
     /**
@@ -3571,6 +4123,20 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<WebhookResponse>) in
             clientResponse(response)
         })
+    }
+    
+    //TODO
+    
+    public func ValidateDevice(userCode:String, clientId:String, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/oauth2/device/validate"
+        let parameters:[String:String] = ["user_code":userCode,
+                                          "client_id":clientId]
+        guard let data = parameters.percentEncoded() else{return}
+        let contentType:ContentType = .formURLEncoded
+        let httpMethod:HTTPMethod = .GET
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod:httpMethod, data:data, contentType:contentType) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
     }
 
     /**

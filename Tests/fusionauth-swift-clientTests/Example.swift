@@ -59,17 +59,7 @@ public class Example{
         })
         
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 }
+
+

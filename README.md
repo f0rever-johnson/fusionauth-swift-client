@@ -1,5 +1,5 @@
 ## FusionAuth Swift Client ![semver 2.0.0 compliant](http://img.shields.io/badge/semver-2.0.0-brightgreen.svg?style=flat-square)
-If you're integrating FusionAuth with an iOS Swift application, this library will speed up your development time.
+If you're integrating FusionAuth with an iOS/macOS Swift application, this library will speed up your development time.
 
 I AM NOT ASSOCIATED WITH FUSIONAUTH. USE AT YOUR OWN RISK.
 

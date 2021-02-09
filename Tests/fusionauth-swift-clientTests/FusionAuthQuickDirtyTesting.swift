@@ -389,5 +389,4 @@ class FusionAuthQuickDirtyTesting: XCTestCase {
     }
 
 
-
 }
