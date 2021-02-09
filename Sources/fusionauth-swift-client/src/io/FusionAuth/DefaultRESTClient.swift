@@ -9,7 +9,7 @@ import Foundation
 
 public class DefaultRESTClient{
 
-    let TENANT_ID_HEADER:String =  "X-FusionAuth-TenantId"
+    private let TENANT_ID_HEADER:String =  "X-FusionAuth-TenantId"
     private(set) var apiKey:String?
     private(set) var baseUrl:String
     private(set) var tenantId:String?
@@ -32,7 +32,7 @@ public class DefaultRESTClient{
 
 
     
-    public func RESTClient<T:Codable>(urlPath:String, urlSegments:[String]? = [], httpMethod:HTTPMethod, data:Data? = nil, urlParameters:[URLQueryItem]? = nil, authorization:String? = nil, fusionAuthClientResponse: @escaping(ClientResponse<T>) -> ()){
+    public func RESTClient<T:Codable>(urlPath:String, urlSegments:[String]? = [], httpMethod:HTTPMethod, data:Data? = nil, urlParameters:[URLQueryItem]? = nil, authorization:String? = nil, contentType:ContentType = .applicationJSON, fusionAuthClientResponse: @escaping(ClientResponse<T>) -> ()){
 
         var clientResponse:ClientResponse<T> = ClientResponse()
 
@@ -74,7 +74,7 @@ public class DefaultRESTClient{
         }
 
         if data != nil{
-            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.setValue(contentType.rawValue, forHTTPHeaderField: "Content-Type")
             request.httpBody = data
         }
 
@@ -99,6 +99,10 @@ public class DefaultRESTClient{
                 }
 
                 }
+                
+                /**
+                 WE NEED BETTER ERROR MANAGEMENT HERE
+                 */
                 catch let JSONError as NSError {
                     //print("\(JSONError)")
                     //debugPrint(data?.prettyPrinted!)
@@ -116,4 +120,9 @@ public class DefaultRESTClient{
         })
         task.resume()
     }
+}
+
+public enum ContentType:String, Codable{
+    case applicationJSON = "application/json; charset=utf-8"
+    case formURLEncoded = "application/x-www-form-urlencoded"
 }
