@@ -18,6 +18,7 @@ public class Lambda:Codable{
     public var debug:Bool? = nil
     public var id:UUID? = nil
     public var insertInstant:Date? = nil
+    public var lastUpdateInstant:Date? = nil
     public var name:String? = nil
     public var type:LambdaType? = nil
 
