@@ -19,9 +19,9 @@ public class PasswordValidationRules:Codable{
     public var requireMixedCase:Bool? = nil
     public var requireNonAlpha:Bool? = nil
     public var requireNumber:Bool? = nil
-    public var validateOnLogin:Bool = nil
+    public var validateOnLogin:Bool? = nil
     
-    internal init(maxLength: Int? = nil, minLength: Int? = nil, rememberPreviousPasswords: RememberPreviousPasswords? = nil, requireMixedCase: Bool? = nil, requireNonAlpha: Bool? = nil, requireNumber: Bool? = nil, validateOnLogin: Bool = nil) {
+    internal init(maxLength: Int? = nil, minLength: Int? = nil, rememberPreviousPasswords: RememberPreviousPasswords? = nil, requireMixedCase: Bool? = nil, requireNonAlpha: Bool? = nil, requireNumber: Bool? = nil, validateOnLogin: Bool? = nil) {
         self.maxLength = maxLength
         self.minLength = minLength
         self.rememberPreviousPasswords = rememberPreviousPasswords
