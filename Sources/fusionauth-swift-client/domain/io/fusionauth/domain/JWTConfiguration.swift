@@ -16,16 +16,21 @@ import Foundation
 public struct JWTConfiguration:Enableable, Codable{
     public var enabled:Bool? = nil
     public var accessTokenKey:UUID? = nil
+    public var refreshTokenExpirationPolicy:RefreshTokenExpirationPolicy
+    public var refreshTokenRevocationPolicy:RefreshTokenRevocationPolicy
     public var idTokenKey:UUID? = nil
     public var refreshTokenTimeToLiveInMinutes:Int? = nil
+    public var refreshTokenUsagePolicy:RefreshTokenUsagePolicy
     public var timeToLiveInSeconds:Int? = nil
 
-
-    public init(enabled: Bool? = nil, accessTokenKey: UUID? = nil, idTokenKey: UUID? = nil, refreshTokenTimeToLiveInMinutes: Int? = nil, timeToLiveInSeconds: Int? = nil) {
+    public init(enabled: Bool? = nil, accessTokenKey: UUID? = nil, refreshTokenExpirationPolicy: RefreshTokenExpirationPolicy, refreshTokenRevocationPolicy: RefreshTokenRevocationPolicy, idTokenKey: UUID? = nil, refreshTokenTimeToLiveInMinutes: Int? = nil, refreshTokenUsagePolicy: RefreshTokenUsagePolicy, timeToLiveInSeconds: Int? = nil) {
         self.enabled = enabled
         self.accessTokenKey = accessTokenKey
+        self.refreshTokenExpirationPolicy = refreshTokenExpirationPolicy
+        self.refreshTokenRevocationPolicy = refreshTokenRevocationPolicy
         self.idTokenKey = idTokenKey
         self.refreshTokenTimeToLiveInMinutes = refreshTokenTimeToLiveInMinutes
+        self.refreshTokenUsagePolicy = refreshTokenUsagePolicy
         self.timeToLiveInSeconds = timeToLiveInSeconds
     }
 }
