@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ApplicatioNRegistrationDeletePolicy:Codable{
+public class ApplicationRegistrationDeletePolicy:Codable{
     public var unverified:TimeBasedDeletePolicy
     
     public init(unverified: TimeBasedDeletePolicy) {
