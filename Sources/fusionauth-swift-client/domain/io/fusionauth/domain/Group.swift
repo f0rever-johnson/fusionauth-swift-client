@@ -14,6 +14,8 @@ import Foundation
 public struct Group:Codable{
     public var data:[String:JSONObject]? = nil
     public var id:UUID? = nil
+    public var insertInstant:Date? = nil
+    public var lastUpdateInstant:Date? = nil
     public var name:String? = nil
     public var roles:[UUID:[ApplicationRole]]? = nil
     public var tenantId:UUID? = nil
