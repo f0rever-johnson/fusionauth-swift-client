@@ -22,7 +22,7 @@ public struct AuditLog:Codable {
     public var oldValue:JSONObject? = nil
     public var reason:String? = nil
 
-    public init(data: [String:String]? = nil, id: Int? = nil, insertInstant: Date? = nil, insertUser: String? = nil, message: String? = nil, newValue: JSONObject? = nil, oldValue: JSONObject? = nil, reason: String? = nil) {
+    public init(data: [String:JSONObject]? = nil, id: Int? = nil, insertInstant: Date? = nil, insertUser: String? = nil, message: String? = nil, newValue: JSONObject? = nil, oldValue: JSONObject? = nil, reason: String? = nil) {
         self.data = data
         self.id = id
         self.insertInstant = insertInstant
