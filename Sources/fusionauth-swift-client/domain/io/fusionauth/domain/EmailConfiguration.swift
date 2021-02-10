@@ -12,6 +12,8 @@ import Foundation
 
 public struct EmailConfiguration:Codable{
 
+    public var defaultFromEmail:String? = nil
+    public var defaultFromName:String? = nil
     public var forgotPasswordEmailTemplateId:UUID? = nil
     public var host:String? = nil
     public var password:String? = nil
@@ -24,8 +26,10 @@ public struct EmailConfiguration:Codable{
     public var verifyEmail:Bool? = nil
     public var verifyEmailWhenChanged:Bool? = nil
     public var verificationEmailTemplateId:UUID? = nil
-
-    public init(forgotPasswordEmailTemplateId: UUID? = nil, host: String? = nil, password: String? = nil, passwordlessEmailTemplateId: UUID? = nil, port: Int? = nil, properties: String? = nil, security: EmailSecurityType? = nil, setPasswordEmailTemplateId: UUID? = nil, username: String? = nil, verifyEmail: Bool? = nil, verifyEmailWhenChanged: Bool? = nil, verificationEmailTemplateId: UUID? = nil) {
+    
+    public init(defaultFromEmail: String? = nil, defaultFromName: String? = nil, forgotPasswordEmailTemplateId: UUID? = nil, host: String? = nil, password: String? = nil, passwordlessEmailTemplateId: UUID? = nil, port: Int? = nil, properties: String? = nil, security: EmailSecurityType? = nil, setPasswordEmailTemplateId: UUID? = nil, username: String? = nil, verifyEmail: Bool? = nil, verifyEmailWhenChanged: Bool? = nil, verificationEmailTemplateId: UUID? = nil) {
+        self.defaultFromEmail = defaultFromEmail
+        self.defaultFromName = defaultFromName
         self.forgotPasswordEmailTemplateId = forgotPasswordEmailTemplateId
         self.host = host
         self.password = password
@@ -39,7 +43,6 @@ public struct EmailConfiguration:Codable{
         self.verifyEmailWhenChanged = verifyEmailWhenChanged
         self.verificationEmailTemplateId = verificationEmailTemplateId
     }
-
 }
 
 
