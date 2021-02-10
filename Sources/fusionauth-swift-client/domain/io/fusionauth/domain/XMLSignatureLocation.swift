@@ -9,7 +9,7 @@ import Foundation
 
 
 public enum XMLSignatureLocation:String, Codable{
-    case Assertion:"Assertion"
-    case Response:"Response"
+    case Assertion = "Assertion"
+    case Response = "Response"
     
 }
