@@ -15,11 +15,14 @@ import Foundation
 
 public struct Family:Codable{
     public var id:UUID? = nil
+    public var insertInstant:Date? = nil
+    public var lastUpdateInstant:Date? = nil
     public var members:[FamilyMember]? = nil
-
-
-    public init(id: UUID? = nil, members: [FamilyMember]? = nil) {
+    
+    internal init(id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, members: [FamilyMember]? = nil) {
         self.id = id
+        self.insertInstant = insertInstant
+        self.lastUpdateInstant = lastUpdateInstant
         self.members = members
     }
 }
