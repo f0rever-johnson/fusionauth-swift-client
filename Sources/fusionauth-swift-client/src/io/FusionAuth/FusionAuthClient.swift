@@ -7,11 +7,8 @@
 
 import Foundation
 
-
-/**
- * Client that connects to a FusionAuth server and provides access to the full set of FusionAuth APIs.
- */
-
+/// Client that connects to a FusionAuth server and provides access to the full set of FusionAuth APIs.
+/// All methods are Asynchonous
 public class FusionAuthClient{
 
     private var fusionAuth:DefaultRESTClient
@@ -20,20 +17,12 @@ public class FusionAuthClient{
         self.fusionAuth = fusionAuth
     }
 
-    /**
-     * Takes an action on a user. The user being actioned is called the "actionee" and the user taking the action is called the
-     * "actioner". Both user ids are required. You pass the actionee's user id into the method and the actioner's is put into the
-     * request object.
-     *
-     * @param actioneeUserId The actionee's user id.
-     * @param request The action request that includes all of the information about the action being taken including
-     * the id of the action, any options and the duration (if applicable).
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Takes an action on a user. The user being actioned is called the "actionee" and the user taking the action is called the "actioner". Both user ids are required in the request object.
+    /// - Parameters:
+    ///   - request: The action request that includes all of the information about the action being taken including the id of the action, any options and the duration (if applicable).
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ActionUser(request:ActionRequest, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
         let data = try! JSONEncoder().encode(request)
@@ -42,20 +31,15 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
             clientResponse(response)
         })
-
     }
 
-    /**
-    * Adds a user to an existing family. The family id must be specified.
-    *
-    * @param familyId The id of the family.
-    * @param request The request object that contains all of the information used to determine which user to add to the family.
-    * @return When successful, the response will contain the log of the action. If there was a validation error or any
-    * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-    * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-    * IOException.
-    */
-
+    /// Adds a user to an existing family. The family id must be specified.
+    /// - Parameters:
+    ///   - familyId: The id of the family.
+    ///   - request: The request object that contains all of the information used to determine which user to add to the family.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func AddUserToFamily(familyId:UUID?, request:FamilyRequest, clientResponse: @escaping( ClientResponse<FamilyResponse>) ->()) {
 
         let urlPath:String = "/api/user/family"
@@ -68,17 +52,13 @@ public class FusionAuthClient{
         }
     }
 
-    /**
-     * Cancels the user action.
-     *
-     * @param actionId The action id of the action to cancel.
-     * @param request The action request that contains the information about the cancellation.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Cancels the user action.
+    /// - Parameters:
+    ///   - actionId: The action id of the action to cancel.
+    ///   - request: The action request that contains the information about the cancellation.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CancelAction(actionId:UUID, request:ActionRequest, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
         let data = try! JSONEncoder().encode(request)
@@ -88,19 +68,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Changes a user's password using their identity (login id and password). Using a loginId instead of the changePasswordId
-     * bypasses the email verification and allows a password to be changed directly without first calling the #forgotPassword
-     * method.
-     *
-     * @param request The change password request that contains all of the information used to change the password.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Changes a user's password using the change password Id. This usually occurs after an email has been sent to the user and they clicked on a link to reset their password.
+    /// - Parameters:
+    ///   - changePasswordId: The change password Id used to find the user. This value is generated by FusionAuth once the change password workflow has been initiated.
+    ///   - request: The change password request that contains all of the information used to change the password.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ChangePassword(changePasswordId:String, request:ChangePasswordRequest, clientResponse: @escaping(ClientResponse<ChangePasswordResponse>) -> ()){
         let urlPath:String = "/api/user/change-password"
         let data = try! JSONEncoder().encode(request)
@@ -112,18 +87,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-       * Changes a user's password using their identity (login id and password). Using a loginId instead of the changePasswordId
-       * bypasses the email verification and allows a password to be changed directly without first calling the #forgotPassword
-       * method.
-       *
-       * @param request The change password request that contains all of the information used to change the password.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    /// Changes a user's password using their identity (login id and password). Using a loginId instead of the changePasswordId bypasses the email verification and allows a password to be changed directly without first calling the #forgotPassword method.
+    /// - Parameters:
+    ///   - request: The change password request that contains all of the information used to change the password.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ChangePasswordByIdentity(request:ChangePasswordRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/change-password"
         let data = try! JSONEncoder().encode(request)
@@ -133,17 +102,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Adds a comment to the user's account.
-     *
-     * @param request The request object that contains all of the information used to create the user comment.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Adds a comment to the user's account.
+    /// - Parameters:
+    ///   - request: The request object that contains all of the information used to create the user comment.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CommentOnUser(request:UserCommentRequest, clientResponse: @escaping(ClientResponse<UserCommentResponse>) -> ()){
         let urlPath:String = "/api/user/comment"
         let data = try! JSONEncoder().encode(request)
@@ -152,20 +117,15 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserCommentResponse>) in
             clientResponse(response)
         })
-
     }
 
-    /**
-     * Creates an application. You can optionally specify an Id for the application, if not provided one will be generated.
-     *
-     * @param applicationId (Optional) The Id to use for the application. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the application.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Creates an application. You can optionally specify an Id for the application, if not provided one will be generated.
+    /// - Parameters:
+    ///   - applicationId: (Optional) The Id to use for the application. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the application.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateApplication(applicationId:UUID?, request:ApplicationRequest, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let data = try! JSONEncoder().encode(request)
@@ -177,19 +137,14 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Creates a new role for an application. You must specify the id of the application you are creating the role for.
-     * You can optionally specify an Id for the role inside the ApplicationRole object itself, if not provided one will be generated.
-     *
-     * @param applicationId The Id of the application to create the role on.
-     * @param roleId (Optional) The Id of the role. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the application role.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Creates a new role for an application. You must specify the id of the application you are creating the role for. You can optionally specify an Id for the role inside the ApplicationRole object itself, if not provided one will be generated.
+    /// - Parameters:
+    ///   - applicationId: The Id of the application to create the role on.
+    ///   - roleId: (Optional) The Id of the role. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the application role.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateApplicationRole(applicationId:UUID, roleId:UUID?, request:ApplicationRequest, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let data = try! JSONEncoder().encode(request)
@@ -200,19 +155,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Creates an audit log with the message and user name (usually an email). Audit logs should be written anytime you
-     * make changes to the FusionAuth database. When using the FusionAuth App web interface, any changes are automatically
-     * written to the audit log. However, if you are accessing the API, you must write the audit logs yourself.
-     *
-     * @param request The request object that contains all of the information used to create the audit log entry.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Creates an audit log with the message and user name (usually an email). Audit logs should be written anytime you make changes to the FusionAuth database. When using the FusionAuth App web interface, any changes are automatically written to the audit log. However, if you are accessing the API, you must write the audit logs yourself.
+    /// - Parameters:
+    ///   - request: The request object that contains all of the information used to create the audit log entry.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateAuditLog(request:AuditLogRequest, clientResponse: @escaping(ClientResponse<AuditLogResponse>) -> ()){
         let urlPath:String = "/api/system/audit-log"
         let data = try! JSONEncoder().encode(request)
@@ -223,7 +172,13 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
+    /// Creates a connector.  You can optionally specify an Id for the connector, if not provided one will be generated.
+    /// - Parameters:
+    ///   - connectorId: (Optional) The Id for the connector. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the connector.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateConnectorAsync(connectorId:UUID?, request:ConnectorRequest, clientResponse: @escaping(ClientResponse<ConnectorResponse>) -> ()){
         let urlPath:String = "/api/connector"
         let urlSegment:[String] = [connectorId?.uuidString ?? ""]
@@ -235,17 +190,13 @@ public class FusionAuthClient{
         }
     }
 
-    /**
-     * Creates a user consent type. You can optionally specify an Id for the consent type, if not provided one will be generated.
-     *
-     * @param consentId (Optional) The Id for the consent. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the consent.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Creates a user consent type. You can optionally specify an Id for the consent type, if not provided one will be generated.
+    /// - Parameters:
+    ///   - consentId: (Optional) The Id for the consent. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the consent.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public  func CreateConsent(consentId:UUID?, request:ConsentRequest, clientResponse: @escaping(ClientResponse<ConsentResponse>) -> ()){
         let urlPath:String = "/api/consent"
         let urlSegment:[String] = [consentId?.uuidString ?? ""]
@@ -257,17 +208,13 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Creates an email template. You can optionally specify an Id for the template, if not provided one will be generated.
-     *
-     * @param emailTemplateId (Optional) The Id for the template. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the email template.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Creates an email template. You can optionally specify an Id for the template, if not provided one will be generated.
+    /// - Parameters:
+    ///   - emailTemplateId: (Optional) The Id for the template. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the email template.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateEmailTemplate(emailTemplateId:UUID?, request:EmailTemplateRequest, clientResponse: @escaping(ClientResponse<EmailTemplateResponse>) -> ()){
         let urlPath:String = "/api/email/template"
         let urlSegment:[String] = [emailTemplateId?.uuidString ?? ""]
@@ -278,19 +225,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-    * Creates a family with the user id in the request as the owner and sole member of the family. You can optionally specify an id for the
-    * family, if not provided one will be generated.
-    *
-    * @param familyId (Optional) The id for the family. If not provided a secure random UUID will be generated.
-    * @param request The request object that contains all of the information used to create the family.
-    * @return When successful, the response will contain the log of the action. If there was a validation error or any
-    * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-    * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-    * IOException.
-    */
-
+    
+    /// Creates a family with the user id in the request as the owner and sole member of the family. You can optionally specify an id for the family, if not provided one will be generated.
+    /// - Parameters:
+    ///   - familyId: (Optional) The id for the family. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the family.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateFamily(familyId:UUID?, request:FamilyRequest, clientResponse: @escaping(ClientResponse<FamilyResponse>) -> ()){
         let urlPath:String = "/api/user/family"
         let urlSegment:[String] = [familyId?.uuidString ?? ""]
@@ -302,7 +244,13 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
+    /// Creates a form.  You can optionally specify an Id for the form, if not provided one will be generated.
+    /// - Parameters:
+    ///   - formId: (Optional) The Id for the form. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the form.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateForm(formId:UUID?, request:FormRequest, clientResponse:@escaping(ClientResponse<FormResponse>) -> ()){
         let urlPath:String = "/api/form"
         let urlSegment:[String] = [formId?.uuidString ?? ""]
@@ -314,7 +262,13 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Creates a form field.  You can optionally specify an Id for the form, if not provided one will be generated.
+    /// - Parameters:
+    ///   - fieldId: (Optional) The Id for the form field. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the form field.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateFormField(fieldId:UUID?, request:FormFieldRequest, clientResponse: @escaping(ClientResponse<FormFieldResponse>) -> ()){
         let urlPath:String = "/api/form/field"
         let urlSegment:[String] = [fieldId?.uuidString ?? ""]
@@ -325,18 +279,14 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-
-    /**
-     * Creates a group. You can optionally specify an Id for the group, if not provided one will be generated.
-     *
-     * @param groupId (Optional) The Id for the group. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the group.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Creates a group. You can optionally specify an Id for the group, if not provided one will be generated.
+    /// - Parameters:
+    ///   - groupId: (Optional) The Id for the group. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the group.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateGroup(groupId:UUID?, request:GroupRequest, clientResponse: @escaping(ClientResponse<GroupResponse>) -> ()){
         let urlPath:String = "/api/group"
         let urlSegment:[String] = [groupId?.uuidString ?? ""]
@@ -348,38 +298,29 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Creates a member in a group.
-     *
-     * @param request The request object that contains all of the information used to create the group member(s).
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Creates a member in a group.
+    /// - Parameters:
+    ///   - request: The request object that contains all of the information used to create the group member(s).
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateGroupMembers(request:MemberRequest, clientResponse: @escaping(ClientResponse<MemberResponse>) -> ()){
         let urlPath:String = "/api/group/member"
         let data = try! JSONEncoder().encode(request)
         let httpMethod:HTTPMethod = .POST
-
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<MemberResponse>) in
             clientResponse(response)
         })
     }
 
-    /**
-     * Creates an identity provider. You can optionally specify an Id for the identity provider, if not provided one will be generated.
-     *
-     * @param identityProviderId (Optional) The Id of the identity provider. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the identity provider.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Creates an identity provider. You can optionally specify an Id for the identity provider, if not provided one will be generated.
+    /// - Parameters:
+    ///   - identityProviderId: (Optional) The Id of the identity provider. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the identity provider.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateIdentityProvider(identityProviderId:UUID?, request:IdentityProviderRequest, clientResponse: @escaping(ClientResponse<IdentityProviderResponse>) -> ()){
         let urlPath:String = "/api/identity-provider"
         let urlSegments:[String] = [identityProviderId?.uuidString ?? ""]
@@ -391,18 +332,14 @@ public class FusionAuthClient{
         })
 
     }
-
-    /**
-       * Creates a Lambda. You can optionally specify an Id for the lambda, if not provided one will be generated.
-       *
-       * @param lambdaId (Optional) The Id for the lambda. If not provided a secure random UUID will be generated.
-       * @param request The request object that contains all of the information used to create the lambda.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Creates a Lambda. You can optionally specify an Id for the lambda, if not provided one will be generated.
+    /// - Parameters:
+    ///   - lambdaId: (Optional) The Id for the lambda. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the lambda.
+    ///   - clientResponse: See returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateLambda(lambdaId:UUID?, request:LambdaRequest, clientResponse: @escaping(ClientResponse<LambdaResponse>) -> ()){
         let urlPath:String = "/api/lambda"
         let urlSegment:[String] = [lambdaId?.uuidString ?? ""]
@@ -413,19 +350,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-
-    /**
-     * Creates a tenant. You can optionally specify an Id for the tenant, if not provided one will be generated.
-     *
-     * @param tenantId (Optional) The Id for the tenant. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the tenant.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Creates a tenant. You can optionally specify an Id for the tenant, if not provided one will be generated.
+    /// - Parameters:
+    ///   - tenantId: (Optional) The Id for the tenant. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the tenant.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateTenant(tenantId:UUID?, request:TenantRequest, clientResponse: @escaping(ClientResponse<TenantResponse>) -> ()){
         let urlPath:String = "/api/tenant"
         let data = try! JSONEncoder().encode(request)
@@ -436,18 +368,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Creates a Theme. You can optionally specify an Id for the theme, if not provided one will be generated.
-       *
-       * @param themeId (Optional) The Id for the theme. If not provided a secure random UUID will be generated.
-       * @param request The request object that contains all of the information used to create the theme.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Creates a Theme. You can optionally specify an Id for the theme, if not provided one will be generated.
+    /// - Parameters:
+    ///   - themeId: (Optional) The Id for the theme. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the theme.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateTheme(themeId:UUID?, request:ThemeRequest, clientResponse:@escaping(ClientResponse<ThemeResponse>) -> ()){
         let urlPath:String = "/api/theme"
         let urlSegment:[String] = [themeId?.uuidString ?? ""]
@@ -459,17 +387,13 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Creates a user. You can optionally specify an Id for the user, if not provided one will be generated.
-     *
-     * @param userId (Optional) The Id for the user. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the user.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Creates a user. You can optionally specify an Id for the user, if not provided one will be generated.
+    /// - Parameters:
+    ///   - userId: (Optional) The Id for the user. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or an other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateUser(userId:UUID?, request:UserRequest, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let data = try! JSONEncoder().encode(request)
@@ -481,18 +405,13 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Creates a user action. This action cannot be taken on a user until this call successfully returns. Anytime after
-     * that the user action can be applied to any user.
-     *
-     * @param userActionId (Optional) The Id for the user action. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the user action.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Creates a user action. This action cannot be taken on a user until this call successfully returns. Anytime after that the user action can be applied to any user.
+    /// - Parameters:
+    ///   - userActionId: (Optional) The Id for the user action. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the user action.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateUserAction(userActionId:UUID?, request:UserActionRequest, clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
         let data = try! JSONEncoder().encode(request)
@@ -504,18 +423,13 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Creates a user reason. This user action reason cannot be used when actioning a user until this call completes
-     * successfully. Anytime after that the user action reason can be used.
-     *
-     * @param userActionReasonId (Optional) The Id for the user action reason. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the user action reason.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Creates a user reason. This user action reason cannot be used when actioning a user until this call completes successfully. Anytime after that the user action reason can be used.
+    /// - Parameters:
+    ///   - userActionReasonId: (Optional) The Id for the user action reason. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the user action reason.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateUserActionReason(userActionReasonId:UUID?, request:UserActionReasonRequest, clientResponse: @escaping(ClientResponse<UserActionReasonResponse>) -> ()){
         let urlPath:String = "/api/user-action-reason"
         let data = try! JSONEncoder().encode(request)
@@ -526,18 +440,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Creates a single User consent.
-       *
-       * @param userConsentId (Optional) The Id for the User consent. If not provided a secure random UUID will be generated.
-       * @param request The request that contains the user consent information.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Creates a single User consent.
+    /// - Parameters:
+    ///   - userConsentId: (Optional) The Id for the User consent. If not provided a secure random UUID will be generated.
+    ///   - request: The request that contains the user consent information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateUserConsent(userConsentId:UUID?, request:UserConsentRequest, clientResponse:@escaping(ClientResponse<UserConsentResponse>) -> ()){
         let urlPath:String = "/api/user/consent"
         let urlSegment:[String] = [userConsentId?.uuidString ?? ""]
@@ -548,18 +458,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Creates a webhook. You can optionally specify an Id for the webhook, if not provided one will be generated.
-     *
-     * @param webhookId (Optional) The Id for the webhook. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the webhook.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Creates a webhook. You can optionally specify an Id for the webhook, if not provided one will be generated.
+    /// - Parameters:
+    ///   - webhookId: (Optional) The Id for the webhook. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the webhook.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func CreateWebhook(webhookId:UUID?, request:WebhookRequest, clientResponse: @escaping(ClientResponse<WebhookResponse>) -> ()){
         let urlPath:String = "/api/webhook"
         let data = try! JSONEncoder().encode(request)
@@ -572,17 +478,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Deactivates the application with the given Id.
-     *
-     * @param applicationId The Id of the application to deactivate.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-
+    /// Deactivates the application with the given Id.
+    /// - Parameters:
+    ///   - applicationId: The Id of the application to deactivate.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeactivateApplication(applicationId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegments:[String] = [applicationId?.uuidString ?? ""]
@@ -592,17 +493,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Deactivates the user with the given Id.
-     *
-     * @param userId The Id of the user to deactivate.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Deactivates the user with the given Id.
+    /// - Parameters:
+    ///   - userId: The Id of the user to deactivate.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeactivateUser(userId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user"
         let urlSegments:[String] = [userId?.uuidString ?? ""]
@@ -613,16 +510,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Deactivates the user action with the given Id.
-     *
-     * @param userActionId The Id of the user action to deactivate.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Deactivates the user action with the given Id.
+    /// - Parameters:
+    ///   - userActionId: The Id of the user action to deactivate.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeactivateUserAction(userActionId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user-action"
         let urlSegments:[String] = [userActionId?.uuidString ?? ""]
@@ -633,7 +526,12 @@ public class FusionAuthClient{
         })
     }
 
-    //TODO
+    /// Deactivates the users with the given ids.
+    /// - Parameters:
+    ///   - userIds: The ids of the users to deactivate.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeactivateUsersById(userIds:[String], clientResponse: @escaping(ClientResponse<UserDeleteResponse>) -> ()){
         let urlPath:String = "/api/user/bulk"
         var urlParameter:[URLQueryItem]{
@@ -653,19 +551,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Hard deletes an application. This is a dangerous operation and should not be used in most circumstances. This will
-     * delete the application, any registrations for that application, metrics and reports for the application, all the
-     * roles for the application, and any other data associated with the application. This operation could take a very
-     * long time, depending on the amount of data in your database.
-     *
-     * @param applicationId The Id of the application to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Hard deletes an application. This is a dangerous operation and should not be used in most circumstances. This will delete the application, any registrations for that application, metrics and reports for the application, all the roles for the application, and any other data associated with the application. This operation could take a very long time, depending on the amount of data in your database.
+    /// - Parameters:
+    ///   - applicationId: The Id of the application to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteApplication(applicationId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationId.uuidString]
@@ -676,19 +567,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Hard deletes an application role. This is a dangerous operation and should not be used in most circumstances. This
-     * permanently removes the given role from all users that had it.
-     *
-     * @param applicationId The Id of the application to deactivate.
-     * @param roleId The Id of the role to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Hard deletes an application role. This is a dangerous operation and should not be used in most circumstances. This permanently removes the given role from all users that had it.
+    /// - Parameters:
+    ///   - applicationId: "applicationId"> The Id of the application to deactivate.
+    ///   - roleID: The Id of the role to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteApplicationRole(applicationId:UUID, roleID:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationId.uuidString, "role", roleID.uuidString]
@@ -699,7 +585,12 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
+    /// Deletes the connector for the given Id.
+    /// - Parameters:
+    ///   - connectorId: The Id of the connector to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteConnector(connectorId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/connector"
         let urlSegment:[String] = [connectorId?.uuidString ?? ""]
@@ -711,16 +602,12 @@ public class FusionAuthClient{
         
     }
 
-    /**
-       * Deletes the consent for the given Id.
-       *
-       * @param consentId The Id of the consent to delete.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    /// Deletes the consent for the given Id.
+    /// - Parameters:
+    ///   - consentId: The Id of the consent to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteConsent(consentId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/consent"
         let urlSegment:[String] = [consentId?.uuidString ?? ""]
@@ -730,17 +617,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Deletes the email template for the given Id.
-     *
-     * @param emailTemplateId The Id of the email template to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Deletes the email template for the given Id.
+    /// - Parameters:
+    ///   - emailTemplateId: The Id of the email template to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteEmailTemplate(emailTemplateId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/email/template"
         let urlSegment:[String] = [emailTemplateId.uuidString]
@@ -751,7 +634,12 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
+    
+    /// Deletes the form for the given Id.
+    /// - Parameters:
+    ///   - formId: The Id of the form to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func DeleteForm(formId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/form"
@@ -763,6 +651,12 @@ public class FusionAuthClient{
         }
     }
     
+    /// Deletes the form field for the given Id.
+    /// - Parameters:
+    ///   - fieldId: The Id of the form field to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be anIOException.
+    
     public func DeleteFormField(fieldId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/form/field"
         let urlSegment:[String] = [fieldId?.uuidString ?? ""]
@@ -772,17 +666,13 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-
-    /**
-     * Deletes the group for the given Id.
-     *
-     * @param groupId The Id of the group to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Deletes the group for the given Id.
+    /// - Parameters:
+    ///   - groupId: The Id of the group to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteGroup(groupId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/group"
         let urlSegment:[String] = [groupId.uuidString]
@@ -793,17 +683,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Removes users as members of a group.
-     *
-     * @param request The member request that contains all of the information used to remove members to the group.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-
+    /// Removes users as members of a group.
+    /// - Parameters:
+    ///   - request: The member request that contains all of the information used to remove members to the group.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteGroupMembers(request:MemberDeleteRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/group/member"
         let data = try! JSONEncoder().encode(request)
@@ -813,17 +698,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Deletes the identity provider for the given Id.
-     *
-     * @param identityProviderId The Id of the identity provider to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Deletes the identity provider for the given Id.
+    /// - Parameters:
+    ///   - identityProviderId: The Id of the identity provider to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteIdentityProvider(identityProviderId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/identity-provider"
         let urlSegment:[String] = [identityProviderId.uuidString]
@@ -835,16 +716,12 @@ public class FusionAuthClient{
 
     }
 
-    /**
-    * Deletes the key for the given Id.
-    *
-    * @param keyOd The Id of the key to delete.
-    * @return When successful, the response will contain the log of the action. If there was a validation error or any
-    * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-    * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-    * IOException.
-    */
-
+    /// Deletes the key for the given Id.
+    /// - Parameters:
+    ///   - keyId: The Id of the key to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteKey(keyId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/key"
         let urlSegment:[String] = [keyId?.uuidString ?? ""]
@@ -855,16 +732,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Deletes the lambda for the given Id.
-     *
-     * @param lambdaId The Id of the lambda to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Deletes the lambda for the given Id.
+    /// - Parameters:
+    ///   - lambdaId: The Id of the lambda to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteLambda(lambdaId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) ->()){
         let urlPath:String = "/api/lambda"
         let urlSegment:[String] = [lambdaId?.uuidString ?? ""]
@@ -874,21 +747,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-
-
-
-    /**
-     * Deletes the user registration for the given user and application.
-     *
-     * @param userId The Id of the user whose registration is being deleted.
-     * @param applicationId The Id of the application to remove the registration for.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Deletes the user registration for the given user and application.
+    /// - Parameters:
+    ///   - userId: The Id of the user whose registration is being deleted.
+    ///   - applicationId: The Id of the application to remove the registration for.
+    ///   - clientResponse: see Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteRegistration(userId:UUID, applicationId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/registration"
         let urlSegment:[String] = [userId.uuidString, applicationId.uuidString]
@@ -898,17 +764,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Deletes the tenant for the given Id.
-     *
-     * @param tenantId The Id of the tenant to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Deletes the tenant for the given Id.
+    /// - Parameters:
+    ///   - tenantId: The Id of the tenant to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteTenant(tenantId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/tenant"
         let urlSegment:[String] = [tenantId.uuidString]
@@ -918,6 +780,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    /// Deletes the tenant for the given Id asynchronously. This method is helpful if you do not want to wait for the delete operation to complete.
+    /// - Parameters:
+    ///   - tenantId: The Id of the tenant to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func DeleteTenantAsync(tenantId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/tenant"
@@ -930,16 +798,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-       * Deletes the theme for the given Id.
-       *
-       * @param themeId The Id of the theme to delete.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    /// Deletes the theme for the given Id.
+    /// - Parameters:
+    ///   - themeId: The Id of the theme to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteTheme(themeId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/theme"
         let urlSegment:[String] = [themeId?.uuidString ?? ""]
@@ -949,19 +813,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-
-    /**
-     * Deletes the user for the given Id. This permanently deletes all information, metrics, reports and data associated
-     * with the user.
-     *
-     * @param userId The Id of the user to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Deletes the user for the given Id. This permanently deletes all information, metrics, reports and data associated with the user.
+    /// - Parameters:
+    ///   - userId: The Id of the user to delete.
+    ///   - hardDelete: (Bool) Whether or not to hard delete user
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteUser(userId:UUID, hardDelete:Bool, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user"
         let urlSegment:[String] = [userId.uuidString]
@@ -973,17 +832,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Deletes the user action for the given Id. This permanently deletes the user action and also any history and logs of
-     * the action being applied to any users.
-     *
-     * @param userActionId The Id of the user action to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Deletes the user action for the given Id. This permanently deletes the user action and also any history and logs of the action being applied to any users.
+    /// - Parameters:
+    ///   - userActionId:  The Id of the user action to delete.
+    ///   - clientResponse: Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteUserAction(userActionId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user-action"
         let urlSegment:[String] = [userActionId.uuidString]
@@ -995,17 +849,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Deletes the user action reason for the given Id.
-     *
-     * @param userActionReasonId The Id of the user action reason to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Deletes the user action reason for the given Id.
+    /// - Parameters:
+    ///   - userActionReasonId: The Id of the user action reason to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteUserActionReason(userActionReasonId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user-action-reason"
         let urlSegment:[String] = [userActionReasonId.uuidString]
@@ -1016,16 +866,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Deletes the users with the given ids.
-     *
-     * @param request The ids of the users to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Deletes the users with the given ids, or users matching the provided JSON query or queryString. The order of preference is ids, query and then queryString, it is recommended to only provide one of the three for the request. This method can be used to deactivate or permanently delete (hard-delete) users based upon the hardDelete boolean in the request body. Using the dryRun parameter you may also request the result of the action without actually deleting or deactivating any users.
+    /// - Parameters:
+    ///   - request: The UserDeleteRequest.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteUsersByQueryAsync(request:UserDeleteRequest, clientResponse: @escaping(ClientResponse<UserDeleteResponse>) -> ()){
         let urlPath:String = "/api/user/bulk"
         let data = try! JSONEncoder().encode(request)
@@ -1035,17 +881,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Deletes the webhook for the given Id.
-     *
-     * @param webhookId The Id of the webhook to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Deletes the webhook for the given Id.
+    /// - Parameters:
+    ///   - webhookId: The Id of the webhook to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DeleteWebhook(webhookId:UUID, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/webhook"
         let urlSegment:[String] = [webhookId.uuidString]
@@ -1055,19 +897,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Disable Two Factor authentication for a user.
-     *
-     * @param userId The Id of the User for which you're disabling Two Factor authentication.
-     * @param code The Two Factor code used verify the the caller knows the Two Factor secret.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-
+    
+    /// Disable Two Factor authentication for a user.
+    /// - Parameters:
+    ///   - userId: The Id of the User for which you're disabling Two Factor authentication.
+    ///   - code: The Two Factor code used verify the the caller knows the Two Factor secret.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func DisableTwoFactor(userId:UUID, code:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/two-factor"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId.uuidString), URLQueryItem(name: "code", value: code)]
@@ -1077,18 +914,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Enable Two Factor authentication for a user.
-     *
-     * @param userId The Id of the user to enable Two Factor authentication.
-     * @param request The two factor enable request information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Enable Two Factor authentication for a user.
+    /// - Parameters:
+    ///   - userId: The Id of the user to enable Two Factor authentication.
+    ///   - request: The two factor enable request information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func EnableTwoFactor(userId:UUID, request:TwoFactorRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/two-factor"
         let urlSegment:[String] = [userId.uuidString]
@@ -1100,7 +933,14 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
+    /// Exchanges an OAuth authorization code for an access token. Makes a request to the Token endpoint to exchange the authorization code returned from the Authorize endpoint for an access token.
+    /// - Parameters:
+    ///   - code: The authorization code returned on the /oauth2/authorize response.
+    ///   - clientId: The unique client identifier. The client Id is the Id of the FusionAuth Application in which you you are attempting to authenticate.
+    ///   - clientSecret: (Optional) The client secret. This value will be required if client authentication is enabled.
+    ///   - redirectUri: The URI to redirect to upon a successful request.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func ExchangeOAuthCodeForAccessToken(code:String, clientId:String, clientSecret:String, redirectUri:String, clientResponse:@escaping(ClientResponse<AccessToken>) -> ()){
         let contentType:ContentType = .formURLEncoded
@@ -1116,8 +956,16 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-    
-    //TODO
+
+    /// Exchanges an OAuth authorization code and code_verifier for an access token. Makes a request to the Token endpoint to exchange the authorization code returned from the Authorize endpoint and a code_verifier for an access token.
+    /// - Parameters:
+    ///   - code: The authorization code returned on the /oauth2/authorize response.
+    ///   - clientId: (Optional) The unique client identifier. The client Id is the Id of the FusionAuth Application in which you you are attempting to authenticate. This parameter is optional when the Authorization header is provided.
+    ///   - clientSecret: (Optional) The client secret. This value may optionally be provided in the request body instead of the Authorization header.
+    ///   - redirectUri: The URI to redirect to upon a successful request.
+    ///   - codeVerifier: The random string generated previously. Will be compared with the code_challenge sent previously, which allows the OAuth provider to authenticate your app.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func ExchangeOAuthCodeForAccessTokensUsingPKCE(code:String, clientId:String, clientSecret:String, redirectUri:String, codeVerifier:String, clientResponse:@escaping(ClientResponse<AccessToken>) -> ()){
         let contentType:ContentType = .formURLEncoded
@@ -1135,7 +983,15 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Exchange a Refresh Token for an Access Token. If you will be using the Refresh Token Grant, you will make a request to the Token endpoint to exchange the user’s refresh token for an access token.
+    /// - Parameters:
+    ///   - refreshToken: The refresh token that you would like to use to exchange for an access token.
+    ///   - clientId: (Optional) The unique client identifier. The client Id is the Id of the FusionAuth Application in which you you are attempting to authenticate. This parameter is optional when the Authorization header is provided.
+    ///   - clientSecret: (Optional) The client secret. This value may optionally be provided in the request body instead of the Authorization header.
+    ///   - scope: (Optional) This parameter is optional and if omitted, the same scope requested during the authorization request will be used. If provided the scopes must match those requested during the initial authorization request.
+    ///   - userCode: (Optional) The end-user verification code. This code is required if using this endpoint to approve the Device Authorization.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func ExchangeRefreshTokenForAccessToken(refreshToken:String, clientId:String, clientSecret:String, scope:String, userCode:String, clientResponse:@escaping(ClientResponse<AccessToken>) -> ()){
         let contentType:ContentType = .formURLEncoded
@@ -1152,17 +1008,13 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-
-    /**
-     * Exchange a refresh token for a new JWT.
-     *
-     * @param request The refresh request.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Exchange a refresh token for a new JWT.
+    /// - Parameters:
+    ///   - request: The refresh request.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ExchangeRefreshTokenForJWT(request:RefreshRequest, clientResponse: @escaping(ClientResponse<RefreshResponse>) -> ()){
         let urlPath:String = "/api/jwt/refresh"
         let data = try! JSONEncoder().encode(request)
@@ -1173,7 +1025,16 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
+    /// Exchange User Credentials for a Token. If you will be using the Resource Owner Password Credential Grant, you will make a request to the Token endpoint to exchange the user’s email and password for an access token.
+    /// - Parameters:
+    ///   - username: The login identifier of the user. The login identifier can be either the email or the username.
+    ///   - password: The user’s password.
+    ///   - clientId: (Optional) The unique client identifier. The client Id is the Id of the FusionAuth Application in which you you are attempting to authenticate. This parameter is optional when the Authorization header is provided.
+    ///   - clientSecret: (Optional) The client secret. This value may optionally be provided in the request body instead of the Authorization header.
+    ///   - scope: (Optional) This parameter is optional and if omitted, the same scope requested during the authorization request will be used. If provided the scopes must match those requested during the initial authorization request.
+    ///   - userCode: (Optional) The end-user verification code. This code is required if using this endpoint to approve the Device Authorization.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func ExchangeUserCredentialsForAccessToken(username:String, password:String, clientId:String, clientSecret:String, scope:String, userCode:String, clientResponse:@escaping(ClientResponse<AccessToken>) -> ()){
         let urlPath:String = "/oauth2/token"
@@ -1192,17 +1053,12 @@ public class FusionAuthClient{
         }
     }
 
-    /**
-     * Begins the forgot password sequence, which kicks off an email to the user so that they can reset their password.
-     *
-     * @param request The request that contains the information about the user so that they can be emailed.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-
+    /// Begins the forgot password sequence, which kicks off an email to the user so that they can reset their password.
+    /// - Parameters:
+    ///   - request: The request that contains the information about the user so that they can be emailed.
+    ///   - clientResponse: See returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ForgotPassword(request:ForgotPasswordRequest, clientResponse: @escaping(ClientResponse<ForgotPasswordResponse>) -> ()){
         let urlPath:String = "/api/user/forgot-password"
         let data = try! JSONEncoder().encode(request)
@@ -1212,18 +1068,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Generate a new Email Verification Id to be used with the Verify Email API. This API will not attempt to send an
-     * email to the User. This API may be used to collect the verificationId for use with a third party system.
-     *
-     * @param email The email address of the user that needs a new verification email.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Generate a new Email Verification Id to be used with the Verify Email API. This API will not attempt to send an email to the User. This API may be used to collect the verificationId for use with a third party system.
+    /// - Parameters:
+    ///   - email: The email address of the user that needs a new verification email.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func GenerateEmailVerificationId(email:String, clientResponse: @escaping(ClientResponse<VerifyEmailResponse>) -> ()){
         let urlPath:String = "/api/user/verify-email"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "email", value: email), URLQueryItem(name: "sendVerifyPasswordEmail", value: "false")]
@@ -1234,17 +1085,13 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-       * Generate a new RSA or EC key pair or an HMAC secret.
-       *
-       * @param keyId (Optional) The Id for the key. If not provided a secure random UUID will be generated.
-       * @param request The request object that contains all of the information used to create the key.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    /// Generate a new RSA or EC key pair or an HMAC secret.
+    /// - Parameters:
+    ///   - keyId: (Optional) The Id for the key. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the key.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func GenerateKey(keyId:UUID?, request:KeyRequest, clientResponse: @escaping(ClientResponse<KeyResponse>) -> ()){
         let urlPath:String = "/api/key/generate"
         let urlSegment:[String] = [keyId?.uuidString ?? ""]
@@ -1255,19 +1102,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Generate a new Application Registration Verification Id to be used with the Verify Registration API. This API will not attempt to send an
-     * email to the User. This API may be used to collect the verificationId for use with a third party system.
-     *
-     * @param email The email address of the user that needs a new verification email.
-     * @param applicationId The Id of the application to be verified.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Generate a new Application Registration Verification Id to be used with the Verify Registration API. This API will not attempt to send an email to the User. This API may be used to collect the verificationId for use with a third party system.
+    /// - Parameters:
+    ///   - email: The email address of the user that needs a new verification email.
+    ///   - applicationId: The Id of the application to be verified.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func GenerateRegistrationVerificationId(email:String, applicationId:UUID, clientResponse: @escaping(ClientResponse<VerifyRegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/verify-registration"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "email", value: email), URLQueryItem(name: "applicationId", value: applicationId.uuidString)]
@@ -1278,17 +1120,10 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Generate a Two Factor secret that can be used to enable Two Factor authentication for a User. The response will contain
-     * both the secret and a Base32 encoded form of the secret which can be shown to a User when using a 2 Step Authentication
-     * application such as Google Authenticator.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Generate a Two Factor secret that can be used to enable Two Factor authentication for a User. The response will contain both the secret and a Base32 encoded form of the secret which can be shown to a User when using a 2 Step Authentication application such as Google Authenticator.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func GenerateTwoFactorSecret(clientResponse: @escaping(ClientResponse<SecretResponse>) -> ()){
         let urlPath:String = "/api/two-factor/secret"
         let httpMethod:HTTPMethod = .GET
@@ -1298,18 +1133,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Generate a Two Factor secret that can be used to enable Two Factor authentication for a User. The response will contain
-     * both the secret and a Base32 encoded form of the secret which can be shown to a User when using a 2 Step Authentication
-     * application such as Google Authenticator.
-     *
-     * @param encodedJWT The encoded JWT (access token).
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Generate a Two Factor secret that can be used to enable Two Factor authentication for a User. The response will contain both the secret and a Base32 encoded form of the secret which can be shown to a User when using a 2 Step Authentication application such as Google Authenticator.
+    /// - Parameters:
+    ///   - encodedJWT: The encoded JWT (access token)
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func GenerateTwoFactorSecretUsingJWT(encodedJWT:String, clientResponse: @escaping(ClientResponse<SecretResponse>) -> ()){
         let urlPath:String = "/api/two-factor/secret"
         let authorization:String = ("JWT" + encodedJWT)
@@ -1320,18 +1149,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Handles login via third-parties including Social login, external OAuth and OpenID Connect, and other
-     * login systems.
-     *
-     * @param request The third-party login request that contains information from the third-party login
-     * providers that FusionAuth uses to reconcile the user's account.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Handles login via third-parties including Social login, external OAuth and OpenID Connect, and other login systems.
+    /// - Parameters:
+    ///   - request: The third-party login request that contains information from the third-party login providers that FusionAuth uses to reconcile the user's account.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func IdentityProviderLogin(request:IdentityProviderLoginRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/identity-provider/login"
         let data = try! JSONEncoder().encode(request)
@@ -1342,17 +1165,13 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Import an existing RSA or EC key pair or an HMAC secret.
-     *
-     * @param keyId (Optional) The Id for the key. If not provided a secure random UUID will be generated.
-     * @param request The request object that contains all of the information used to create the key.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Import an existing RSA or EC key pair or an HMAC secret.
+    /// - Parameters:
+    ///   - keyId: (Optional) The Id for the key. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the key.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ImportKey(keyId:UUID?, request:KeyRequest, clientResponse: @escaping(ClientResponse<KeyResponse>) -> ()){
         let urlPath:String = "/api/key/import"
         let urlSegment:[String] = [keyId?.uuidString ?? ""]
@@ -1364,7 +1183,11 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
+    /// Bulk imports refresh tokens. This request performs minimal validation and runs batch inserts of refresh tokens with the expectation that each token represents a user that already exists and is registered for the corresponding FusionAuth Application. This is done to increases the insert performance. Therefore, if you encounter an error due to a database key violation, the response will likely offer a generic explanation. If you encounter an error, you may optionally enable additional validation to receive a JSON response body with specific validation errors. This will slow the request down but will allow you to identify the cause of the failure. See the validateDbConstraints request parameter.
+    /// - Parameters:
+    ///   - request: The request that contains all of the information about all of the refresh tokens to import.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func ImportRefreshTokens(request:RefreshTokenImportRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/refresh-token/import"
@@ -1375,19 +1198,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Bulk imports multiple users. This does some validation, but then tries to run batch inserts of users. This reduces
-     * latency when inserting lots of users. Therefore, the error response might contain some information about failures,
-     * but it will likely be pretty generic.
-     *
-     * @param request The request that contains all of the information about all of the users to import.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Bulk imports users. This request performs minimal validation and runs batch inserts of users with the expectation that each user does not yet exist and each registration corresponds to an existing FusionAuth Application. This is done to increases the insert performance. Therefore, if you encounter an error due to a database key violation, the response will likely offer a generic explanation. If you encounter an error, you may optionally enable additional validation to receive a JSON response body with specific validation errors. This will slow the request down but will allow you to identify the cause of the failure. See the validateDbConstraints request parameter.
+    /// - Parameters:
+    ///   - request: The request that contains all of the information about all of the users to import.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ImportUsers(request:ImportRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/import"
         let data = try! JSONEncoder().encode(request)
@@ -1397,23 +1214,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Issue a new access token (JWT) for the requested Application after ensuring the provided JWT is valid. A valid
-     * access token is properly signed and not expired.
-     * <p>
-     * This API may be used in an SSO configuration to issue new tokens for another application after the user has
-     * obtained a valid token from authentication.
-     *
-     * @param applicationId The Application Id for which you are requesting a new access token be issued.
-     * @param encodedJWT The encoded JWT (access token).
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
     
-    //TODO
+    /// Inspect an access token issued by FusionAuth.
+    /// - Parameters:
+    ///   - clientId: The unique client identifier. The client Id is the Id of the FusionAuth Application for which this token was generated.
+    ///   - token: The access token returned by this OAuth provider as the result of a successful authentication.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func IntrospectAccessTokenAsync(clientId:String, token:String, clientResponse:@escaping(ClientResponse<IntrospectResponse>) -> ()){
         let urlPath:String = "/oauth2/introspect"
@@ -1427,11 +1234,19 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    public func IssueJWT(applicationId:UUID, encodedJWT:String, clientResponse: @escaping(ClientResponse<IssueResponse>) -> ()){
+    
+    /// Issue a new access token (JWT) for the requested Application after ensuring the provided JWT is valid. A valid access token is properly signed and not expired. This API may be used in an SSO configuration to issue new tokens for another application after the user has obtained a valid token from authentication.
+    /// - Parameters:
+    ///   - applicationId: The Application Id for which you are requesting a new access token be issued.
+    ///   - encodedJWT: The encoded JWT (access token).
+    ///   - refreshToken: (Optional) An existing refresh token used to request a refresh token in addition to a JWT in the response. The target application represented by the applicationId request parameter must have refresh tokens enabled in order to receive a refresh token in the response.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. AdditionallyFusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
+    public func IssueJWT(applicationId:UUID, encodedJWT:String, refreshToken:String, clientResponse: @escaping(ClientResponse<IssueResponse>) -> ()){
         let urlPath:String = "/api/jwt/issue"
         let authorization:String = ("JWT" + encodedJWT)
-        let urlParameter:[URLQueryItem] = [URLQueryItem(name: "applicationId", value: applicationId.uuidString)]
+        let urlParameter:[URLQueryItem] = [URLQueryItem(name: "applicationId", value: applicationId.uuidString), URLQueryItem(name: "refreshToken", value: refreshToken)]
         let httpMethod:HTTPMethod = .GET
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, authorization: authorization, fusionAuthClientResponse: { (response:ClientResponse<IssueResponse>) in
@@ -1439,16 +1254,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Logs a user in.
-     *
-     * @param request The login request that contains the user credentials used to log them in.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Authenticates a user to FusionAuth. This API optionally requires an API key. See <code>Application.loginConfiguration.requireAuthentication</code>.
+    /// - Parameters:
+    ///   - request: The login request that contains the user credentials used to log them in.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func Login(request:LoginRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/login"
         let data = try! JSONEncoder().encode(request)
@@ -1458,23 +1269,15 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Sends a ping to FusionAuth indicating that the user was automatically logged into an application. When using
-     * FusionAuth's SSO or your own, you should call this if the user is already logged in centrally, but accesses an
-     * application where they no longer have a session. This helps correctly track login counts, times and helps with
-     * reporting.
-     *
-     * @param userId The Id of the user that was logged in.
-     * @param applicationId The Id of the application that they logged into.
-     * @param callerIPAddress (Optional) The IP address of the end-user that is logging in. If a null value is provided
-     * the IP address will be that of the client or last proxy that sent the request.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Sends a ping to FusionAuth indicating that the user was automatically logged into an application. When using FusionAuth's SSO or your own, you should call this if the user is already logged in centrally, but accesses an application where they no longer have a session. This helps correctly track login counts, times and helps with reporting.
+    /// - Parameters:
+    ///   - userId: The Id of the user that was logged in.
+    ///   - applicationId: The Id of the application that they logged into.
+    ///   - callerIPAddress: (Optional) The IP address of the end-user that is logging in. If a null value is provided the IP address will be that of the client or last proxy that sent the request.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func LoginPing(userId:UUID, applicationId:UUID, callerIPAddress:String?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/login"
         let urlSegment:[String] = [userId.uuidString, applicationId.uuidString]
@@ -1485,22 +1288,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * The Logout API is intended to be used to remove the refresh token and access token cookies if they exist on the
-     * client and revoke the refresh token stored. This API does nothing if the request does not contain an access
-     * token or refresh token cookies.
-     *
-     * @param global When this value is set to true all of the refresh tokens issued to the owner of the
-     * provided token will be revoked.
-     * @param refreshToken (Optional) The refresh_token as a request parameter instead of coming in via a cookie.
-     * If provided this takes precedence over the cookie.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// The Logout API is intended to be used to remove the refresh token and access token cookies if they exist on the client and revoke the refresh token stored. This API does nothing if the request does not contain an access token or refresh token cookies.
+    /// - Parameters:
+    ///   - global: When this value is set to true all of the refresh tokens issued to the owner of the provided token will be revoked.
+    ///   - refreshToken: (Optional) The refresh_token as a request parameter instead of coming in via a cookie. If provided this takes precedence over the cookie.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func Logout(global:Bool, refreshToken:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/logout"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "global", value: String(global)), URLQueryItem(name: "refreshToken", value: refreshToken)]
@@ -1511,17 +1306,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the identity provider for the given domain. A 200 response code indicates the domain is managed
-     * by a registered identity provider. A 404 indicates the domain is not managed.
-     *
-     * @param domain The domain or email address to lookup.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Retrieves the identity provider for the given domain. A 200 response code indicates the domain is managed by a registered identity provider. A 404 indicates the domain is not managed.
+    /// - Parameters:
+    ///   - domain: The domain or email address to lookup.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     func LookupIdentityProvider(domain:String, clientResponse: @escaping(ClientResponse<LookupResponse>) -> ()){
         let urlPath:String = "/api/identity-provider/lookup"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "domain", value: domain)]
@@ -1531,19 +1321,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Modifies a temporal user action by changing the expiration of the action and optionally adding a comment to the
-     * action.
-     *
-     * @param actionId The Id of the action to modify. This is technically the user action log id.
-     * @param request The request that contains all of the information about the modification.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Modifies a temporal user action by changing the expiration of the action and optionally adding a comment to the action.
+    /// - Parameters:
+    ///   - actionId: The Id of the action to modify. This is technically the user action log id.
+    ///   - request: The request that contains all of the information about the modification.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ModifyAction(actionId:UUID, request:ActionRequest, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
         let urlSegment:[String] = [actionId.uuidString]
@@ -1554,17 +1339,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Complete a login request using a passwordless code
-     *
-     * @param request The passwordless login request that contains all of the information used to complete login.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Complete a login request using a passwordless code
+    /// - Parameters:
+    ///   - request: The passwordless login request that contains all of the information used to complete login.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func PasswordlessLogin(request:PasswordlessLoginRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/passwordless/login"
         let data = try! JSONEncoder().encode(request)
@@ -1575,7 +1356,12 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
+    /// Updates, via PATCH, the application with the given Id.
+    /// - Parameters:
+    ///   - applicationID: The Id of the application to update.
+    ///   - request: The request that contains just the new application information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchApplication(applicationID:UUID?, request:[String:JSONObject], clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
@@ -1588,7 +1374,13 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Updates, via PATCH, the application role with the given id for the application.
+    /// - Parameters:
+    ///   - applicationId: The Id of the application that the role belongs to.
+    ///   - roleId: The Id of the role to update.
+    ///   - request: The request that contains just the new role information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchApplicationRole(applicationId:UUID?, roleId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
@@ -1601,7 +1393,12 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// DescriptionUpdates, via PATCH, the connector with the given Id.
+    /// - Parameters:
+    ///   - connectorId: The Id of the connector to update.
+    ///   - request: The request that contains just the new connector information.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchConnector(connectorId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ConnectorResponse>) -> ()){
         let urlPath:String = "/api/connector"
@@ -1613,8 +1410,13 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-    
-    //TODO
+   
+    /// Updates, via PATCH, the consent with the given Id.
+    /// - Parameters:
+    ///   - consentId: The Id of the consent to update.
+    ///   - request: The request that contains just the new consent information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchConsent(consentId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ConsentResponse>) -> ()){
         let urlPath:String = "/api/consent"
@@ -1627,7 +1429,12 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Updates, via PATCH, the email template with the given Id.
+    /// - Parameters:
+    ///   - emailTemplateId: The Id of the email template to update.
+    ///   - request: The request that contains just the new email template information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchEmailTemplate(emailTemplateId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<EmailTemplateResponse>) -> ()){
         let urlPath:String = "/api/email/template"
@@ -1640,7 +1447,12 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Updates, via PATCH, the group with the given Id
+    /// - Parameters:
+    ///   - groupId: The Id of the group to update.
+    ///   - request: The request that contains just the new group information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchGroup(groupId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<GroupResponse>) -> ()){
         let urlPath:String = "/api/group"
@@ -1653,7 +1465,12 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Updates, via PATCH, the identity provider with the given Id.
+    /// - Parameters:
+    ///   - identityProvider: The Id of the identity provider to update.
+    ///   - request: The request object that contains just the updated identity provider information.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchIdentityProvider(identityProvider:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<IdentityProviderResponse>) -> ()){
         let urlPath:String = "/api/identity-provider"
@@ -1664,10 +1481,13 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<IdentityProviderResponse>) in
             clientResponse(response)
         }
-        
     }
     
-    //TODO
+    /// Updates, via PATCH, the available integrations
+    /// - Parameters:
+    ///   - request: The request that contains just the new integration information.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchIntegrations(request:[String:JSONObject], clientResponse:@escaping(ClientResponse<IntegrationResponse>) -> ()){
         let urlPath:String = "/api/integration"
@@ -1679,7 +1499,30 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Updates, via PATCH, the lambda with the given Id.
+    /// - Parameters:
+    ///   - lambdaId: The Id of the lambda to update.
+    ///   - request: The request that contains just the new lambda information.
+    ///   - clientResponse: See returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
+    public func PatchLambda(lambdaId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<LambdaResponse>) -> ()){
+        let urlPath:String = "/api/lambda"
+        let urlSegment:[String] = [lambdaId?.uuidString ?? ""]
+        let data:Data = try! JSONEncoder().encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<LambdaResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Updates, via PATCH, the registration for the user with the given id and the application defined in the request.
+    /// - Parameters:
+    ///   - userId: The Id of the user whose registration is going to be updated.
+    ///   - request: The request that contains just the new registration information.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchRegistrations(userId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
@@ -1692,7 +1535,11 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Updates, via PATCH, the system configuration.
+    /// - Parameters:
+    ///   - request: The request that contains just the new system configuration information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchSystemConfiguration(request:[String:JSONObject], clientResponse:@escaping(ClientResponse<SystemConfigurationResponse>) -> ()){
         let urlPath:String = "/api/system-configuration"
@@ -1704,7 +1551,12 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Updates, via PATCH, the tenant with the given Id.
+    /// - Parameters:
+    ///   - tenantId: The Id of the tenant to update.
+    ///   - request: The request that contains just the new tenant information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchTenant(tenantId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<TenantResponse>) -> ()) {
         let urlPath:String = "/api/tenant"
@@ -1716,8 +1568,13 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-    
-    //TODO
+
+    /// Updates, via PATCH, the theme with the given Id.
+    /// - Parameters:
+    ///   - themeId: The Id of the theme to update.
+    ///   - request: request descriptionThe request that contains just the new theme information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchTheme(themeId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ThemeResponse>) -> ()){
         let urlPath:String = "/api/theme"
@@ -1730,7 +1587,12 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Updates, via PATCH, the user with the given Id.
+    /// - Parameters:
+    ///   - userId: The Id of the user to update.
+    ///   - request: The request that contains just the new user information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchUser(userId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
@@ -1742,7 +1604,13 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-    //TODO
+   
+    /// Updates, via PATCH, the user action with the given Id.
+    /// - Parameters:
+    ///   - userActionId: The Id of the user action to update.
+    ///   - request: The request that contains just the new user action information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchUserAction(userActionId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
@@ -1755,7 +1623,12 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Updates, via PATCH, the user action reason with the given Id.
+    /// - Parameters:
+    ///   - userActionReasonId: The Id of the user action reason to update.
+    ///   - request: The request that contains just the new user action reason information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchUserActionReason(userActionReasonId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserActionReasonResponse>) -> ()){
         let urlPath:String = "/api/user-action-reason"
@@ -1768,7 +1641,12 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
+    /// Updates, via PATCH, a single User consent by Id.
+    /// - Parameters:
+    ///   - userConsentId: The User Consent Id
+    ///   - request: The request that contains just the new user consent information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
     public func PatchUserConsent(userConsentId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserConsentResponse>) -> ()){
         let urlPath:String = "/api/user/consent"
@@ -1780,17 +1658,13 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-
-    /**
-     * Reactivates the application with the given Id.
-     *
-     * @param applicationId The Id of the application to reactivate.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Reactivates the application with the given Id.
+    /// - Parameters:
+    ///   - applicationId: The Id of the application to reactivate.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ReactivateApplication(applicationId:UUID, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationId.uuidString]
@@ -1801,17 +1675,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Reactivates the user with the given Id.
-     *
-     * @param userId The Id of the user to reactivate.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Reactivates the user with the given Id.
+    /// - Parameters:
+    ///   - userId: The Id of the user to reactivate.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ReactivateUser(userId:UUID, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let urlSegment:[String] = [userId.uuidString]
@@ -1822,17 +1692,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Reactivates the user action with the given Id.
-     *
-     * @param userActionId The Id of the user action to reactivate.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Reactivates the user action with the given Id.
+    /// - Parameters:
+    ///   - userActionId: The Id of the user action to reactivate.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ReactivateUserAction(userActionId:UUID, clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
         let urlSegment:[String] = [userActionId.uuidString]
@@ -1843,17 +1709,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Reconcile a User to FusionAuth using JWT issued from another Identity Provider.
-     *
-     * @param request The reconcile request that contains the data to reconcile the User.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Reconcile a User to FusionAuth using JWT issued from another Identity Provider.
+    /// - Parameters:
+    ///   - request: The reconcile request that contains the data to reconcile the User.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ReconcileJWT(request:IdentityProviderLoginRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/jwt/reconcile"
         let data = try! JSONEncoder().encode(request)
@@ -1863,19 +1725,11 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Request a refresh of the User search index. This API is not generally necessary and the search index will become consistent in a
-       * reasonable amount of time. There may be scenarios where you may wish to manually request an index refresh. One example may be
-       * if you are using the Search API or Delete Tenant API immediately following a User Create etc, you may wish to request a refresh to
-       *  ensure the index immediately current before making a query request to the search index.
-       *
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Request a refresh of the User search index. This API is not generally necessary and the search index will become consistent in a reasonable amount of time. There may be scenarios where you may wish to manually request an index refresh. One example may be if you are using the Search API or Delete Tenant API immediately following a User Create etc, you may wish to request a refresh to ensure the index immediately current before making a query request to the search index.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func RefreshUserSearchIndex(clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/search"
         let httpMethod:HTTPMethod = .PUT
@@ -1884,22 +1738,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Registers a user for an application. If you provide the User and the UserRegistration object on this request, it
-     * will create the user as well as register them for the application. This is called a Full Registration. However, if
-     * you only provide the UserRegistration object, then the user must already exist and they will be registered for the
-     * application. The user id can also be provided and it will either be used to look up an existing user or it will be
-     * used for the newly created User.
-     *
-     * @param userId (Optional) The Id of the user being registered for the application and optionally created.
-     * @param request The request that optionally contains the User and must contain the UserRegistration.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Registers a user for an application. If you provide the User and the UserRegistration object on this request, it will create the user as well as register them for the application. This is called a Full Registration. However, if you only provide the UserRegistration object, then the user must already exist and they will be registered for the application. The user id can also be provided and it will either be used to look up an existing user or it will be used for the newly created User.
+    /// - Parameters:
+    ///   - userId: (Optional) The Id of the user being registered for the application and optionally created.
+    ///   - request: The request that optionally contains the User and must contain the UserRegistration.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func Register(userId:UUID?, request:RegistrationRequest, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
         let data = try! JSONEncoder().encode(request)
@@ -1910,18 +1756,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Removes a user from the family with the given id.
-     *
-     * @param familyId The id of the family to remove the user from.
-     * @param userId The id of the user to remove from the family.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Removes a user from the family with the given id.
+    /// - Parameters:
+    ///   - familyId: The id of the family to remove the user from.
+    ///   - userId: The id of the user to remove from the family.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func RemoveUserFromFamily(familyId:UUID?, userId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/family"
         let urlSegment:[String] = [familyId?.uuidString ?? "", userId?.uuidString ?? ""]
@@ -1931,17 +1773,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Re-sends the verification email to the user.
-     *
-     * @param email The email address of the user that needs a new verification email.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Re-sends the verification email to the user.
+    /// - Parameters:
+    ///   - email: The email address of the user that needs a new verification email.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func ResendEmailVerification(email:String, clientResponse: @escaping(ClientResponse<VerifyEmailResponse>) -> ()){
         let urlPath:String = "/api/user/verify-email"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "email", value: email)]
@@ -1952,8 +1790,12 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Re-sends the verification email to the user. If the Application has configured a specific email template this will be used instead of the tenant configuration.
+    /// - Parameters:
+    ///   - applicationId: The unique Application Id to used to resolve an application specific email template.
+    ///   - email: The email address of the user that needs a new verification email.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func ResendEmailVerificationWithApplicationTemplate(applicationId:UUID?, email:String, clientResponse:@escaping(ClientResponse<VerifyEmailResponse>)-> ()){
         let urlPath:String = "/api/user/verify-email"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "applicationId", value: applicationId?.uuidString ?? ""), URLQueryItem(name: "email", value: email)]
@@ -1963,18 +1805,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Re-sends the application registration verification email to the user.
-     *
-     * @param email The email address of the user that needs a new verification email.
-     * @param applicationId The Id of the application to be verified.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Re-sends the application registration verification email to the user.
+    /// - Parameters:
+    ///   - email: The email address of the user that needs a new verification email.
+    ///   - applicationId: The Id of the application to be verified.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func ResendRegistrationVerification(email:String, applicationId:UUID?, clientResponse: @escaping(ClientResponse<VerifyEmailResponse>) -> ()){
         let urlPath:String = "/api/user/verify-registration"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "email", value: email), URLQueryItem(name: "applicationId", value: applicationId?.uuidString ?? "")]
@@ -1984,17 +1821,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves a single action log (the log of a user action that was taken on a user previously) for the given Id.
-     *
-     * @param actionId The Id of the action to retrieve.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves a single action log (the log of a user action that was taken on a user previously) for the given Id.
+    /// - Parameters:
+    ///   - actionId: The Id of the action to retrieve.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    
     public func RetrieveAction(actionId:UUID, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
         let urlSegment:[String] = [actionId.uuidString]
@@ -2004,17 +1837,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all of the actions for the user with the given Id.
-     *
-     * @param userId The Id of the user to fetch the actions for.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the actions for the user with the given Id. This will return all time based actions that are active, and inactive as well as non-time based actions.
+    /// - Parameters:
+    ///   - userId: The Id of the user to fetch the actions for.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveActions(userId:UUID?, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId?.uuidString ?? "")]
@@ -2024,16 +1852,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieves all of the actions for the user with the given Id that are currently preventing the User from logging in.
-       *
-       * @param userId The Id of the user to fetch the actions for.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
+    
+    /// Retrieves all of the actions for the user with the given Id that are currently preventing the User from logging in.
+    /// - Parameters:
+    ///   - userId: The Id of the user to fetch the actions for.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
 
     public func RetrieveActionsPreventingLogin(userId:UUID?, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
@@ -2044,18 +1868,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all of the actions for the user with the given Id that are currently active.
-     * An active action means one that is time based and has not been canceled, and has not ended.
-     *
-     * @param userId The Id of the user to fetch the actions for.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the actions for the user with the given Id that are currently active. An active action means one that is time based and has not been canceled, and has not ended.
+    /// - Parameters:
+    ///   - userId: The Id of the user to fetch the actions for.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveActiveActions(userId:UUID?, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? ""), URLQueryItem(name: "active", value: "true")]
@@ -2066,16 +1884,11 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the application for the given id or all of the applications if the id is null.
-     *
-     * @param applicationId (Optional) The application id.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Retrieves the application for the given id or all of the applications if the id is null.
+    /// - Parameters:
+    ///   - applicationId: (Optional) The application id.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveApplication(applicationId:UUID?, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationId?.uuidString ?? ""]
@@ -2085,16 +1898,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all of the applications.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the applications.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveApplications(clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let httpMethod:HTTPMethod = .GET
@@ -2103,17 +1910,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves a single audit log for the given Id.
-     *
-     * @param auditLogId The Id of the audit log to retrieve.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves a single audit log for the given Id.
+    /// - Parameters:
+    ///   - auditLogId: The Id of the audit log to retrieve.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveAuditLog(auditLogId:Int, clientResponse: @escaping(ClientResponse<AuditLogResponse>) -> ()){
         let urlPath:String = "/api/system/audit-log"
         let urlSegment:[String] = [String(auditLogId)]
@@ -2124,8 +1926,24 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
+    /// Retrieves the connector with the given Id.
+    /// - Parameters:
+    ///   - connectorId: The Id of the connector.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    public func RetrieveConnector(connectorId:UUID?, clientResponse:@escaping(ClientResponse<ConnectorResponse>) -> ()){
+        let urlPath:String = "/api/connector"
+        let urlSegment:[String] = [connectorId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<ConnectorResponse>) in
+            clientResponse(response)
+        }
+    }
     
+    /// Retrieves all of the connectors.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveConnectors(clientResponse:@escaping(ClientResponse<ConnectorResponse>) -> ()){
         let urlPath:String = "/api/connector"
         let httpMethod:HTTPMethod = .GET
@@ -2134,17 +1952,12 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-
-    /**
-     * Retrieves the Consent for the given Id.
-     *
-     * @param consentId The Id of the consent.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the Consent for the given Id.
+    /// - Parameters:
+    ///   - consentId: The Id of the consent.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveConsent(consentId:UUID?, clientResponse: @escaping(ClientResponse<ConsentResponse>) -> ()){
         let urlPath:String = "/api/consent"
         let urlSegment:[String] = [consentId?.uuidString ?? ""]
@@ -2154,16 +1967,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieves all of the consent.
-       *
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieves all of the consent.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveConsents(clientResponse: @escaping(ClientResponse<ConsentResponse>) -> ()){
         let urlPath:String = "/api/consent"
         let httpMethod:HTTPMethod = .GET
@@ -2172,20 +1979,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the daily active user report between the two instants. If you specify an application id, it will only
-     * return the daily active counts for that application.
-     *
-     * @param applicationId (Optional) The application id.
-     * @param start The start instant as UTC milliseconds since Epoch.
-     * @param end The end instant as UTC milliseconds since Epoch.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the daily active user report between the two instants. If you specify an application id, it will only return the daily active counts for that application.
+    /// - Parameters:
+    ///   - applicationId: (Optional) The application id.
+    ///   - start: The start instant as UTC milliseconds since Epoch.
+    ///   - end: The end instant as UTC milliseconds since Epoch.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveDailyActiveReport(applicationId:UUID?, start:Int, end:Int, clientResponse: @escaping(ClientResponse<DailyActiveUserReportResponse>) -> ()){
         let urlPath:String = "/api/report/daily-active-user"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "application", value: applicationId?.uuidString), URLQueryItem(name: "start", value: String(start)), URLQueryItem(name: "end", value: String(end))]
@@ -2195,17 +1996,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the email template for the given Id. If you don't specify the id, this will return all of the email templates.
-     *
-     * @param emailTemplateId (Optional) The Id of the email template.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the email template for the given Id. If you don't specify the id, this will return all of the email templates.
+    /// - Parameters:
+    ///   - emailTemplateId: (Optional) The Id of the email template.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveEmailTemplate(emailTemplateId:UUID?, clientResponse: @escaping(ClientResponse<EmailTemplateResponse>) -> ()){
         let urlPath:String = "/api/email/template"
         let urlSegment:[String] = [emailTemplateId?.uuidString ?? ""]
@@ -2215,19 +2011,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Creates a preview of the email template provided in the request. This allows you to preview an email template that
-     * hasn't been saved to the database yet. The entire email template does not need to be provided on the request. This
-     * will create the preview based on whatever is given.
-     *
-     * @param request The request that contains the email template and optionally a locale to render it in.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Creates a preview of the email template provided in the request. This allows you to preview an email template that hasn't been saved to the database yet. The entire email template does not need to be provided on the request. This will create the preview based on whatever is given.
+    /// - Parameters:
+    ///   - request: The request that contains the email template and optionally a locale to render it in.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveEmailTemplatePreview(request:PreviewRequest, clientResponse: @escaping(ClientResponse<PreviewResponse>) -> ()){
         let urlPath:String = "/api/email/template/preview"
         let data = try! JSONEncoder().encode(request)
@@ -2237,16 +2026,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all of the email templates.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the email templates.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveEmailTemplates(clientResponse: @escaping(ClientResponse<EmailTemplateResponse>) -> ()){
         let urlPath:String = "/api/email/template"
         let httpMethod:HTTPMethod = .GET
@@ -2255,17 +2038,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieves a single event log for the given Id.
-       *
-       * @param eventLogId The Id of the event log to retrieve.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieves a single event log for the given Id.
+    /// - Parameters:
+    ///   - eventLogId: The Id of the event log to retrieve.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveEventLog(eventLogId:Int, clientResponse: @escaping(ClientResponse<EventLogResponse>) -> ()){
         let urlPath:String = "/api/system/event-log"
         let urlSegment:[String] = [String(eventLogId)]
@@ -2275,17 +2053,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieves all of the families that a user belongs to.
-       *
-       * @param userId The User's id
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieves all of the families that a user belongs to.
+    /// - Parameters:
+    ///   - userId: The User's id
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveFamilies(userId:UUID?, clientResponse: @escaping(ClientResponse<FamilyResponse>) -> ()){
         let urlPath:String = "/api/user/family"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? "")]
@@ -2296,8 +2069,11 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Retrieves all of the members of a family by the unique Family Id.
+    /// - Parameters:
+    ///   - familyId: The unique Id of the Family.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveFamilyMembersByFamilyId(familyId:UUID?, clientResponse:@escaping(ClientResponse<FamilyResponse>) -> ()){
         let urlPath:String = "/api/user/family"
         let urlSegment:[String] = [familyId?.uuidString ?? ""]
@@ -2308,8 +2084,11 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Retrieves the form with the given Id.
+    /// - Parameters:
+    ///   - formId: The Id of the form.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveForm(formId:UUID?, clientResponse:@escaping(ClientResponse<FormResponse>) -> ()){
         let urlPath:String = "/api/form"
         let urlSegment:[String] = [formId?.uuidString ?? ""]
@@ -2320,8 +2099,9 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Retrieves all of the forms.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveForms(clientResponse:@escaping(ClientResponse<FormResponse>) -> ()){
         let urlPath:String = "/api/form"
         let httpMethod:HTTPMethod = .GET
@@ -2331,8 +2111,11 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Retrieves the form field with the given Id.
+    /// - Parameters:
+    ///   - fieldId: The Id of the form field.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveFormField(fieldId:UUID?, clientResponse:@escaping(ClientResponse<FormFieldResponse>) -> ()){
         let urlPath:String = "/api/form/field"
         let urlSegment:[String] = [fieldId?.uuidString ?? ""]
@@ -2343,8 +2126,9 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Retrieves all of the forms fields
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveFormFields(clientResponse:@escaping(ClientResponse<FormFieldResponse>) -> ()){
         let urlPath:String = "/api/form/field"
         let httpMethod:HTTPMethod = .GET
@@ -2354,17 +2138,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the group for the given Id.
-     *
-     * @param groupId The Id of the group.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-
+    
+    /// Retrieves the group for the given Id.
+    /// - Parameters:
+    ///   - groupId: The Id of the group.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveGroup(groupId:UUID, clientResponse: @escaping(ClientResponse<GroupResponse>) -> ()){
         let urlPath:String = "/api/group"
         let urlSegment:[String] = [groupId.uuidString]
@@ -2375,15 +2154,10 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves all of the groups.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the groups.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveGroups(clientResponse: @escaping(ClientResponse<GroupResponse>) -> ()){
         let urlPath:String = "/api/group"
         let httpMethod:HTTPMethod = .GET
@@ -2393,18 +2167,11 @@ public class FusionAuthClient{
         })
     }
 
-
-    /**
-     * Retrieves the identity provider for the given id or all of the identity providers if the id is null.
-     *
-     * @param identityProviderId (Optional) The identity provider id.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-
+    /// Retrieves the identity provider for the given id or all of the identity providers if the id is null.
+    /// - Parameters:
+    ///   - identityProviderId: (Optional) The identity provider id.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveIdentityProvider(identityProviderId:UUID?, clientResponse: @escaping(ClientResponse<IdentityProviderResponse>) -> ()){
         let urlPath:String = "/api/identity-provider"
         let urlSegment:[String] = [identityProviderId?.uuidString ?? ""]
@@ -2414,16 +2181,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all of the identity providers.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the identity providers.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveIdentityProviders(clientResponse: @escaping(ClientResponse<IdentityProviderResponse>) -> ()){
         let urlPath:String = "/api/identity-provider"
         let httpMethod:HTTPMethod = .GET
@@ -2433,8 +2194,11 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Retrieves all of the actions for the user with the given Id that are currently inactive. An inactive action means one that is time based and has been canceled or has expired, or is not time based. This is an asynchronous method.
+    /// - Parameters:
+    ///   - userId: The Id of the user to fetch the actions for.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveInactiveActions(userId:UUID?, clientResponse:@escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? ""), URLQueryItem(name: "active", value: "false")]
@@ -2444,16 +2208,10 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-
-    /**
-     * Retrieves all of the applications that are currently inactive.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the applications that are currently inactive.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveInactiveApplications(clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "inactive", value: "true")]
@@ -2463,16 +2221,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all of the user actions that are currently inactive.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the user actions that are currently inactive.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveInactiveUserActions(clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "inactive", value: "true")]
@@ -2483,16 +2235,10 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the available integrations.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-    public func RetrieveIntegration(clientResponse: @escaping(ClientResponse<IntegrationResponse>) -> ()){
+    /// Retrieves the available integrations.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    public func RetrieveIntegrations(clientResponse: @escaping(ClientResponse<IntegrationResponse>) -> ()){
         let urlPath:String = "/api/integration"
         let httpMethod:HTTPMethod = .GET
 
@@ -2501,18 +2247,11 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the Public Key configured for verifying JSON Web Tokens (JWT) by the key Id. If the key Id is provided a
-     * single public key will be returned if one is found by that id. If the optional parameter key Id is not provided all
-     * public keys will be returned.
-     *
-     * @param keyId (Optional) The Id of the public key.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Retrieves the Public Key configured for verifying JSON Web Tokens (JWT) by the key Id (kid).
+    /// - Parameters:
+    ///   - keyId: The Id of the public key (kid).
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveJWTPublicKey(keyId:String, clientResponse: @escaping(ClientResponse<PublicKeyResponse>) -> ()){
         let urlPath:String = "/api/jwt/public-key"
         let urlSegment:[String] = [keyId]
@@ -2522,18 +2261,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-
-    /**
-     * Retrieves the Public Key configured for verifying the JSON Web Tokens (JWT) issued by the Login API by the Application Id.
-     *
-     * @param applicationId The Id of the Application for which this key is used.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the Public Key configured for verifying the JSON Web Tokens (JWT) issued by the Login API by the Application Id.
+    /// - Parameters:
+    ///   - applicationId: The Id of the Application for which this key is used.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveJWTPublicKeyByApplicationId(applicationId:String, clientResponse: @escaping(ClientResponse<PublicKeyResponse>) -> ()){
         let urlPath:String = "/api/jwt/public-key"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "applicationId", value: applicationId)]
@@ -2543,17 +2276,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all Public Keys configured for verifying JSON Web Tokens (JWT).
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-
+    
+    /// Retrieves all Public Keys configured for verifying JSON Web Tokens (JWT).
+    /// - Parameter clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveJWTPublicKeys(clientResponse: @escaping(ClientResponse<PublicKeyResponse>) -> ()){
         let urlPath:String = "/api/jwt/public-key"
         let httpMethod:HTTPMethod = .GET
@@ -2562,17 +2288,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieves the key for the given Id.
-       *
-       * @param keyId The Id of the key.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieves the key for the given Id.
+    /// - Parameters:
+    ///   - keyId: The Id of the key.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveKey(keyId:UUID?, clientResponse: @escaping(ClientResponse<KeyResponse>) -> ()){
         let urlPath:String = "/api/key"
         let urlSegment:[String] = [keyId?.uuidString ?? ""]
@@ -2582,16 +2303,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieves all of the keys.
-       *
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieves all of the keys.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveKeys(clientResponse: @escaping(ClientResponse<KeyResponse>) ->()){
         let urlPath:String = "/api/key"
         let httpMethod:HTTPMethod = .GET
@@ -2599,17 +2314,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieves the lambda for the given Id.
-       *
-       * @param lambdaId The Id of the lambda.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieves the lambda for the given Id.
+    /// - Parameters:
+    ///   - lambdaId: The Id of the lambda.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveLambda(lambdaId:UUID?, clientResponse: @escaping(ClientResponse<LambdaResponse>) -> ()){
         let urlPath:String = "/api/lambda"
         let urlSegment:[String] = [lambdaId?.uuidString ?? ""]
@@ -2619,16 +2329,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieves all of the lambdas.
-       *
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieves all of the lambdas.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveLambdas(clientResponse: @escaping(ClientResponse<LambdaResponse>) ->()){
         let urlPath:String = "/api/lambda"
         let httpMethod:HTTPMethod = .GET
@@ -2637,17 +2341,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieves all of the lambdas for the provided type.
-       *
-       * @param type The type of the lambda to return.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieves all of the lambdas for the provided type.
+    /// - Parameters:
+    ///   - type: The type of the lambda to return.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveLambdasByType(type:LambdaType, clientResponse: @escaping(ClientResponse<LambdaResponse>) ->()){
         let urlPath:String = "/api/lambda"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "type", value: type.rawValue)]
@@ -2657,20 +2356,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the login report between the two instants. If you specify an application id, it will only return the
-     * login counts for that application.
-     *
-     * @param applicationId (Optional) The application id.
-     * @param start The start instant as UTC milliseconds since Epoch.
-     * @param end The end instant as UTC milliseconds since Epoch.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the login report between the two instants. If you specify an application id, it will only return the login counts for that application.
+    /// - Parameters:
+    ///   - applicationId: (Optional) The application id.
+    ///   - start: The start instant as UTC milliseconds since Epoch.
+    ///   - end: The end instant as UTC milliseconds since Epoch.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveLoginReport(applicationId:UUID?, start:Int, end:Int, clientResponse: @escaping(ClientResponse<LoginReportResponse>) -> ()){
         let urlPath:String = "/api/report/login"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "applicationId", value: applicationId?.uuidString), URLQueryItem(name: "start", value: String(start)), URLQueryItem(name: "end", value: String(end))]
@@ -2680,20 +2373,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the monthly active user report between the two instants. If you specify an application id, it will only
-     * return the monthly active counts for that application.
-     *
-     * @param applicationId (Optional) The application id.
-     * @param start The start instant as UTC milliseconds since Epoch.
-     * @param end The end instant as UTC milliseconds since Epoch.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the monthly active user report between the two instants. If you specify an application id, it will only return the monthly active counts for that application.
+    /// - Parameters:
+    ///   - applicationId: (Optional) The application id.
+    ///   - start: The start instant as UTC milliseconds since Epoch.
+    ///   - end: The end instant as UTC milliseconds since Epoch.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveMonthlyActiveReport(applicationId:UUID?, start:Int, end:Int, clientResponse: @escaping(ClientResponse<MonthlyActiveUserReportResponse>) -> ()){
         let urlPath:String = "/api/report/monthly-active-user"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "applicationId", value: applicationId?.uuidString), URLQueryItem(name: "start", value: String(start)), URLQueryItem(name: "end", value: String(end))]
@@ -2703,17 +2390,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the Oauth2 configuration for the application for the given Application Id.
-     *
-     * @param applicationId The Id of the Application to retrieve OAuth configuration.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the Oauth2 configuration for the application for the given Application Id.
+    /// - Parameters:
+    ///   - applicationId: The Id of the Application to retrieve OAuth configuration.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveOauthConfiguration(applicationId:UUID, clientResponse: @escaping(ClientResponse<OAuthConfigurationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationId.uuidString, "oauth-configuration"]
@@ -2724,8 +2406,9 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Returns the well known OpenID Configuration JSON document
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveOpenIdConfigurations(clientResponse:@escaping(ClientResponse<OpenIdConfiguration>) -> ()){
         let urlPath:String = "/.well-known/openid-configuration"
         let httpMethod:HTTPMethod = .GET
@@ -2735,15 +2418,9 @@ public class FusionAuthClient{
         }
     }
 
-    /**
-     * Retrieves the password validation rules.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Retrieves the password validation rules for a specific tenant. This method requires a tenantId to be provided through the use of a Tenant scoped API key or an HTTP header X-FusionAuth-TenantId to specify the Tenant Id. This API does not require an API key.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrievePasswordValidationRules(clientResponse: @escaping(ClientResponse<PasswordValidationRules>) -> ()){
         let urlPath:String = "/api/system-configuration/password-validation-rules"
         let httpMethod:HTTPMethod = .GET
@@ -2753,18 +2430,11 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the password validation rules for a specific tenant.
-     *
-     * This API does not require an API key.
-     *
-     * @param tenantId The Id of the tenant.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Retrieves the password validation rules for a specific tenant.
+    /// - Parameters:
+    ///   - tenantId: The Id of the tenant.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrievePasswordValidationRulesWithTenantId(tenantId:UUID?, clientResponse: @escaping(ClientResponse<PasswordValidatonRulesResponse>) -> ()){
         let urlPath:String = "/api/tenant/password-validation-rules"
         let urlSegment:[String] = [tenantId?.uuidString ?? ""]
@@ -2774,17 +2444,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieves all of the children for the given parent email address.
-       *
-       * @param parentEmail The email of the parent.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieves all of the children for the given parent email address.
+    /// - Parameters:
+    ///   - parentEmail: The email of the parent.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrievePendingChildren(parentEmail:String, clientResponse: @escaping(ClientResponse<PendingResponse>) -> ()){
         let urlPath:String = "/api/user/family/pending"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "parentEmail", value: parentEmail)]
@@ -2794,18 +2459,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the last number of login records.
-     *
-     * @param offset The initial record. e.g. 0 is the last login, 100 will be the 100th most recent login.
-     * @param limit (Optional, defaults to 10) The number of records to retrieve.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the last number of login records.
+    /// - Parameters:
+    ///   - offset: The initial record. e.g. 0 is the last login, 100 will be the 100th most recent login.
+    ///   - limit: (Optional, defaults to 10) The number of records to retrieve.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveRecentLogins(offset:Int, limit:Int = 10, clientResponse: @escaping(ClientResponse<RecentLoginResponse>) -> ()){
         let urlPath:String = "/api/user/recent-login"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "offset", value: String(offset)), URLQueryItem(name: "limit", value: String(limit))]
@@ -2815,18 +2475,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-
-    /**
-     * Retrieves the refresh tokens that belong to the user with the given Id.
-     *
-     * @param userId The Id of the user.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the refresh tokens that belong to the user with the given Id.
+    /// - Parameters:
+    ///   - userId: The Id of the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveRefreshTokens(userId:UUID, clientResponse: @escaping(ClientResponse<RefreshResponse>) -> ()){
         let urlPath:String = "/api/jwt/refresh"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId.uuidString)]
@@ -2836,18 +2490,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the user registration for the user with the given id and the given application id.
-     *
-     * @param userId The Id of the user.
-     * @param applicationId The Id of the application.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the user registration for the user with the given id and the given application id.
+    /// - Parameters:
+    ///   - userId: The Id of the user.
+    ///   - applicationId: The Id of the application.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveRegistrations(userId:UUID, applicationId:UUID, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
         let urlSegment:[String] = [userId.uuidString, applicationId.uuidString]
@@ -2857,20 +2506,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the registration report between the two instants. If you specify an application id, it will only return
-     * the registration counts for that application.
-     *
-     * @param applicationId (Optional) The application id.
-     * @param start The start instant as UTC milliseconds since Epoch.
-     * @param end The end instant as UTC milliseconds since Epoch.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    ///  Retrieves the registration report between the two instants. If you specify an application id, it will only return the registration counts for that application.
+    /// - Parameters:
+    ///   - applicationId: (Optional) The application id.
+    ///   - start: The start instant as UTC milliseconds since Epoch.
+    ///   - end: The end instant as UTC milliseconds since Epoch.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveRegistrationReport(applicationId:UUID?, start:Int, end:Int, clientResponse: @escaping(ClientResponse<RegistrationReportResponse>) -> ()){
         let urlPath:String = "/api/report/registration"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "applicationId", value: applicationId?.uuidString), URLQueryItem(name: "start", value: String(start)), URLQueryItem(name: "end", value: String(end))]
@@ -2880,16 +2523,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the system configuration.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the system configuration.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveSystemConfiguration(clientResponse: @escaping(ClientResponse<SystemConfigurationResponse>) -> ()){
         let urlPath:String = "/api/system-configuration"
         let httpMethod:HTTPMethod = .GET
@@ -2899,16 +2536,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the tenant for the given Id.
-     *
-     * @param tenantId The Id of the tenant.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the tenant for the given Id.
+    /// - Parameters:
+    ///   - tenantId: The Id of the tenant.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveTenant(tenantId:UUID, clientResponse: @escaping(ClientResponse<TenantResponse>) -> ()){
         let urlPath:String = "/api/tenant"
         let urlSegment:[String] = [tenantId.uuidString]
@@ -2918,16 +2551,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all of the tenants.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the tenants.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveTenants(clientResponse: @escaping(ClientResponse<TenantResponse>) -> ()){
         let urlPath:String = "/api/tenant"
         let httpMethod:HTTPMethod = .GET
@@ -2937,16 +2564,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-       * Retrieves the theme for the given Id.
-       *
-       * @param themeId The Id of the theme.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieves the theme for the given Id.
+    /// - Parameters:
+    ///   - themeId: The Id of the theme.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveTheme(themeId:UUID?, clientResponse: @escaping(ClientResponse<ThemeResponse>) -> ()){
         let urlPath:String = "/api/theme"
         let urlSegment:[String] = [themeId?.uuidString  ?? ""]
@@ -2957,8 +2580,9 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Retrieves all of the themes.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveThemes(clientResponse: @escaping(ClientResponse<ThemeResponse>) -> ()){
         let urlPath:String = "/api/theme"
         let httpMethod:HTTPMethod = .GET
@@ -2967,17 +2591,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the totals report. This contains all of the total counts for each application and the global registration
-     * count.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// DescriptionRetrieves the totals report. This contains all of the total counts for each application and the global registration count.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveTotalReport(clientResponse: @escaping(ClientResponse<TotalsReportResponse>) -> ()){
         let urlPath:String = "/api/report/totals"
         let httpMethod:HTTPMethod = .GET
@@ -2986,17 +2603,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the user for the given Id.
-     *
-     * @param userId The Id of the user.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the user for the given Id.
+    /// - Parameters:
+    ///   - userId: The Id of the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUser(userId:UUID, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let urlSegment:[String] = [userId.uuidString]
@@ -3006,18 +2618,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the user action for the given Id. If you pass in null for the id, this will return all of the user
-     * actions.
-     *
-     * @param userActionId (Optional) The Id of the user action.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the user action for the given Id. If you pass in null for the id, this will return all of the user actions.
+    /// - Parameters:
+    ///   - userActionId: (Optional) The Id of the user action.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserAction(userActionId:UUID?, clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
         let urlSegment:[String] = [userActionId?.uuidString ?? ""]
@@ -3028,17 +2634,11 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the user action reason for the given Id. If you pass in null for the id, this will return all of the user
-     * action reasons.
-     *
-     * @param userActionReasonId (Optional) The Id of the user action reason.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Retrieves the user action reason for the given Id. If you pass in null for the id, this will return all of the user action reasons.
+    /// - Parameters:
+    ///   - userActionReasonId: (Optional) The Id of the user action reason.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserActionReason(userActionReasonId:UUID?, clientResponse: @escaping(ClientResponse<UserActionReasonResponse>) -> ()){
         let urlPath:String = "/api/user-action-reason"
         let urlSegment:[String] = [userActionReasonId?.uuidString ?? ""]
@@ -3048,16 +2648,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all the user action reasons.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all the user action reasons.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserActionReasons(clientResponse: @escaping(ClientResponse<UserActionReasonResponse>) -> ()){
         let urlPath:String = "/api/user-action-reason"
         let httpMethod:HTTPMethod = .GET
@@ -3067,15 +2661,10 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves all of the user actions.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the user actions.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserActions(clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action-action"
         let httpMethod:HTTPMethod = .GET
@@ -3085,18 +2674,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the user by a change password Id. The intended use of this API is to retrieve a user after the forgot
-     * password workflow has been initiated and you may not know the user's email or username.
-     *
-     * @param changePasswordId The unique change password Id that was sent via email or returned by the Forgot Password API.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-
+    
+    /// Retrieves the user by a change password Id. The intended use of this API is to retrieve a user after the forgot password workflow has been initiated and you may not know the user's email or username.
+    /// - Parameters:
+    ///   - changePasswordId: The unique change password Id that was sent via email or returned by the Forgot Password API.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserByChangePasswordId(changePasswordId:String, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "changePasswordId", value: changePasswordId)]
@@ -3106,17 +2689,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the user for the given email.
-     *
-     * @param email The email of the user.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the user for the given email.
+    /// - Parameters:
+    ///   - email: The email of the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserByEmail(email:String, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "email", value: email)]
@@ -3125,17 +2703,12 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-
-    /**
-     * Retrieves the user for the loginId. The loginId can be either the username or the email.
-     *
-     * @param loginId The email or username of the user.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the user for the loginId. The loginId can be either the username or the email.
+    /// - Parameters:
+    ///   - loginId: The email or username of the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserByLoginId(loginId:String, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "loginId", value: loginId)]
@@ -3146,16 +2719,12 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the user for the given username.
-     *
-     * @param username The username of the user.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the user for the given username.
+    /// - Parameters:
+    ///   - username: The username of the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserByUsername(username:String, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "username", value: username)]
@@ -3166,17 +2735,11 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-     * Retrieves the user by a verificationId. The intended use of this API is to retrieve a user after the forgot
-     * password workflow has been initiated and you may not know the user's email or username.
-     *
-     * @param verificationId The unique verification Id that has been set on the user object.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    /// Retrieves the user by a verificationId. The intended use of this API is to retrieve a user after the forgot password workflow has been initiated and you may not know the user's email or username.
+    /// - Parameters:
+    ///   - verificationId: The unique verification Id that has been set on the user object.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserByVerificationId(verificationId:String, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "verificationId", value: verificationId)]
@@ -3186,17 +2749,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all of the comments for the user with the given Id.
-     *
-     * @param userId The Id of the user.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves all of the comments for the user with the given Id.
+    /// - Parameters:
+    ///   - userId: The Id of the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserComments(userId:UUID, clientResponse: @escaping(ClientResponse<UserCommentResponse>) -> ()){
         let urlPath:String = "/api/user/comment"
         let urlSegment:[String] = [userId.uuidString]
@@ -3206,17 +2764,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Retrieve a single User consent by Id.
-       *
-       * @param userConsentId The User consent Id
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Retrieve a single User consent by Id.
+    /// - Parameters:
+    ///   - userConsentId: The User consent Id
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserConsent(userConsentId:UUID?, clientResponse: @escaping(ClientResponse<UserConsentResponse>) -> ()){
         let urlPath:String = "/api/user/consent"
         let urlSegment:[String] = [userConsentId?.uuidString ?? ""]
@@ -3226,7 +2779,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
+    
+    /// Retrieves all of the consents for a User.
+    /// - Parameters:
+    ///   - userId: The User's Id
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserConsents(userId:UUID?, clientResponse: @escaping(ClientResponse<UserConsentResponse>) -> ()){
         let urlpath:String = "/api/user/consent"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? "")]
@@ -3237,8 +2795,11 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Call the UserInfo endpoint to retrieve User Claims from the access token issued by FusionAuth.
+    /// - Parameters:
+    ///   - encodedJWT: The encoded JWT (access token).
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserInfoFromAccessToken(encodedJWT:String, clientResponse:@escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "oauth2/userinfo"
         let authorization:String = ("Bearer " + encodedJWT)
@@ -3249,20 +2810,16 @@ public class FusionAuthClient{
         }
         
     }
-
-    /**
-     * Retrieves the last number of login records for a user.
-     *
-     * @param userId The Id of the user.
-     * @param offset The initial record. e.g. 0 is the last login, 100 will be the 100th most recent login.
-     * @param limit (Optional, defaults to 10) The number of records to retrieve.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-    public func RetrieveUserLoginReport(userId:UUID, offset:Int, limit:Int, clientResponse: @escaping(ClientResponse<LoginReportResponse>) -> ()){
+    
+    /// Retrieves the login report between the two instants for a particular user by Id. If you specify an application id, it will only return the login counts for that application.
+    /// - Parameters:
+    ///   - applicationId: (Optional) The application id.
+    ///   - userId: The userId id.
+    ///   - offset: The start instant as UTC milliseconds since Epoch.
+    ///   - limit: The end instant as UTC milliseconds since Epoch.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    public func RetrieveUserLoginReport(applicationId:UUID?, userId:UUID, offset:Int, limit:Int, clientResponse: @escaping(ClientResponse<LoginReportResponse>) -> ()){
         let urlPath:String = "/api/report/user-login"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId.uuidString), URLQueryItem(name: "offset", value: String(offset)), URLQueryItem(name: "limit", value: String(limit))]
         let httpMethod:HTTPMethod = .GET
@@ -3271,21 +2828,15 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the login report between the two instants for a particular user by login Id. If you specify an application id, it will only return the
-     * login counts for that application.
-     *
-     * @param applicationId (Optional) The application id.
-     * @param loginId The userId id.
-     * @param start The start instant as UTC milliseconds since Epoch.
-     * @param end The end instant as UTC milliseconds since Epoch.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the login report between the two instants for a particular user by login Id. If you specify an application id, it will only return the login counts for that application.
+    /// - Parameters:
+    ///   - applicationId: (Optional) The application id.
+    ///   - loginId: The userId id.
+    ///   - start: The start instant as UTC milliseconds since Epoch.
+    ///   - end: The end instant as UTC milliseconds since Epoch.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserLoginReportByLoginId(applicationId:UUID?, loginId:String, start:UInt64, end:UInt64, clientResponse:@escaping(ClientResponse<LoginReportResponse>) -> ()){
         let urlPath:String = "/api/report/login"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "applicationId", value: applicationId?.uuidString ?? ""), URLQueryItem(name: "loginId", value: loginId), URLQueryItem(name: "start", value: String(start)), URLQueryItem(name: "end", value: String(end))]
@@ -3295,19 +2846,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the last number of login records for a user.
-     *
-     * @param userId The Id of the user.
-     * @param offset The initial record. e.g. 0 is the last login, 100 will be the 100th most recent login.
-     * @param limit (Optional, defaults to 10) The number of records to retrieve.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the last number of login records for a user.
+    /// - Parameters:
+    ///   - userId: The Id of the user.
+    ///   - offset: The initial record. e.g. 0 is the last login, 100 will be the 100th most recent login.
+    ///   - limit: (Optional, defaults to 10) The number of records to retrieve.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserRecentLogins(userId:UUID, offset:Int, limit:Int = 10, clientResponse:@escaping(ClientResponse<RecentLoginResponse>) -> ()){
         let urlPath:String = "/api/user/recent-login"
         let urlParameter:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId.uuidString), URLQueryItem(name: "offset", value: String(offset)), URLQueryItem(name: "limit", value: String(limit))]
@@ -3317,17 +2863,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-    * Retrieves the user for the given Id. This method does not use an API key, instead it uses a JSON Web Token (JWT) for authentication.
-    *
-    * @param encodedJWT The encoded JWT (access token).
-    * @return When successful, the response will contain the log of the action. If there was a validation error or any
-    * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-    * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-    * IOException.
-    */
-
+    
+    /// Retrieves the user for the given Id. This method does not use an API key, instead it uses a JSON Web Token (JWT) for authentication.
+    /// - Parameters:
+    ///   - encodedJWT: The encoded JWT (access token).
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserUsingJWT(encodedJWT:String, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let authorization:String = ("JWT" + encodedJWT)
@@ -3337,17 +2878,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the webhook for the given Id. If you pass in null for the id, this will return all the webhooks.
-     *
-     * @param webhookId (Optional) The Id of the webhook.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the webhook for the given Id. If you pass in null for the id, this will return all the webhooks.
+    /// - Parameters:
+    ///   - webhookId: (Optional) The Id of the webhook.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveWebhook(webhookId:UUID?, clientResponse: @escaping(ClientResponse<WebhookResponse>) -> ()){
         let urlPath:String = "/api/webhook"
         let urlSegment:[String] = [webhookId?.uuidString ?? ""]
@@ -3357,17 +2893,10 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves all the webhooks.
-     *
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-
+    
+    /// Retrieves all the webhooks.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveWebhooks(clientResponse: @escaping(ClientResponse<WebhookResponse>) -> ()){
         let urlPath:String = "/api/webhook"
         let httpMethod:HTTPMethod = .GET
@@ -3376,20 +2905,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Revokes a single refresh token, all tokens for a user or all tokens for an application. If you provide a user id
-     * and an application id, this will delete all the refresh tokens for that user for that application.
-     *
-     * @param token (Optional) The refresh token to delete.
-     * @param userId (Optional) The user id whose tokens to delete.
-     * @param applicationId (Optional) The application id of the tokens to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    ///  Revokes a single refresh token, all tokens for a user or all tokens for an application. If you provide a user id and an application id, this will delete all the refresh tokens for that user for that application.
+    /// - Parameters:
+    ///   - token: (Optional) The refresh token to delete.
+    ///   - userId: (Optional) The user id whose tokens to delete.
+    ///   - applicationId: (Optional) The application id of the tokens to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RevokeRefreshToken(token:String, userId:UUID?, applicationId:UUID?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/jwt/refresh"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "token", value: token), URLQueryItem(name: "userId", value: userId?.uuidString), URLQueryItem(name: "applicationId", value: applicationId?.uuidString)]
@@ -3399,19 +2922,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Revokes a single refresh token, all tokens for a user or all tokens for an application. If you provide a user id
-     * and an application id, this will delete all the refresh tokens for that user for that application.
-     *
-     * @param token (Optional) The refresh token to delete.
-     * @param userId (Optional) The user id whose tokens to delete.
-     * @param applicationId (Optional) The application id of the tokens to delete.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
+    
+    /// Revokes a single User consent by Id.
+    /// - Parameters:
+    ///   - userConsentId: The User Consent Id
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RevokeUserConsent(userConsentId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/consent"
         let urlSegment:[String] = [userConsentId?.uuidString ?? ""]
@@ -3421,17 +2937,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Searches the audit logs with the specified criteria and pagination.
-     *
-     * @param request The search criteria and pagination information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Searches the audit logs with the specified criteria and pagination.
+    /// - Parameters:
+    ///   - request: The search criteria and pagination information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SearchAuditLogs(request:AuditLogSearchRequest, clientResponse: @escaping(ClientResponse<LoginRecordSearchResponse>) -> ()){
         let urlPath:String = "/api/system/audit-log/search"
         let data = try! JSONEncoder().encode(request)
@@ -3441,17 +2952,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Searches the event logs with the specified criteria and pagination.
-       *
-       * @param request The search criteria and pagination information.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Searches the event logs with the specified criteria and pagination.
+    /// - Parameters:
+    ///   - request: The search criteria and pagination information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SearchEventLogs(request:EventLogSearchRequest, clientResponse:@escaping(ClientResponse<EventLogSearchResponse>) -> ()){
         let urlPath:String = "/api/system/event-log/search"
         let data = try! JSONEncoder().encode(request)
@@ -3461,17 +2967,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Searches the login records with the specified criteria and pagination.
-     *
-     * @param request The search criteria and pagination information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Searches the login records with the specified criteria and pagination.
+    /// - Parameters:
+    ///   - request: The search criteria and pagination information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SearchLoginRecords(request:LoginRecordSearchRequest, clientResponse:@escaping(ClientResponse<LoginRecordSearchResponse>) -> ()){
         let urlPath:String = "/api/system/login-record/search"
         let data = try! JSONEncoder().encode(request)
@@ -3481,17 +2982,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the users for the given ids. If any id is invalid, it is ignored.
-     *
-     * @param ids The user ids to search for.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the users for the given ids. If any id is invalid, it is ignored.
+    /// - Parameters:
+    ///   - ids: The user ids to search for
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SearchUsersByIds(ids:[UUID], clientResponse: @escaping(ClientResponse<SearchResponse>) -> ()){
         let urlPath:String = "/api/user/search"
         var urlParameter:[URLQueryItem]{
@@ -3508,18 +3004,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Retrieves the users for the given search criteria and pagination.
-     *
-     * @param request The search criteria and pagination constraints. Fields used: queryString, numberOfResults, startRow,
-     * and sort fields.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Retrieves the users for the given search criteria and pagination.
+    /// - Parameters:
+    ///   - request: The search criteria and pagination constraints. Fields used: ids, query, queryString, numberOfResults, orderBy, startRow, and sortFields.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SearchUsersByQuery(request:SearchRequest, clientResponse: @escaping(ClientResponse<SearchResponse>) -> ()){
         let urlPath:String = "/api/user/search"
         let data = try! JSONEncoder().encode(request)
@@ -3531,19 +3021,13 @@ public class FusionAuthClient{
         })
 
     }
-
-    /**
-     * Send an email using an email template id. You can optionally provide <code>requestData</code> to access key value
-     * pairs in the email template.
-     *
-     * @param emailTemplateId The id for the template.
-     * @param request The send email request that contains all of the information used to send the email.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Send an email using an email template id. You can optionally provide <code>requestData</code> to access key value pairs in the email template.
+    /// - Parameters:
+    ///   - emailTemplateId: The id for the template.
+    ///   - request: The send email request that contains all of the information used to send the email.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SendEmail(emailTemplateId:UUID, request:SendRequest, clientResponse: @escaping(ClientResponse<SendResponse>) -> ()){
         let urlPath:String = "/api/email/send"
         let urlSegment:[String] = [emailTemplateId.uuidString]
@@ -3554,17 +3038,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Sends out an email to a parent that they need to register and create a family or need to log in and add a child to their existing family.
-       *
-       * @param request The request object that contains the parent email.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Sends out an email to a parent that they need to register and create a family or need to log in and add a child to their existing family.
+    /// - Parameters:
+    ///   - request: The request object that contains the parent email.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SendFamilyRequestEmail(request:FamilyEmailRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/family/request"
         let data = try! JSONEncoder().encode(request)
@@ -3574,17 +3053,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Send a passwordless authentication code in an email to complete login.
-     *
-     * @param request The passwordless send request that contains all of the information used to send an email containing a code.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Send a passwordless authentication code in an email to complete login.
+    /// - Parameters:
+    ///   - request: The passwordless send request that contains all of the information used to send an email containing a code.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SendPasswordlessCode(request:PasswordlessSendRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/passwordless/send"
         let data = try! JSONEncoder().encode(request)
@@ -3593,20 +3067,13 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
-
     }
-
-    /**
-     * Send a Two Factor authentication code to assist in setting up Two Factor authentication or disabling.
-     *
-     * @param request The request object that contains all of the information used to send the code.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
-
+    
+    /// Send a Two Factor authentication code to assist in setting up Two Factor authentication or disabling.
+    /// - Parameters:
+    ///   - request: The request object that contains all of the information used to send the code.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SendTwoFactorCode(request:TwoFactorSendRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/two-factor/send"
         let data = try! JSONEncoder().encode(request)
@@ -3616,17 +3083,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Send a Two Factor authentication code to allow the completion of Two Factor authentication.
-     *
-     * @param twoFactorId The Id returned by the Login API necessary to complete Two Factor authentication.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Send a Two Factor authentication code to allow the completion of Two Factor authentication.
+    /// - Parameters:
+    ///   - twoFactorId: The Id returned by the Login API necessary to complete Two Factor authentication.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SendTwoFactorCodeForLogin(twoFactorId:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/two-factor/send"
         let urlSegment:[String] = [twoFactorId]
@@ -3637,8 +3099,11 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Begins a login request for a 3rd party login that requires user interaction such as HYPR.
+    /// - Parameters:
+    ///   - request: The third-party login request that contains information from the third-party login providers that FusionAuth uses to reconcile the user's account.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func StartIdentityProviderLogin(request:IdentityProviderStartLoginRequest, clientResponse:@escaping(ClientResponse<IdentityProviderStartLoginResponse>) -> ()){
         let urlPath:String = "/api/identity-provider/start"
         let data = try! JSONEncoder().encode(request)
@@ -3649,17 +3114,11 @@ public class FusionAuthClient{
         })
     }
 
-    /**
-    * Start a passwordless login request by generating a passwordless code. This code can be sent to the User using the Send
-    * Passwordless Code API or using a mechanism outside of FusionAuth. The passwordless login is completed by using the Passwordless Login API with this code.
-    *
-    * @param request The passwordless start request that contains all of the information used to begin the passwordless login request.
-    * @return When successful, the response will contain the log of the action. If there was a validation error or any
-    * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-    * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-    * IOException.
-    */
-
+    /// Start a passwordless login request by generating a passwordless code. This code can be sent to the User using the Send Passwordless Code API or using a mechanism outside of FusionAuth. The passwordless login is completed by using the Passwordless Login API with this code.
+    /// - Parameters:
+    ///   - request: The passwordless start request that contains all of the information used to begin the passwordless login request.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func StartPasswordlessLogin(request:PasswordlessStartRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/passwordless/start"
         let data = try! JSONEncoder().encode(request)
@@ -3669,17 +3128,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Complete login using a 2FA challenge
-     *
-     * @param request The login request that contains the user credentials used to log them in.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Complete login using a 2FA challenge
+    /// - Parameters:
+    ///   - request: The login request that contains the user credentials used to log them in.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func TwoFactorLogin(request:TwoFactorLoginRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/two-factor/login"
         let data = try! JSONEncoder().encode(request)
@@ -3689,18 +3143,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the application with the given Id.
-     *
-     * @param applicationId The Id of the application to update.
-     * @param request The request that contains all of the new application information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the application with the given Id.
+    /// - Parameters:
+    ///   - applicationId: The Id of the application to update.
+    ///   - request: The request that contains all of the new application information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateApplication(applicationId:UUID, request:ApplicationRequest, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationId.uuidString]
@@ -3711,19 +3160,14 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the application role with the given id for the application.
-     *
-     * @param applicationId The Id of the application that the role belongs to.
-     * @param roleId The Id of the role to update.
-     * @param request The request that contains all of the new role information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the application role with the given id for the application.
+    /// - Parameters:
+    ///   - applicationId: The Id of the application that the role belongs to.
+    ///   - roleId: The Id of the role to update.
+    ///   - request: The request that contains all of the new role information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateApplicationRole(applicationId:UUID, roleId:UUID, request:ApplicationRequest, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationId.uuidString, "role", roleId.uuidString]
@@ -3735,8 +3179,12 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Updates the connector with the given Id.
+    /// - Parameters:
+    ///   - connectorId: The Id of the connector to update.
+    ///   - request: The request object that contains all of the new connector information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateConnector(connectorId:UUID?, request:ConnectorRequest, clientResponse:@escaping(ClientResponse<ConnectorResponse>) -> ()){
         let urlPath:String = "/api/connector"
         let urlSegment:[String] = [connectorId?.uuidString ?? ""]
@@ -3747,18 +3195,13 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-
-    /**
-     * Updates the consent with the given Id.
-     *
-     * @param consentId The Id of the consent to update.
-     * @param request The request that contains all of the new consent information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Description
+    /// - Parameters:
+    ///   - consentId: The Id of the consent to update.
+    ///   - request: The request that contains all of the new consent information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateConsent(consentId:UUID?, request:ConsentRequest, clientResponse: @escaping(ClientResponse<ConsentResponse>) -> ()){
         let urlPath:String = "/api/consent"
         let urlSegment:[String] = [consentId?.uuidString ?? ""]
@@ -3770,18 +3213,13 @@ public class FusionAuthClient{
         })
 
     }
-
-    /**
-     * Updates the email template with the given Id.
-     *
-     * @param emailTemplateId The Id of the email template to update.
-     * @param request The request that contains all of the new email template information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the email template with the given Id.
+    /// - Parameters:
+    ///   - emailTemplateId: The Id of the email template to update.
+    ///   - request: The request that contains all of the new email template information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateEmailTemplate(emailTemplateId:UUID, request:EmailTemplateRequest, clientResponse: @escaping(ClientResponse<EmailTemplateResponse>) -> ()){
         let urlPath:String = "/api/email/template"
         let urlSegment:[String] = [emailTemplateId.uuidString]
@@ -3793,8 +3231,12 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Updates the form with the given Id.
+    /// - Parameters:
+    ///   - formId: The Id of the form to update.
+    ///   - request: The request object that contains all of the new form information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateForm(formId:UUID?, request:FormRequest, clientResponse:@escaping(ClientResponse<FormResponse>) -> ()){
         let urlPath:String = "/api/form"
         let urlSegment:[String] = [formId?.uuidString ?? ""]
@@ -3806,8 +3248,12 @@ public class FusionAuthClient{
         }
     }
     
-    //TODO
-    
+    /// Updates the form field with the given Id.
+    /// - Parameters:
+    ///   - fieldId: The Id of the form field to update.
+    ///   - request: The request object that contains all of the new form field information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateFormField(fieldId:UUID?, request:FormRequest, clientResponse:@escaping(ClientResponse<FormFieldResponse>) -> ()){
         let urlPath:String = "/api/form/field"
         let urlSegment:[String] = [fieldId?.uuidString ?? ""]
@@ -3818,18 +3264,13 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-
-    /**
-     * Updates the group with the given Id.
-     *
-     * @param groupId The Id of the group to update.
-     * @param request The request that contains all of the new group information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the group with the given Id.
+    /// - Parameters:
+    ///   - groupId: The Id of the group to update.
+    ///   - request: The request that contains all of the new group information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateGroup(groupId:UUID, request:GroupRequest, clientResponse: @escaping(ClientResponse<GroupResponse>) -> ()){
         let urlPath:String = "/api/group"
         let urlSegment:[String] = [groupId.uuidString]
@@ -3840,18 +3281,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the identity provider with the given Id.
-     *
-     * @param identityProviderId The Id of the identity provider to update.
-     * @param request The request object that contains the updated identity provider.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the identity provider with the given Id.
+    /// - Parameters:
+    ///   - identityProviderId: The Id of the identity provider to update.
+    ///   - request: The request object that contains the updated identity provider.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateIdentityProvider(identityProviderId:UUID, request:IdentityProviderRequest, clientResponse: @escaping(ClientResponse<IdentityProviderResponse>) -> ()){
         let urlPath:String = "/api/identity-provider"
         let urlSegment:[String] = [identityProviderId.uuidString]
@@ -3862,17 +3298,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the available integrations.
-     *
-     * @param request The request that contains all of the new integration information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the available integrations.
+    /// - Parameters:
+    ///   - request: The request that contains all of the new integration information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateIntegrations(request:IntegrationRequest, clientResponse: @escaping(ClientResponse<IntegrationResponse>) -> ()){
         let urlPath:String = "/api/integration"
         let data = try! JSONEncoder().encode(request)
@@ -3882,18 +3313,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the key with the given Id.
-     *
-     * @param keyId The Id of the key to update.
-     * @param request The request that contains all of the new key information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the key with the given Id.
+    /// - Parameters:
+    ///   - keyId: The Id of the key to update.
+    ///   - request: The request that contains all of the new key information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateKey(keyId:UUID?, request:KeyRequest, clientResponse: @escaping(ClientResponse<KeyResponse>) -> ()){
         let urlPath:String = "/api/key"
         let urlSegment:[String] = [keyId?.uuidString ?? ""]
@@ -3904,18 +3330,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-       * Updates the lambda with the given Id.
-       *
-       * @param lambdaId The Id of the lambda to update.
-       * @param request The request that contains all of the new lambda information.
-       * @return When successful, the response will contain the log of the action. If there was a validation error or any
-       * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-       * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-       * IOException.
-       */
-
+    
+    /// Updates the lambda with the given Id.
+    /// - Parameters:
+    ///   - lambdaId: The Id of the lambda to update.
+    ///   - request: The request that contains all of the new lambda information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateLambda(lambdaId:UUID?, request:LambdaRequest, clientResponse: @escaping(ClientResponse<LambdaResponse>) -> ()){
         let urlPath:String = "/api/lambda"
         let urlSegment:[String] = [lambdaId?.uuidString ?? ""]
@@ -3926,18 +3347,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the registration for the user with the given id and the application defined in the request.
-     *
-     * @param userId The Id of the user whose registration is going to be updated.
-     * @param request The request that contains all of the new registration information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the registration for the user with the given id and the application defined in the request.
+    /// - Parameters:
+    ///   - userId: The Id of the user whose registration is going to be updated.
+    ///   - request: The request that contains all of the new registration information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateRegistrations(userId:UUID, request:RegistrationRequest, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
         let urlSegment:[String] = [userId.uuidString]
@@ -3948,17 +3364,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the system configuration.
-     *
-     * @param request The request that contains all of the new system configuration information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the system configuration.
+    /// - Parameters:
+    ///   - request: The request that contains all of the new system configuration information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateSystemConfiguration(request:SystemConfigurationRequest, clientResponse: @escaping(ClientResponse<SystemConfigurationResponse>) -> ()){
         let urlPath:String = "/api/system-configuration"
         let data = try! JSONEncoder().encode(request)
@@ -3968,18 +3379,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the tenant with the given Id.
-     *
-     * @param tenantId The Id of the tenant to update.
-     * @param request The request that contains all of the new tenant information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the tenant with the given Id.
+    /// - Parameters:
+    ///   - tenantId: The Id of the tenant to update.
+    ///   - request: The request that contains all of the new tenant information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateTenant(tenantId:UUID, request:TenantRequest, clientResponse: @escaping(ClientResponse<TenantResponse>) -> ()){
         let urlPath:String = "/api/tenant"
         let urlSegment:[String] = [tenantId.uuidString]
@@ -3990,18 +3396,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the theme with the given Id.
-     *
-     * @param themeId The Id of the theme to update.
-     * @param request The request that contains all of the new theme information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the theme with the given Id.
+    /// - Parameters:
+    ///   - themeId: The Id of the theme to update.
+    ///   - request: The request that contains all of the new theme information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateTheme(themeId:UUID?, request:ThemeRequest, clientResponse: @escaping(ClientResponse<ThemeResponse>) -> ()){
         let urlPath:String = "/api/theme"
         let urlSegment:[String] = [themeId?.uuidString ?? ""]
@@ -4012,18 +3413,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the user with the given Id.
-     *
-     * @param userId The Id of the user to update.
-     * @param request The request that contains all of the new user information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the user with the given Id.
+    /// - Parameters:
+    ///   - userId: The Id of the user to update.
+    ///   - request: The request that contains all of the new user information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateUser(userId:UUID, request:UserRequest, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let urlSegment:[String] = [userId.uuidString]
@@ -4034,18 +3430,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the user action with the given Id.
-     *
-     * @param userActionId The Id of the user action to update.
-     * @param request The request that contains all of the new user action information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the user action with the given Id.
+    /// - Parameters:
+    ///   - userActionId: The Id of the user action to update.
+    ///   - request: The request that contains all of the new user action information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateUserAction(userActionId:UUID, request:UserActionRequest, clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
         let urlSegment:[String] = [userActionId.uuidString]
@@ -4057,18 +3448,13 @@ public class FusionAuthClient{
         })
 
     }
-
-    /**
-     * Updates the user action reason with the given Id.
-     *
-     * @param userActionReasonId The Id of the user action reason to update.
-     * @param request The request that contains all of the new user action reason information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the user action reason with the given Id.
+    /// - Parameters:
+    ///   - userActionReasonId: The Id of the user action reason to update.
+    ///   - request: The request that contains all of the new user action reason information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateUserActionReason(userActionReasonId:UUID, request:UserActionReasonRequest, clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
         let urlSegment:[String] = [userActionReasonId.uuidString]
@@ -4079,18 +3465,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates a single User consent by Id.
-     *
-     * @param userConsentId The User Consent Id
-     * @param request The request that contains the user consent information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates a single User consent by Id.
+    /// - Parameters:
+    ///   - userConsentId: The User Consent Id
+    ///   - request: The request that contains the user consent information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateUserConsent(userConsentId:UUID?, request:UserConsentRequest, clientResponse:@escaping(ClientResponse<UserConsentResponse>) -> ()){
         let urlPath:String = "/api/user/consent"
         let urlSegment:[String] = [userConsentId?.uuidString ?? ""]
@@ -4101,18 +3482,13 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Updates the webhook with the given Id.
-     *
-     * @param webhookId The Id of the webhook to update.
-     * @param request The request that contains all of the new webhook information.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Updates the webhook with the given Id.
+    /// - Parameters:
+    ///   - webhookId: The Id of the webhook to update.
+    ///   - request: The request that contains all of the new webhook information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateWebhook(webhookId:UUID, request:WebhookRequest, clientResponse: @escaping(ClientResponse<WebhookResponse>) -> ()){
         let urlPath:String = "/api/webhook"
         let urlSegment:[String] = [webhookId.uuidString]
@@ -4125,8 +3501,12 @@ public class FusionAuthClient{
         })
     }
     
-    //TODO
-    
+    /// Validates the end-user provided user_code from the user-interaction of the Device Authorization Grant. If you build your own activation form you should validate the user provided code prior to beginning the Authorization grant.
+    /// - Parameters:
+    ///   - userCode: The end-user verification code.
+    ///   - clientId: The client id.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func ValidateDevice(userCode:String, clientId:String, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/oauth2/device/validate"
         let parameters:[String:String] = ["user_code":userCode,
@@ -4138,20 +3518,12 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-
-    /**
-     * Validates the provided JWT (encoded JWT string) to ensure the token is valid. A valid access token is properly
-     * signed and not expired.
-     * <p>
-     * This API may be used to verify the JWT as well as decode the encoded JWT into human readable identity claims.
-     *
-     * @param encodedJWT The encoded JWT (access token).
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    ///  Validates the provided JWT (encoded JWT string) to ensure the token is valid. A valid access token is properly signed and not expired. This API may be used to verify the JWT as well as decode the encoded JWT into human readable identity claims.
+    /// - Parameters:
+    ///   - encodedJWT: The encoded JWT (access token).
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func ValidateJWT(encodedJWT:String, clientResponse: @escaping(ClientResponse<ValidateResponse>) -> ()){
         let urlPath:String = "/api/jwt/validate"
         let authorization:String = ("JWT" + encodedJWT)
@@ -4161,17 +3533,12 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
-    /**
-     * Confirms a email verification. The Id given is usually from an email sent to the user.
-     *
-     * @param verificationId The email verification id sent to the user.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Confirms a email verification. The Id given is usually from an email sent to the user.
+    /// - Parameters:
+    ///   - verificationId: The email verification id sent to the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func VerifyEmail(verificationId:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/verify-email"
         let urlSegment:[String] = [verificationId]
@@ -4182,17 +3549,12 @@ public class FusionAuthClient{
         })
 
     }
-
-    /**
-     * Confirms an application registration. The Id given is usually from an email sent to the user.
-     *
-     * @param verificationId The registration verification Id sent to the user.
-     * @return When successful, the response will contain the log of the action. If there was a validation error or any
-     * other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
-     * contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
-     * IOException.
-     */
-
+    
+    /// Confirms an application registration. The Id given is usually from an email sent to the user.
+    /// - Parameters:
+    ///   - verificationId: This is an asynchronous method.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func VerifyRegistration(verificationId:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/verify-registration"
         let urlSegment:[String] = [verificationId]
@@ -4202,6 +3564,5 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
 }
 
