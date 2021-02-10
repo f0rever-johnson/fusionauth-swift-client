@@ -9,12 +9,6 @@ import Foundation
 
 
 public class DisplayableRawLogin:RawLogin{
-    public var applicationName:String? = nil
-    public var loginId:String? = nil
-    
-    public init(applicationName: String? = nil, loginId: String? = nil) {
-        self.applicationName = applicationName
-        self.loginId = loginId
-    }
-   
+    public var applicationName:String? = ""
+    public var loginId:String? = ""
 }
