@@ -13,7 +13,7 @@ import Foundation
 
 public struct AuditLog:Codable {
 
-    public var data:[String:String]? = nil
+    public var data:[String:JSONObject]? = nil
     public var id:Int? = nil
     public var insertInstant:Date? = nil
     public var insertUser:String? = nil
