@@ -11,7 +11,7 @@ import Foundation
  * Creates a new Google Identity Provider Object.
  */
 
-public struct GoogleIdentityProvider:BaseIdentityProvider{
+public class GoogleIdentityProvider:BaseIdentityProvider{
 
     public typealias D = GoogleApplicationConfiguration
     

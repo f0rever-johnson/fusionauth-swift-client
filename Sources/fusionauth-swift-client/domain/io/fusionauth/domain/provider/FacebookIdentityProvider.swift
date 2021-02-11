@@ -11,7 +11,7 @@ import Foundation
  * Creates a new Faceboo Identity Provider Object.
  */
 
-public struct FacebookIdentityProvider:BaseIdentityProvider, Codable{
+public class FacebookIdentityProvider:BaseIdentityProvider, Codable{
     public typealias D = FacebookApplicationConfiguration
     
     public var insertinstant: Date? = nil

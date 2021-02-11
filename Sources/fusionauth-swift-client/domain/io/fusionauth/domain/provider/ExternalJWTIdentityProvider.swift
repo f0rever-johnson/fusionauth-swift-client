@@ -11,7 +11,7 @@ import Foundation
  * Creates a new External JWT Identity Provider Object.
  */
 
-public struct ExternalJWTIdentityProvider:BaseIdentityProvider, Codable{
+public class ExternalJWTIdentityProvider:BaseIdentityProvider, Codable{
    
     public typealias D = ExternalJWTApplicationConfiguration
     

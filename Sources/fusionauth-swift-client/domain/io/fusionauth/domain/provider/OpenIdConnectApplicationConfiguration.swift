@@ -11,7 +11,7 @@ import Foundation
  * Creates a new OpenId Connect Application Configuration Object.
  */
 
-public struct OpenIdConnectApplicationConfiguration:BaseIdentityProviderApplicationConfiguration {
+public class OpenIdConnectApplicationConfiguration:BaseIdentityProviderApplicationConfiguration {
     public var createRegistration: Bool? = nil
     public var data: [String : JSONObject]? = nil
     public var enabled: Bool? = nil

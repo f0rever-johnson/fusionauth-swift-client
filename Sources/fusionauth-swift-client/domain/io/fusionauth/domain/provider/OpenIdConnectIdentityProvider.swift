@@ -11,7 +11,7 @@ import Foundation
  * Creates a new OpenId Connect Identity Provider Object.
  */
 
-public struct OpenIdConnectIdentityProvider:BaseIdentityProvider {
+public class OpenIdConnectIdentityProvider:BaseIdentityProvider {
 
     public typealias D = OpenIdConnectApplicationConfiguration
     

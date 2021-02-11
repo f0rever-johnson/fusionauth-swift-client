@@ -11,7 +11,7 @@ import Foundation
  * Creates a new Twitter Application Configuration Object.
  */
 
-public struct TwitterApplicationConfiguration:BaseIdentityProviderApplicationConfiguration {
+public class TwitterApplicationConfiguration:BaseIdentityProviderApplicationConfiguration {
     public var createRegistration: Bool? = nil
     public var data: [String : JSONObject]? = nil
     public var enabled: Bool? = nil

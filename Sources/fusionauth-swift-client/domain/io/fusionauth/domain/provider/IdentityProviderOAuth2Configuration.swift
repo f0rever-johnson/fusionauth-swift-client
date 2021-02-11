@@ -11,7 +11,7 @@ import Foundation
  * Creates a new Identity Provider OAuth2 Configuration Object.
  */
 
-public struct IdentityProviderOAuth2Configuration:Codable {
+public class IdentityProviderOAuth2Configuration:Codable {
     
     public var authorizationEndpoint:String? = nil
     public var clientAuthenticationMethod:ClientAuthenticationMethod? = nil

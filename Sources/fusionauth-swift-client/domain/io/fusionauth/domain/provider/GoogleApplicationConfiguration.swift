@@ -11,7 +11,7 @@ import Foundation
  * Creates a new Google Application Configuration Object.
  */
 
-public struct GoogleApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable {
+public class GoogleApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable {
     public var createRegistration: Bool? = nil
     public var enabled: Bool? = nil
     public var data: [String : JSONObject]? = nil

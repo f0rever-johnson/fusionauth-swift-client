@@ -20,8 +20,10 @@ public enum IdentityProviderConverter:Codable {
     case Google(GoogleIdentityProvider)
     case Twitter(TwitterIdentityProvider)
     case SAMLv2(SAMLv2IdentityProvider)
+    case Apple(AppleIdentityProvider)
+    case HYPR(HYPRIdentityProvider)
+    case LinkedIn(LinkedInIdentityProvider)
     
-
     private enum CodingKeys:CodingKey{
         case type
         case identityProvider
@@ -49,6 +51,12 @@ public enum IdentityProviderConverter:Codable {
                 self = .Twitter(try container.decode(TwitterIdentityProvider.self, forKey: .identityProvider))
             case .SAMLv2:
                 self = .SAMLv2(try container.decode(SAMLv2IdentityProvider.self, forKey: .identityProvider))
+            case .Apple:
+                self = .Apple(try container.decode(AppleIdentityProvider.self, forKey: .identityProvider))
+            case .HYPR:
+                self = .HYPR(try container.decode(HYPRIdentityProvider.self, forKey: .identityProvider))
+            case .LinkedIn:
+                self = .LinkedIn(try container.decode(LinkedInIdentityProvider.self, forKey: .identityProvider))
         }
     }
 
@@ -67,10 +75,13 @@ public enum IdentityProviderConverter:Codable {
                 try identityProviderContainer.encode(twitter)
             case .SAMLv2(let samlv2):
                 try identityProviderContainer.encode(samlv2)
+            case .Apple(let apple):
+                try identityProviderContainer.encode(apple)
+            case .HYPR(let hypr):
+                try identityProviderContainer.encode(hypr)
+            case .LinkedIn(let linkedin):
+                try identityProviderContainer.encode(linkedin)
         }
-
     }
-
-
 }
 

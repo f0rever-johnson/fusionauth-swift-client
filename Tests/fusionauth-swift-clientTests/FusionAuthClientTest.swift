@@ -65,7 +65,7 @@ class FusionAuthClientTest: XCTestCase {
 
     func CreateUser(email:String, username:String, password:String, applicationId:UUID) -> ClientResponse<RegistrationResponse>{
         let expectation = XCTestExpectation(description: "Create a User")
-        let newUser:User = User(password: password, email: emailAddress, username: username)
+        let newUser:User = User(email: emailAddress, password: password, username: username)
         let registration:UserRegistration = UserRegistration(applicationId: applicationId, username: username)
         var userRegisterResponse:ClientResponse<RegistrationResponse> = ClientResponse()
 
@@ -143,25 +143,35 @@ class FusionAuthClientTest: XCTestCase {
     }
     
     func CreateApplication(){
+        let raExpect:XCTestExpectation = XCTestExpectation()
         client?.RetrieveApplication(applicationId: applicationId, clientResponse: { retrieveApplicationResponse in
             if retrieveApplicationResponse.WasSuccessful{
                 self.client?.DeleteApplication(applicationId: self.applicationId, clientResponse: { deleteApplicationResponse in
                     self.AssertSuccess(response: deleteApplicationResponse)
                 })
+                raExpect.fulfill()
             }
         })
-        
+        let caExpect:XCTestExpectation = XCTestExpectation()
         let application:Application = Application(name: "Swift Client Test")
         let applicationRequest:ApplicationRequest = ApplicationRequest(application: application)
         client?.CreateApplication(applicationId: applicationId, request: applicationRequest, clientResponse: { createApplicationResponse in
             self.AssertSuccess(response: createApplicationResponse)
             XCTAssertEqual(application.name, createApplicationResponse.successResponse?.application?.name)
             self.application = createApplicationResponse.successResponse?.application
+            caExpect.fulfill()
         })
+        wait(for: [caExpect, raExpect], timeout: 10)
     }
     
     func testPatchApplication(){
         CreateApplication()
+        
+        let request:[String:JSONObject] = [:]
+        client?.PatchApplication(applicationID: applicationId, request: request, clientResponse: { (patchApplicationResponse) in
+            self.AssertSuccess(response: patchApplicationResponse)
+            //XCTAssertFalse(patchApplicationResponse.successResponse?.application.pass)
+        })
         
         
     }

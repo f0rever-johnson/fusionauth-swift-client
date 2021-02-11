@@ -63,7 +63,7 @@ class FusionAuthQuickDirtyTesting: XCTestCase {
 
     func CreateUser(email:String, username:String, password:String, applicationId:UUID) -> ClientResponse<RegistrationResponse>{
         let expectation = XCTestExpectation(description: "Create a User")
-        let newUser:User = User(password: password, email: emailAddress, username: username)
+        let newUser:User = User(email: emailAddress, password: password, username: username)
         let registration:UserRegistration = UserRegistration(applicationId: applicationId, username: username)
         var userRegisterResponse:ClientResponse<RegistrationResponse> = ClientResponse()
 
