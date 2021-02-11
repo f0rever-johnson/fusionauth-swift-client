@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ConnectorPolicy{
+public class ConnectorPolicy:Codable{
     public init(connectorId: UUID? = nil, date: JSONObject? = nil, domains: [String]? = nil, migrate: Bool? = nil) {
         self.connectorId = connectorId
         self.date = date
