@@ -24,6 +24,7 @@ public struct Templates:Codable{
     public var oauth2Passwordless:String? = nil
     public var oauth2Register:String? = nil
     public var oauth2TwoFactor:String? = nil
+    public var oauth2Wait:String? = nil
     public var passwordChange:String? = nil
     public var passwordComplete:String? = nil
     public var passwordForgot:String? = nil
@@ -31,8 +32,8 @@ public struct Templates:Codable{
     public var registrationComplete:String? = nil
     public var registrationSend:String? = nil
     public var registrationVerify:String? = nil
-
-    public init(emailComplete: String? = nil, emailSend: String? = nil, emailVerify: String? = nil, helpers: String? = nil, oauth2Authorize: String? = nil, oauth2ChildRegistrationNotAllowed: String? = nil, oauth2ChildRegistrationNotAllowedComplete: String? = nil, oauth2CompleteRegistration: String? = nil, oauth2Device: String? = nil, oauth2Error: String? = nil, oauth2Logout: String? = nil, oauth2Passwordless: String? = nil, oauth2Register: String? = nil, oauth2TwoFactor: String? = nil, passwordChange: String? = nil, passwordComplete: String? = nil, passwordForgot: String? = nil, passwordSent: String? = nil, registrationComplete: String? = nil, registrationSend: String? = nil, registrationVerify: String? = nil) {
+    
+    public init(emailComplete: String? = nil, emailSend: String? = nil, emailVerify: String? = nil, helpers: String? = nil, oauth2Authorize: String? = nil, oauth2ChildRegistrationNotAllowed: String? = nil, oauth2ChildRegistrationNotAllowedComplete: String? = nil, oauth2CompleteRegistration: String? = nil, oauth2Device: String? = nil, oauth2Error: String? = nil, oauth2Logout: String? = nil, oauth2Passwordless: String? = nil, oauth2Register: String? = nil, oauth2TwoFactor: String? = nil, oauth2Wait: String? = nil, passwordChange: String? = nil, passwordComplete: String? = nil, passwordForgot: String? = nil, passwordSent: String? = nil, registrationComplete: String? = nil, registrationSend: String? = nil, registrationVerify: String? = nil) {
         self.emailComplete = emailComplete
         self.emailSend = emailSend
         self.emailVerify = emailVerify
@@ -47,6 +48,7 @@ public struct Templates:Codable{
         self.oauth2Passwordless = oauth2Passwordless
         self.oauth2Register = oauth2Register
         self.oauth2TwoFactor = oauth2TwoFactor
+        self.oauth2Wait = oauth2Wait
         self.passwordChange = passwordChange
         self.passwordComplete = passwordComplete
         self.passwordForgot = passwordForgot
@@ -55,4 +57,6 @@ public struct Templates:Codable{
         self.registrationSend = registrationSend
         self.registrationVerify = registrationVerify
     }
+
+
 }
