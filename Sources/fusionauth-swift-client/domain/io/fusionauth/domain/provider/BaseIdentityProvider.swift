@@ -14,6 +14,9 @@ public protocol BaseIdentityProvider:Enableable, IdentityProvider{
     var data:[String:JSONObject]? {get set}
     var debug:Bool? { get set }
     var id:UUID? { get set }
+    var insertinstant:Date? { get set}
+    var lambdaConfiguration:LambdaConfiguration? { set get }
+    var lastUpdateInstant:Date? { get set }
     var name:String? { get set }
     var type:IdentityProviderType? { get }
     
