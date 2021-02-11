@@ -20,4 +20,7 @@ public enum IdentityProviderType: String, Codable {
     case Google = "Google"
     case Twitter = "Twitter"
     case SAMLv2 = "SAMLv2"
+    case HYPR = "HYPR"
+    case Apple = "Apple"
+    case LinkedIn = "LinkedIn"
 }
