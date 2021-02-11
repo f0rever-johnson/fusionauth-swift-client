@@ -7,7 +7,8 @@
 
 import Foundation
 
-public class JSONWebKey:Codable{
+public class JSONWebKey{
+
     public var alg:Algorithm
     public var crv:String
     public var d:String
@@ -18,7 +19,16 @@ public class JSONWebKey:Codable{
     public var kty:KeyType
     public var n:String
     
-    //missing code here
+    subscript(claim:String) -> Any{
+        get{
+            other?[claim] as Any
+        }
+        set(value){
+            other?[claim] = value
+        }
+    }
+
+    private var other:[String:Any]? = nil
     public var p:String
     public var q:String
     public var qi:String
@@ -28,4 +38,26 @@ public class JSONWebKey:Codable{
     public var x5t:String
     public var x5t_S256:String
     public var y:String
+    
+    public init(alg: Algorithm, crv: String, d: String, dp: String, dq: String, e: String, kid: String, kty: KeyType, n: String, other: [String : Any]? = nil, p: String, q: String, qi: String, use: String, x: String, x5c: [String], x5t: String, x5t_S256: String, y: String) {
+        self.alg = alg
+        self.crv = crv
+        self.d = d
+        self.dp = dp
+        self.dq = dq
+        self.e = e
+        self.kid = kid
+        self.kty = kty
+        self.n = n
+        self.other = other
+        self.p = p
+        self.q = q
+        self.qi = qi
+        self.use = use
+        self.x = x
+        self.x5c = x5c
+        self.x5t = x5t
+        self.x5t_S256 = x5t_S256
+        self.y = y
+    }
 }
