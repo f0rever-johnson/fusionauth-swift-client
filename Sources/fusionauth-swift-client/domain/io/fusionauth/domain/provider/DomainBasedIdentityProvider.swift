@@ -7,7 +7,11 @@
 
 import Foundation
 
-public protocol DomainBaseedIdentityProvider{
+/**
+ * Interface for all identity providers that can be domain based.
+ */
+
+public protocol DomainBasedIdentityProvider{
     
     
 }
