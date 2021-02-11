@@ -8,11 +8,11 @@
 import Foundation
 
 public class AppleIdentityProvider:BaseIdentityProvider, Codable{
+    public typealias D = AppleApplicationConfiguration
 
     public var insertinstant: Date?  = nil
     public var lambdaConfiguration: LambdaConfiguration?  = nil
     public var lastUpdateInstant: Date?  = nil
-    public typealias D = AppleApplicationConfiguration  = nil
     public var applicationConfiguration: [UUID : AppleApplicationConfiguration]? = nil
     public var data: [String : JSONObject]?  = nil
     public var debug: Bool?  = nil
