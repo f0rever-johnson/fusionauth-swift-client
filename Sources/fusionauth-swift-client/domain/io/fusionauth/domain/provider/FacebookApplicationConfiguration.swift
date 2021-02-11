@@ -11,7 +11,7 @@ import Foundation
  * Creates a new Facebook Application Configuration Object.
  */
 
-public struct FacebookApplicationConfiguration:BaseIdentityProviderApplicationConfiguration{
+public struct FacebookApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable{
     
     public var createRegistration: Bool?
     public var data:[String:JSONObject]? = nil

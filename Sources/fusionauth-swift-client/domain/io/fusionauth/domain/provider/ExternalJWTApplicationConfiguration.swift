@@ -8,7 +8,7 @@
 import Foundation
 
 
-public class ExternalJWTApplicationConfiguration:BaseIdentityProviderApplicationConfiguration {
+public class ExternalJWTApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable {
     public var enabled: Bool? = nil
     public var createRegistration: Bool? = nil
     public var data: [String:JSONObject]? = nil
