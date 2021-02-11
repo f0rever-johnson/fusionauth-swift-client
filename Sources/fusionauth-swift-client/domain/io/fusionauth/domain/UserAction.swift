@@ -12,11 +12,14 @@ import Foundation
  */
 
 public class UserAction:Codable {
+    
     public var active:Bool? = nil
     public var cancelEmailTemplateId:UUID? = nil
     public var endEmailTemplateId:UUID? = nil
     public var id:UUID? = nil
     public var includeEmailInEventJSON:Bool? = nil
+    public var insertInstant:Date? = nil
+    public var lastUpdateInstant:Date? = nil
     public var localizedNames:LocalizedStrings? = nil
     public var modifyEmailTemplateId:UUID? = nil
     public var name:String? = nil
@@ -28,14 +31,15 @@ public class UserAction:Codable {
     public var transactionType:TransactionType? = nil
     public var userEmailingEnabled:Bool? = nil
     public var userNotificationsEnabled:Bool? = nil
-
-
-    public init(active: Bool? = nil, cancelEmailTemplateId: UUID? = nil, endEmailTemplateId: UUID? = nil, id: UUID? = nil, includeEmailInEventJSON: Bool? = nil, localizedNames: LocalizedStrings? = nil, modifyEmailTemplateId: UUID? = nil, name: String? = nil, options: [UserActionOption]? = nil, preventLogin: Bool? = nil, sendEndEvent: Bool? = nil, startEmailTemplateId: UUID? = nil, temporal: Bool? = nil, transactionType: TransactionType? = nil, userEmailingEnabled: Bool? = nil, userNotificationsEnabled: Bool? = nil) {
+    
+    public init(active: Bool? = nil, cancelEmailTemplateId: UUID? = nil, endEmailTemplateId: UUID? = nil, id: UUID? = nil, includeEmailInEventJSON: Bool? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, localizedNames: LocalizedStrings? = nil, modifyEmailTemplateId: UUID? = nil, name: String? = nil, options: [UserActionOption]? = nil, preventLogin: Bool? = nil, sendEndEvent: Bool? = nil, startEmailTemplateId: UUID? = nil, temporal: Bool? = nil, transactionType: TransactionType? = nil, userEmailingEnabled: Bool? = nil, userNotificationsEnabled: Bool? = nil) {
         self.active = active
         self.cancelEmailTemplateId = cancelEmailTemplateId
         self.endEmailTemplateId = endEmailTemplateId
         self.id = id
         self.includeEmailInEventJSON = includeEmailInEventJSON
+        self.insertInstant = insertInstant
+        self.lastUpdateInstant = lastUpdateInstant
         self.localizedNames = localizedNames
         self.modifyEmailTemplateId = modifyEmailTemplateId
         self.name = name
