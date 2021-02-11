@@ -8,7 +8,7 @@
 import Foundation
 
 
-public class HYPRApplicationConfiguration:BaseIdentityProviderApplicationConfiguration{
+public class HYPRApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable{
     public var createRegistration: Bool? = nil
     public var data: [String : JSONObject]? = nil
     public var enabled: Bool? = nil
