@@ -8,6 +8,8 @@
 import Foundation
 
 public class GenericConnectorConfiguration:BaseConnectorConfiguration{
+    
+    
     public var authenticationURL:String?
     public var connectTimeout:Int?
     public var headers:HTTPHeaders?
@@ -15,18 +17,6 @@ public class GenericConnectorConfiguration:BaseConnectorConfiguration{
     public var httpAuthenticationUsername:String?
     public var readTimeout:Int?
     public var sslCertificateKeyId:UUID?
-    
-    /*
-    public init(authenticationURL: String, connectTimeout: Int? = nil, headers: HTTPHeaders, httpAuthenticationPassword: String, httpAuthenticationUsername: String, readTimeout: Int? = nil, sslCertificateKeyId: UUID? = nil) {
-        self.authenticationURL = authenticationURL
-        self.connectTimeout = connectTimeout
-        self.headers = headers
-        self.httpAuthenticationPassword = httpAuthenticationPassword
-        self.httpAuthenticationUsername = httpAuthenticationUsername
-        self.readTimeout = readTimeout
-        self.sslCertificateKeyId = sslCertificateKeyId
-        
-    }
-    */
+
    
 }

@@ -17,4 +17,14 @@ public class BaseConnectorConfiguration:Codable{
     public var name:String?
     public var type:ConnectorType
     
+    public init(data: JSONObject, debug: Bool? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, type: ConnectorType) {
+        self.data = data
+        self.debug = debug
+        self.id = id
+        self.insertInstant = insertInstant
+        self.lastUpdateInstant = lastUpdateInstant
+        self.name = name
+        self.type = type
+    }
+    
 }

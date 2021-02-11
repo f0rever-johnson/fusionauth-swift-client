@@ -7,6 +7,8 @@
 
 import Foundation
 
+//Renamed from LambdaConfiguration
+
 public class ConnectorLambdaConfiguration:Codable{
     public var reconcileId:UUID? = nil
     
