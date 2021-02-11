@@ -10,7 +10,7 @@ import Foundation
 public class TenantUserDeletePolicy:Codable{
     public var unverified:TimeBasedDeletePolicy? = nil
     
-    internal init(unverified: TimeBasedDeletePolicy? = nil) {
+    public init(unverified: TimeBasedDeletePolicy? = nil) {
         self.unverified = unverified
     }
 }
