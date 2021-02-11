@@ -12,24 +12,23 @@ import Foundation
  */
 
 public struct SystemConfiguration:Codable {
-
     public var auditLogConfiguration:AuditLogConfiguration? = nil
-    public var cookieEncryptionIV:String? = nil
-    public var cookieEncryptionKey:String? = nil
-    public var corsConfiguration:CORSConfiguration? = nil
+    public var CORSConfiguration:CORSConfiguration? = nil
     public var data:[String:JSONObject]? = nil
     public var eventLogConfiguration:EventLogConfiguration? = nil
+    public var insertInstant:Date? = nil
+    public var lastUpdateInstant:Date? = nil
     public var loginRecordConfiguration:LoginRecordConfiguration? = nil
     public var reportTimezone:String? = nil
     public var uiConfiguration:UIConfiguration? = nil
-
-    public init(auditLogConfiguration: AuditLogConfiguration? = nil, cookieEncryptionIV: String? = nil, cookieEncryptionKey: String? = nil, corsConfiguration: CORSConfiguration? = nil, data: [String:JSONObject]? = nil, eventLogConfiguration: EventLogConfiguration? = nil, loginRecordConfiguration: LoginRecordConfiguration? = nil, reportTimezone: String? = nil, uiConfiguration: UIConfiguration? = nil) {
+    
+    public init(auditLogConfiguration: AuditLogConfiguration? = nil, CORSConfiguration: CORSConfiguration? = nil, data: [String : JSONObject]? = nil, eventLogConfiguration: EventLogConfiguration? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, loginRecordConfiguration: LoginRecordConfiguration? = nil, reportTimezone: String? = nil, uiConfiguration: UIConfiguration? = nil) {
         self.auditLogConfiguration = auditLogConfiguration
-        self.cookieEncryptionIV = cookieEncryptionIV
-        self.cookieEncryptionKey = cookieEncryptionKey
-        self.corsConfiguration = corsConfiguration
+        self.CORSConfiguration = CORSConfiguration
         self.data = data
         self.eventLogConfiguration = eventLogConfiguration
+        self.insertInstant = insertInstant
+        self.lastUpdateInstant = lastUpdateInstant
         self.loginRecordConfiguration = loginRecordConfiguration
         self.reportTimezone = reportTimezone
         self.uiConfiguration = uiConfiguration
