@@ -11,9 +11,12 @@ import Foundation
  * Creates a new Faceboo Identity Provider Object.
  */
 
-public struct FacebookIdentityProvider:BaseIdentityProvider{
+public struct FacebookIdentityProvider:BaseIdentityProvider, Codable{
     public typealias D = FacebookApplicationConfiguration
     
+    public var insertinstant: Date? = nil
+    public var lambdaConfiguration: LambdaConfiguration? = nil
+    public var lastUpdateInstant: Date? = nil
     public var applicationConfiguration: [UUID : FacebookApplicationConfiguration]? = nil
     public var data: [String : JSONObject]? = nil
     public var debug: Bool? = nil
@@ -26,8 +29,11 @@ public struct FacebookIdentityProvider:BaseIdentityProvider{
     public var fields:String? = nil
     public var name:String? = nil
     public var permissions:String? = nil
-
-    public init(applicationConfiguration: [UUID : FacebookApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, appId: String? = nil, buttonText: String? = nil, clientSecret: String? = nil, fields: String? = nil, name: String? = nil, permissions: String? = nil) {
+    
+    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, applicationConfiguration: [UUID : FacebookApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, appId: String? = nil, buttonText: String? = nil, clientSecret: String? = nil, fields: String? = nil, name: String? = nil, permissions: String? = nil) {
+        self.insertinstant = insertinstant
+        self.lambdaConfiguration = lambdaConfiguration
+        self.lastUpdateInstant = lastUpdateInstant
         self.applicationConfiguration = applicationConfiguration
         self.data = data
         self.debug = debug
