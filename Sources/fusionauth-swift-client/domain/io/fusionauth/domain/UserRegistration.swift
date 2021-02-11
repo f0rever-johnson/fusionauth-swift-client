@@ -24,12 +24,11 @@ public struct UserRegistration:Codable {
     public var roles:[String]? = nil
     public var timezone:String? = nil
     public var tokens:[String:String]? = nil
-    public var userId:UUID? = nil
     public var username:String? = nil
     public var usernameStatus:ContentStatus? = nil
     public var verified:Bool? = nil
 
-    public init(applicationId: UUID? = nil, authenticationToken: String? = nil, cleanSpeakId: UUID? = nil, data: [String:JSONObject]? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastLoginInstant: Date? = nil, preferredLanguages: [String]? = nil, roles: [String]? = nil, timezone: String? = nil, tokens: [String:String]? = nil, userId: UUID? = nil, username: String? = nil, usernameStatus: ContentStatus? = nil, verified: Bool? = nil) {
+    public init(applicationId: UUID? = nil, authenticationToken: String? = nil, cleanSpeakId: UUID? = nil, data: [String:JSONObject]? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastLoginInstant: Date? = nil, preferredLanguages: [String]? = nil, roles: [String]? = nil, timezone: String? = nil, tokens: [String:String]? = nil, username: String? = nil, usernameStatus: ContentStatus? = nil, verified: Bool? = nil) {
         self.applicationId = applicationId
         self.authenticationToken = authenticationToken
         self.cleanSpeakId = cleanSpeakId
@@ -41,7 +40,6 @@ public struct UserRegistration:Codable {
         self.roles = roles
         self.timezone = timezone
         self.tokens = tokens
-        self.userId = userId
         self.username = username
         self.usernameStatus = usernameStatus
         self.verified = verified
