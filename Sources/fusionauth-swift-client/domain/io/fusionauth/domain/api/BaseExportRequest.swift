@@ -9,7 +9,7 @@
 import Foundation
 
 
-public protocol BaseExportRequest{
+public protocol BaseExportRequest:Codable{
     var dateTimeSecondsFormat:String? { get set }
     var zoneId:String? { get set }
 }
