@@ -9,10 +9,12 @@
 import Foundation
 
 public struct RefreshRequest:Codable{
+
     public var refreshToken:String? = nil
-
-    public init(refreshToken: String? = nil) {
+    public var token:String? = nil
+    
+    public init(refreshToken: String? = nil, token: String? = nil) {
         self.refreshToken = refreshToken
+        self.token = token
     }
-
 }
