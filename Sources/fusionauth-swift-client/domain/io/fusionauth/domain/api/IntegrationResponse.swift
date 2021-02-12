@@ -9,9 +9,9 @@
 import Foundation
 
 public struct IntegrationResponse:Codable {
-    public var intergrations:Integrations? = nil
+    public var integrations:Integrations? = nil
 
     public init(intergrations: Integrations? = nil) {
-        self.intergrations = intergrations
+        self.integrations = intergrations
     }
 }
