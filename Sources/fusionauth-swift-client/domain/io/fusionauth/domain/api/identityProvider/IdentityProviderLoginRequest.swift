@@ -14,7 +14,7 @@ public struct IdentityProviderLoginRequest:BaseLoginRequest, Codable{
     public var encodedJWT:String? = nil
     public var applicationId: UUID? = nil
     public var noJWT: Bool? = nil
-    public var data:[String:JSONObject]? = nil
+    public var data:[String:String]? = nil
     public var identityProviderId:UUID? = nil
 
 
