@@ -10,12 +10,16 @@ import Foundation
 
 
 public struct RefreshResponse:Codable{
+
+    public var refreshToken:String? = nil
     public var refreshTokens:[RefreshToken]? = nil
     public var token:AccessToken? = nil
 
-    public init(refreshTokens: [RefreshToken]? = nil, token: AccessToken? = nil) {
+    public init(refreshToken: String? = nil, refreshTokens: [RefreshToken]? = nil, token: AccessToken? = nil) {
+        self.refreshToken = refreshToken
         self.refreshTokens = refreshTokens
         self.token = token
     }
+    
 
 }
