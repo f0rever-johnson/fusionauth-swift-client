@@ -12,10 +12,10 @@ public class IdentityProviderDetails{
     public var id:UUID? = nil
     public var idpEndpoint:String?
     public var name:String? = nil
-    public var oauth2:IdentityProviderOAuth2Configuration = nil
+    public var oauth2:IdentityProviderOAuth2Configuration? = nil
     public var type:IdentityProviderType? = nil
     
-    public init(applications: [UUID]? = nil, id: UUID? = nil, idpEndpoint: String? = nil, name: String? = nil, oauth2: IdentityProviderOAuth2Configuration = nil, type: IdentityProviderType? = nil) {
+    public init(applications: [UUID]? = nil, id: UUID? = nil, idpEndpoint: String? = nil, name: String? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil, type: IdentityProviderType? = nil) {
         self.applications = applications
         self.id = id
         self.idpEndpoint = idpEndpoint

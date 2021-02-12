@@ -18,7 +18,7 @@ public struct IdentityProviderLoginRequest:BaseLoginRequest, Codable{
     public var identityProviderId:UUID? = nil
 
 
-    public init(ipAddress: String? = nil, metaData: MetaData? = nil, encodedJWT: String? = nil, applicationId: UUID? = nil, noJWT: Bool? = nil, data: [String:JSONObject]? = nil, identityProviderId: UUID? = nil) {
+    public init(ipAddress: String? = nil, metaData: MetaData? = nil, encodedJWT: String? = nil, applicationId: UUID? = nil, noJWT: Bool? = nil, data: [String:String]? = nil, identityProviderId: UUID? = nil) {
         self.ipAddress = ipAddress
         self.metaData = metaData
         self.encodedJWT = encodedJWT
