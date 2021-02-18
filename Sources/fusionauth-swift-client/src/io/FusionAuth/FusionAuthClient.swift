@@ -11,10 +11,16 @@ import Foundation
 /// All methods are Asynchonous
 public class FusionAuthClient{
 
+    private var jsonEncoder:JSONEncoder = JSONEncoder()
     private var fusionAuth:DefaultRESTClient
     
     public init(fusionAuth:DefaultRESTClient){
         self.fusionAuth = fusionAuth
+        jsonEncoder.dateEncodingStrategy = .custom({ date, encoder in
+            let milliseconds = Int(date.timeIntervalSince1970 * 1000)
+            var singleValueEnc = encoder.singleValueContainer()
+            try singleValueEnc.encode(milliseconds)
+        })
     }
 
     /// Takes an action on a user. The user being actioned is called the "actionee" and the user taking the action is called the "actioner". Both user ids are required in the request object.
@@ -25,7 +31,7 @@ public class FusionAuthClient{
     
     public func ActionUser(request:ActionRequest, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
@@ -44,7 +50,7 @@ public class FusionAuthClient{
 
         let urlPath:String = "/api/user/family"
         let urlSegment:[String] = [familyId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<FamilyResponse>) in
@@ -61,10 +67,11 @@ public class FusionAuthClient{
     
     public func CancelAction(actionId:UUID, request:ActionRequest, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
+        let urlSegment:[String] = [actionId.uuidString]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
             clientResponse(response)
         })
     }
@@ -78,7 +85,7 @@ public class FusionAuthClient{
     
     public func ChangePassword(changePasswordId:String, request:ChangePasswordRequest, clientResponse: @escaping(ClientResponse<ChangePasswordResponse>) -> ()){
         let urlPath:String = "/api/user/change-password"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let urlSegment:[String] = [changePasswordId]
         let httpMethod:HTTPMethod = .POST
 
@@ -95,7 +102,7 @@ public class FusionAuthClient{
     
     public func ChangePasswordByIdentity(request:ChangePasswordRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/change-password"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
@@ -111,7 +118,7 @@ public class FusionAuthClient{
     
     public func CommentOnUser(request:UserCommentRequest, clientResponse: @escaping(ClientResponse<UserCommentResponse>) -> ()){
         let urlPath:String = "/api/user/comment"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserCommentResponse>) in
@@ -128,7 +135,7 @@ public class FusionAuthClient{
     
     public func CreateApplication(applicationId:UUID?, request:ApplicationRequest, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let urlSegment:[String] = [applicationId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
@@ -147,7 +154,7 @@ public class FusionAuthClient{
     
     public func CreateApplicationRole(applicationId:UUID, roleId:UUID?, request:ApplicationRequest, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let urlSegment:[String] = [applicationId.uuidString, "role", roleId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
@@ -164,7 +171,7 @@ public class FusionAuthClient{
     
     public func CreateAuditLog(request:AuditLogRequest, clientResponse: @escaping(ClientResponse<AuditLogResponse>) -> ()){
         let urlPath:String = "/api/system/audit-log"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<AuditLogResponse>) in
@@ -182,7 +189,7 @@ public class FusionAuthClient{
     public func CreateConnectorAsync(connectorId:UUID?, request:ConnectorRequest, clientResponse: @escaping(ClientResponse<ConnectorResponse>) -> ()){
         let urlPath:String = "/api/connector"
         let urlSegment:[String] = [connectorId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ConnectorResponse>) in
@@ -200,7 +207,7 @@ public class FusionAuthClient{
     public  func CreateConsent(consentId:UUID?, request:ConsentRequest, clientResponse: @escaping(ClientResponse<ConsentResponse>) -> ()){
         let urlPath:String = "/api/consent"
         let urlSegment:[String] = [consentId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ConsentResponse>) in
@@ -218,7 +225,7 @@ public class FusionAuthClient{
     public func CreateEmailTemplate(emailTemplateId:UUID?, request:EmailTemplateRequest, clientResponse: @escaping(ClientResponse<EmailTemplateResponse>) -> ()){
         let urlPath:String = "/api/email/template"
         let urlSegment:[String] = [emailTemplateId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
@@ -236,7 +243,7 @@ public class FusionAuthClient{
     public func CreateFamily(familyId:UUID?, request:FamilyRequest, clientResponse: @escaping(ClientResponse<FamilyResponse>) -> ()){
         let urlPath:String = "/api/user/family"
         let urlSegment:[String] = [familyId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<FamilyResponse>) in
@@ -254,7 +261,7 @@ public class FusionAuthClient{
     public func CreateForm(formId:UUID?, request:FormRequest, clientResponse:@escaping(ClientResponse<FormResponse>) -> ()){
         let urlPath:String = "/api/form"
         let urlSegment:[String] = [formId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data) { (response:ClientResponse<FormResponse>) in
@@ -272,7 +279,7 @@ public class FusionAuthClient{
     public func CreateFormField(fieldId:UUID?, request:FormFieldRequest, clientResponse: @escaping(ClientResponse<FormFieldResponse>) -> ()){
         let urlPath:String = "/api/form/field"
         let urlSegment:[String] = [fieldId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data) { (response:ClientResponse<FormFieldResponse>) in
@@ -290,7 +297,7 @@ public class FusionAuthClient{
     public func CreateGroup(groupId:UUID?, request:GroupRequest, clientResponse: @escaping(ClientResponse<GroupResponse>) -> ()){
         let urlPath:String = "/api/group"
         let urlSegment:[String] = [groupId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
@@ -306,7 +313,7 @@ public class FusionAuthClient{
     
     public func CreateGroupMembers(request:MemberRequest, clientResponse: @escaping(ClientResponse<MemberResponse>) -> ()){
         let urlPath:String = "/api/group/member"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<MemberResponse>) in
@@ -324,7 +331,7 @@ public class FusionAuthClient{
     public func CreateIdentityProvider(identityProviderId:UUID?, request:IdentityProviderRequest, clientResponse: @escaping(ClientResponse<IdentityProviderResponse>) -> ()){
         let urlPath:String = "/api/identity-provider"
         let urlSegments:[String] = [identityProviderId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegments, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
@@ -343,7 +350,7 @@ public class FusionAuthClient{
     public func CreateLambda(lambdaId:UUID?, request:LambdaRequest, clientResponse: @escaping(ClientResponse<LambdaResponse>) -> ()){
         let urlPath:String = "/api/lambda"
         let urlSegment:[String] = [lambdaId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
@@ -360,7 +367,7 @@ public class FusionAuthClient{
     
     public func CreateTenant(tenantId:UUID?, request:TenantRequest, clientResponse: @escaping(ClientResponse<TenantResponse>) -> ()){
         let urlPath:String = "/api/tenant"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let urlSegment:[String] = [(tenantId?.uuidString) ?? ""]
         let httpMethod:HTTPMethod = .POST
 
@@ -379,7 +386,7 @@ public class FusionAuthClient{
     public func CreateTheme(themeId:UUID?, request:ThemeRequest, clientResponse:@escaping(ClientResponse<ThemeResponse>) -> ()){
         let urlPath:String = "/api/theme"
         let urlSegment:[String] = [themeId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ThemeResponse>) in
@@ -396,7 +403,7 @@ public class FusionAuthClient{
     
     public func CreateUser(userId:UUID?, request:UserRequest, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let urlSegments:[String] = [userId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
@@ -414,7 +421,7 @@ public class FusionAuthClient{
     
     public func CreateUserAction(userActionId:UUID?, request:UserActionRequest, clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let urlSegments:[String] = [userActionId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
@@ -432,7 +439,7 @@ public class FusionAuthClient{
     
     public func CreateUserActionReason(userActionReasonId:UUID?, request:UserActionReasonRequest, clientResponse: @escaping(ClientResponse<UserActionReasonResponse>) -> ()){
         let urlPath:String = "/api/user-action-reason"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let urlSegments:[String] = [userActionReasonId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
@@ -451,7 +458,7 @@ public class FusionAuthClient{
     public func CreateUserConsent(userConsentId:UUID?, request:UserConsentRequest, clientResponse:@escaping(ClientResponse<UserConsentResponse>) -> ()){
         let urlPath:String = "/api/user/consent"
         let urlSegment:[String] = [userConsentId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<UserConsentResponse>) in
@@ -468,7 +475,7 @@ public class FusionAuthClient{
     
     public func CreateWebhook(webhookId:UUID?, request:WebhookRequest, clientResponse: @escaping(ClientResponse<WebhookResponse>) -> ()){
         let urlPath:String = "/api/webhook"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let urlSegments:[String] = [webhookId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
@@ -691,7 +698,7 @@ public class FusionAuthClient{
     
     public func DeleteGroupMembers(request:MemberDeleteRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/group/member"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .DELETE
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
@@ -874,7 +881,7 @@ public class FusionAuthClient{
     
     public func DeleteUsersByQueryAsync(request:UserDeleteRequest, clientResponse: @escaping(ClientResponse<UserDeleteResponse>) -> ()){
         let urlPath:String = "/api/user/bulk"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .DELETE
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<UserDeleteResponse>) in
@@ -925,7 +932,7 @@ public class FusionAuthClient{
     public func EnableTwoFactor(userId:UUID, request:TwoFactorRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/two-factor"
         let urlSegment:[String] = [userId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
@@ -1015,12 +1022,12 @@ public class FusionAuthClient{
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
-    public func ExchangeRefreshTokenForJWT(request:RefreshRequest, clientResponse: @escaping(ClientResponse<RefreshResponse>) -> ()){
+    public func ExchangeRefreshTokenForJWT(request:RefreshRequest, clientResponse: @escaping(ClientResponse<JWTRefreshResponse>) -> ()){
         let urlPath:String = "/api/jwt/refresh"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RefreshResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<JWTRefreshResponse>) in
             clientResponse(response)
         })
     }
@@ -1061,7 +1068,7 @@ public class FusionAuthClient{
     
     public func ForgotPassword(request:ForgotPasswordRequest, clientResponse: @escaping(ClientResponse<ForgotPasswordResponse>) -> ()){
         let urlPath:String = "/api/user/forgot-password"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ForgotPasswordResponse>) in
@@ -1095,7 +1102,7 @@ public class FusionAuthClient{
     public func GenerateKey(keyId:UUID?, request:KeyRequest, clientResponse: @escaping(ClientResponse<KeyResponse>) -> ()){
         let urlPath:String = "/api/key/generate"
         let urlSegment:[String] = [keyId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
@@ -1157,7 +1164,7 @@ public class FusionAuthClient{
     
     public func IdentityProviderLogin(request:IdentityProviderLoginRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/identity-provider/login"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
@@ -1175,7 +1182,7 @@ public class FusionAuthClient{
     public func ImportKey(keyId:UUID?, request:KeyRequest, clientResponse: @escaping(ClientResponse<KeyResponse>) -> ()){
         let urlPath:String = "/api/key/import"
         let urlSegment:[String] = [keyId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
@@ -1191,7 +1198,7 @@ public class FusionAuthClient{
     
     public func ImportRefreshTokens(request:RefreshTokenImportRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/refresh-token/import"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
@@ -1207,7 +1214,7 @@ public class FusionAuthClient{
     
     public func ImportUsers(request:ImportRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/import"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
@@ -1262,7 +1269,7 @@ public class FusionAuthClient{
     
     public func Login(request:LoginRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/login"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
@@ -1332,7 +1339,7 @@ public class FusionAuthClient{
     public func ModifyAction(actionId:UUID, request:ActionRequest, clientResponse: @escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
         let urlSegment:[String] = [actionId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ActionResponse>) in
@@ -1348,7 +1355,7 @@ public class FusionAuthClient{
     
     public func PasswordlessLogin(request:PasswordlessLoginRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/passwordless/login"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
@@ -1363,10 +1370,10 @@ public class FusionAuthClient{
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
-    public func PatchApplication(applicationID:UUID?, request:[String:JSONObject], clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
+    public func PatchApplication(applicationID:UUID?, request:ApplicationRequest, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationID?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ApplicationResponse>) in
@@ -1385,7 +1392,7 @@ public class FusionAuthClient{
     public func PatchApplicationRole(applicationId:UUID?, roleId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationId?.uuidString ?? "", "role", roleId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ApplicationResponse>) in
@@ -1403,7 +1410,7 @@ public class FusionAuthClient{
     public func PatchConnector(connectorId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ConnectorResponse>) -> ()){
         let urlPath:String = "/api/connector"
         let urlSegment:[String] = [connectorId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ConnectorResponse>) in
@@ -1421,7 +1428,7 @@ public class FusionAuthClient{
     public func PatchConsent(consentId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ConsentResponse>) -> ()){
         let urlPath:String = "/api/consent"
         let urlSegment:[String] = [consentId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ConsentResponse>) in
@@ -1439,7 +1446,7 @@ public class FusionAuthClient{
     public func PatchEmailTemplate(emailTemplateId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<EmailTemplateResponse>) -> ()){
         let urlPath:String = "/api/email/template"
         let urlSegment:[String] = [emailTemplateId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<EmailTemplateResponse>) in
@@ -1457,7 +1464,7 @@ public class FusionAuthClient{
     public func PatchGroup(groupId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<GroupResponse>) -> ()){
         let urlPath:String = "/api/group"
         let urlSegment:[String] = [groupId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<GroupResponse>) in
@@ -1475,7 +1482,7 @@ public class FusionAuthClient{
     public func PatchIdentityProvider(identityProvider:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<IdentityProviderResponse>) -> ()){
         let urlPath:String = "/api/identity-provider"
         let urlSegment:[String] = [identityProvider?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<IdentityProviderResponse>) in
@@ -1491,7 +1498,7 @@ public class FusionAuthClient{
     
     public func PatchIntegrations(request:[String:JSONObject], clientResponse:@escaping(ClientResponse<IntegrationResponse>) -> ()){
         let urlPath:String = "/api/integration"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<IntegrationResponse>) in
@@ -1509,7 +1516,7 @@ public class FusionAuthClient{
     public func PatchLambda(lambdaId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<LambdaResponse>) -> ()){
         let urlPath:String = "/api/lambda"
         let urlSegment:[String] = [lambdaId?.uuidString ?? ""]
-        let data:Data = try! JSONEncoder().encode(request)
+        let data:Data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<LambdaResponse>) in
@@ -1527,7 +1534,7 @@ public class FusionAuthClient{
     public func PatchRegistrations(userId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
         let urlSegment:[String] = [userId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
     
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<RegistrationResponse>) in
@@ -1543,7 +1550,7 @@ public class FusionAuthClient{
     
     public func PatchSystemConfiguration(request:[String:JSONObject], clientResponse:@escaping(ClientResponse<SystemConfigurationResponse>) -> ()){
         let urlPath:String = "/api/system-configuration"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<SystemConfigurationResponse>) in
@@ -1561,7 +1568,7 @@ public class FusionAuthClient{
     public func PatchTenant(tenantId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<TenantResponse>) -> ()) {
         let urlPath:String = "/api/tenant"
         let urlSegment:[String] = [tenantId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<TenantResponse>) in
@@ -1579,7 +1586,7 @@ public class FusionAuthClient{
     public func PatchTheme(themeId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<ThemeResponse>) -> ()){
         let urlPath:String = "/api/theme"
         let urlSegment:[String] = [themeId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<ThemeResponse>) in
@@ -1597,7 +1604,7 @@ public class FusionAuthClient{
     public func PatchUser(userId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let urlSegment:[String] = [userId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<UserResponse>) in
@@ -1615,7 +1622,7 @@ public class FusionAuthClient{
     public func PatchUserAction(userActionId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
         let urlSegment:[String] = [userActionId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<UserActionResponse>) in
@@ -1633,7 +1640,7 @@ public class FusionAuthClient{
     public func PatchUserActionReason(userActionReasonId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserActionReasonResponse>) -> ()){
         let urlPath:String = "/api/user-action-reason"
         let urlSegment:[String] = [userActionReasonId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<UserActionReasonResponse>) in
@@ -1651,7 +1658,7 @@ public class FusionAuthClient{
     public func PatchUserConsent(userConsentId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<UserConsentResponse>) -> ()){
         let urlPath:String = "/api/user/consent"
         let urlSegment:[String] = [userConsentId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<UserConsentResponse>) in
@@ -1718,7 +1725,7 @@ public class FusionAuthClient{
     
     public func ReconcileJWT(request:IdentityProviderLoginRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/jwt/reconcile"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
@@ -1748,7 +1755,7 @@ public class FusionAuthClient{
     
     public func Register(userId:UUID?, request:RegistrationRequest, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let urlSegment:[String] = [userId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .POST
 
@@ -2019,7 +2026,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveEmailTemplatePreview(request:PreviewRequest, clientResponse: @escaping(ClientResponse<PreviewResponse>) -> ()){
         let urlPath:String = "/api/email/template/preview"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<PreviewResponse>) in
@@ -2476,6 +2483,24 @@ public class FusionAuthClient{
         })
     }
     
+    /// Retrieves a single refresh token by unique Id. This is not the same thing as the string value of the refresh token, if you have that, you already have what you need..
+    /// - Parameters:
+    ///   - userId:  The Id of the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveRefreshTokensById(userId:UUID, clientResponse:@escaping(ClientResponse<RefreshTokenResponse>) -> ()){
+        let urlPath:String = "/api/jwt/refresh"
+        let urlSegment:[String] = [userId.uuidString]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RefreshTokenResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Retrieves the refresh tokens that belong to the user with the given Id.
     /// - Parameters:
     ///   - userId: The Id of the user.
@@ -2666,7 +2691,7 @@ public class FusionAuthClient{
     /// - Parameter clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveUserActions(clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
-        let urlPath:String = "/api/user-action-action"
+        let urlPath:String = "/api/user-action"
         let httpMethod:HTTPMethod = .GET
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
@@ -2906,7 +2931,30 @@ public class FusionAuthClient{
         })
     }
     
-    ///  Revokes a single refresh token, all tokens for a user or all tokens for an application. If you provide a user id and an application id, this will delete all the refresh tokens for that user for that application.
+    /// Revokes refresh tokens.
+    ///
+    /// Usage examples:
+    ///   - Delete a single refresh token, pass in only the token.
+    ///       revokeRefreshToken(token)
+    ///
+    ///   - Delete all refresh tokens for a user, pass in only the userId.
+    ///       revokeRefreshToken(null, userId)
+    ///
+    ///   - Delete all refresh tokens for a user for a specific application, pass in both the userId and the applicationId.
+    ///       revokeRefreshToken(null, userId, applicationId)
+    ///
+    ///   - Delete all refresh tokens for an application
+    ///       revokeRefreshToken(null, null, applicationId)
+    ///
+    /// Note: <code>null</code> may be handled differently depending upon the programming language.
+    ///
+    /// See also: (method names may vary by language... but you'll figure it out)
+    ///
+    ///  - revokeRefreshTokenById
+    ///  - revokeRefreshTokenByToken
+    ///  - revokeRefreshTokensByUserId
+    ///  - revokeRefreshTokensByApplicationId
+    ///  - revokeRefreshTokensByUserIdForApplication
     /// - Parameters:
     ///   - token: (Optional) The refresh token to delete.
     ///   - userId: (Optional) The user id whose tokens to delete.
@@ -2921,6 +2969,96 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
+    }
+    
+    /// Revokes a single refresh token by the unique Id. The unique Id is not sensitive as it cannot be used to obtain another JWT.
+    /// - Parameters:
+    ///   - tokenId: The unique Id of the token to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RevokeRefreshTokenById(tokenId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/jwt/refresh"
+        let urlSegment:[String] = [tokenId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Revokes a single refresh token by using the actual refresh token value. This refresh token value is sensitive, so  be careful with this API request.
+    /// - Parameters:
+    ///   - token:  The refresh token to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RevokeRereshTokenByToken(token:String, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/jwt/refresh"
+        let urlParameters:[URLQueryItem] = [URLQueryItem(name: "token", value: token)]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    /// Revoke all refresh tokens that belong to an application by applicationId.
+    /// - Parameters:
+    ///   - applicationId: The unique Id of the application that you want to delete all refresh tokens for.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RevokeRefreshTokensByApplicationId(applicationId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/jwt/refresh"
+        let urlParameters:[URLQueryItem] = [URLQueryItem(name: "applicationId", value: applicationId?.uuidString ?? "")]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Revoke all refresh tokens that belong to a user by user Id.
+    /// - Parameters:
+    ///   - userId: The unique Id of the user that you want to delete all refresh tokens for.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RevokeRefreshTokensByUserId(userId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/jwt/refresh"
+        let urlParameters:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? "")]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Revoke all refresh tokens that belong to a user by user Id for a specific application by applicationId.
+    /// - Parameters:
+    ///   - userId: The unique Id of the user that you want to delete all refresh tokens for.
+    ///   - applicationId: The unique Id of the application that you want to delete refresh tokens for.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RevokeRefreshTokensByUserIdForApplication(userId:UUID?, applicationId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/jwt/refresh"
+        let urlParameters:[URLQueryItem] = [URLQueryItem(name: "userId", value: userId?.uuidString ?? ""), URLQueryItem(name: "applicationId", value: applicationId?.uuidString ?? "")]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
     }
     
     /// Revokes a single User consent by Id.
@@ -2945,7 +3083,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SearchAuditLogs(request:AuditLogSearchRequest, clientResponse: @escaping(ClientResponse<LoginRecordSearchResponse>) -> ()){
         let urlPath:String = "/api/system/audit-log/search"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .DELETE
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginRecordSearchResponse>) in
@@ -2960,7 +3098,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SearchEventLogs(request:EventLogSearchRequest, clientResponse:@escaping(ClientResponse<EventLogSearchResponse>) -> ()){
         let urlPath:String = "/api/system/event-log/search"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<EventLogSearchResponse>) in
@@ -2975,7 +3113,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SearchLoginRecords(request:LoginRecordSearchRequest, clientResponse:@escaping(ClientResponse<LoginRecordSearchResponse>) -> ()){
         let urlPath:String = "/api/system/login-record/search"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginRecordSearchResponse>) in
@@ -3012,7 +3150,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SearchUsersByQuery(request:SearchRequest, clientResponse: @escaping(ClientResponse<SearchResponse>) -> ()){
         let urlPath:String = "/api/user/search"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
 
@@ -3031,7 +3169,7 @@ public class FusionAuthClient{
     public func SendEmail(emailTemplateId:UUID, request:SendRequest, clientResponse: @escaping(ClientResponse<SendResponse>) -> ()){
         let urlPath:String = "/api/email/send"
         let urlSegment:[String] = [emailTemplateId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<SendResponse>) in
@@ -3046,7 +3184,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SendFamilyRequestEmail(request:FamilyEmailRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/family/request"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
@@ -3061,7 +3199,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SendPasswordlessCode(request:PasswordlessSendRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/passwordless/send"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
@@ -3076,7 +3214,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func SendTwoFactorCode(request:TwoFactorSendRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/two-factor/send"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
@@ -3106,7 +3244,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func StartIdentityProviderLogin(request:IdentityProviderStartLoginRequest, clientResponse:@escaping(ClientResponse<IdentityProviderStartLoginResponse>) -> ()){
         let urlPath:String = "/api/identity-provider/start"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderStartLoginResponse>) in
@@ -3121,7 +3259,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func StartPasswordlessLogin(request:PasswordlessStartRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/passwordless/start"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
@@ -3136,7 +3274,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func TwoFactorLogin(request:TwoFactorLoginRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/two-factor/login"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
@@ -3153,7 +3291,7 @@ public class FusionAuthClient{
     public func UpdateApplication(applicationId:UUID, request:ApplicationRequest, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
@@ -3171,7 +3309,7 @@ public class FusionAuthClient{
     public func UpdateApplicationRole(applicationId:UUID, roleId:UUID, request:ApplicationRequest, clientResponse: @escaping(ClientResponse<ApplicationResponse>) -> ()){
         let urlPath:String = "/api/application"
         let urlSegment:[String] = [applicationId.uuidString, "role", roleId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<ApplicationResponse>) in
@@ -3188,7 +3326,7 @@ public class FusionAuthClient{
     public func UpdateConnector(connectorId:UUID?, request:ConnectorRequest, clientResponse:@escaping(ClientResponse<ConnectorResponse>) -> ()){
         let urlPath:String = "/api/connector"
         let urlSegment:[String] = [connectorId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpmethod:HTTPMethod = .PUT
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpmethod, data:data) { (response:ClientResponse<ConnectorResponse>) in
@@ -3205,7 +3343,7 @@ public class FusionAuthClient{
     public func UpdateConsent(consentId:UUID?, request:ConsentRequest, clientResponse: @escaping(ClientResponse<ConsentResponse>) -> ()){
         let urlPath:String = "/api/consent"
         let urlSegment:[String] = [consentId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ConsentResponse>) in
@@ -3223,7 +3361,7 @@ public class FusionAuthClient{
     public func UpdateEmailTemplate(emailTemplateId:UUID, request:EmailTemplateRequest, clientResponse: @escaping(ClientResponse<EmailTemplateResponse>) -> ()){
         let urlPath:String = "/api/email/template"
         let urlSegment:[String] = [emailTemplateId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
@@ -3240,7 +3378,7 @@ public class FusionAuthClient{
     public func UpdateForm(formId:UUID?, request:FormRequest, clientResponse:@escaping(ClientResponse<FormResponse>) -> ()){
         let urlPath:String = "/api/form"
         let urlSegment:[String] = [formId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<FormResponse>) in
@@ -3257,7 +3395,7 @@ public class FusionAuthClient{
     public func UpdateFormField(fieldId:UUID?, request:FormRequest, clientResponse:@escaping(ClientResponse<FormFieldResponse>) -> ()){
         let urlPath:String = "/api/form/field"
         let urlSegment:[String] = [fieldId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments:urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<FormFieldResponse>) in
@@ -3274,7 +3412,7 @@ public class FusionAuthClient{
     public func UpdateGroup(groupId:UUID, request:GroupRequest, clientResponse: @escaping(ClientResponse<GroupResponse>) -> ()){
         let urlPath:String = "/api/group"
         let urlSegment:[String] = [groupId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
@@ -3291,7 +3429,7 @@ public class FusionAuthClient{
     public func UpdateIdentityProvider(identityProviderId:UUID, request:IdentityProviderRequest, clientResponse: @escaping(ClientResponse<IdentityProviderResponse>) -> ()){
         let urlPath:String = "/api/identity-provider"
         let urlSegment:[String] = [identityProviderId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<IdentityProviderResponse>) in
@@ -3306,7 +3444,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateIntegrations(request:IntegrationRequest, clientResponse: @escaping(ClientResponse<IntegrationResponse>) -> ()){
         let urlPath:String = "/api/integration"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<IntegrationResponse>) in
@@ -3323,7 +3461,7 @@ public class FusionAuthClient{
     public func UpdateKey(keyId:UUID?, request:KeyRequest, clientResponse: @escaping(ClientResponse<KeyResponse>) -> ()){
         let urlPath:String = "/api/key"
         let urlSegment:[String] = [keyId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<KeyResponse>) in
@@ -3340,7 +3478,7 @@ public class FusionAuthClient{
     public func UpdateLambda(lambdaId:UUID?, request:LambdaRequest, clientResponse: @escaping(ClientResponse<LambdaResponse>) -> ()){
         let urlPath:String = "/api/lambda"
         let urlSegment:[String] = [lambdaId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<LambdaResponse>) in
@@ -3357,7 +3495,7 @@ public class FusionAuthClient{
     public func UpdateRegistrations(userId:UUID, request:RegistrationRequest, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
         let urlSegment:[String] = [userId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RegistrationResponse>) in
@@ -3372,7 +3510,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func UpdateSystemConfiguration(request:SystemConfigurationRequest, clientResponse: @escaping(ClientResponse<SystemConfigurationResponse>) -> ()){
         let urlPath:String = "/api/system-configuration"
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<SystemConfigurationResponse>) in
@@ -3389,7 +3527,7 @@ public class FusionAuthClient{
     public func UpdateTenant(tenantId:UUID, request:TenantRequest, clientResponse: @escaping(ClientResponse<TenantResponse>) -> ()){
         let urlPath:String = "/api/tenant"
         let urlSegment:[String] = [tenantId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<TenantResponse>) in
@@ -3406,7 +3544,7 @@ public class FusionAuthClient{
     public func UpdateTheme(themeId:UUID?, request:ThemeRequest, clientResponse: @escaping(ClientResponse<ThemeResponse>) -> ()){
         let urlPath:String = "/api/theme"
         let urlSegment:[String] = [themeId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<ThemeResponse>) in
@@ -3423,7 +3561,7 @@ public class FusionAuthClient{
     public func UpdateUser(userId:UUID, request:UserRequest, clientResponse: @escaping(ClientResponse<UserResponse>) -> ()){
         let urlPath:String = "/api/user"
         let urlSegment:[String] = [userId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
@@ -3440,7 +3578,7 @@ public class FusionAuthClient{
     public func UpdateUserAction(userActionId:UUID, request:UserActionRequest, clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
         let urlSegment:[String] = [userActionId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
@@ -3458,7 +3596,7 @@ public class FusionAuthClient{
     public func UpdateUserActionReason(userActionReasonId:UUID, request:UserActionReasonRequest, clientResponse: @escaping(ClientResponse<UserActionResponse>) -> ()){
         let urlPath:String = "/api/user-action"
         let urlSegment:[String] = [userActionReasonId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserActionResponse>) in
@@ -3475,7 +3613,7 @@ public class FusionAuthClient{
     public func UpdateUserConsent(userConsentId:UUID?, request:UserConsentRequest, clientResponse:@escaping(ClientResponse<UserConsentResponse>) -> ()){
         let urlPath:String = "/api/user/consent"
         let urlSegment:[String] = [userConsentId?.uuidString ?? ""]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<UserConsentResponse>) in
@@ -3492,7 +3630,7 @@ public class FusionAuthClient{
     public func UpdateWebhook(webhookId:UUID, request:WebhookRequest, clientResponse: @escaping(ClientResponse<WebhookResponse>) -> ()){
         let urlPath:String = "/api/webhook"
         let urlSegment:[String] = [webhookId.uuidString]
-        let data = try! JSONEncoder().encode(request)
+        let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PUT
 
 
