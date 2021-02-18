@@ -14,6 +14,7 @@ import Foundation
 
 public class UserSearchCriteria:BaseSearchCriteria, Codable {
     
+    public var accurateTotal:Bool? = nil
     public var ids:[UUID]? = nil
     public var query:String? = nil
     public var queryString:String? = nil
@@ -21,13 +22,16 @@ public class UserSearchCriteria:BaseSearchCriteria, Codable {
     public var numberOfResults: Int? = nil
     public var orderBy: String? = nil
     public var startRow: Int? = nil
-    
 
-    public init(ids: [UUID]? = nil, query: String? = nil, queryString: String? = nil, sortFields: [SortField]? = nil) {
+    public init(accurateTotal: Bool? = nil, ids: [UUID]? = nil, query: String? = nil, queryString: String? = nil, sortFields: [SortField]? = nil, numberOfResults: Int? = nil, orderBy: String? = nil, startRow: Int? = nil) {
+        self.accurateTotal = accurateTotal
         self.ids = ids
         self.query = query
         self.queryString = queryString
         self.sortFields = sortFields
+        self.numberOfResults = numberOfResults
+        self.orderBy = orderBy
+        self.startRow = startRow
     }
 }
 

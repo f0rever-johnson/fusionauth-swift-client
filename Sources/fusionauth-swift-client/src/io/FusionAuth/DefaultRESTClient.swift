@@ -58,7 +58,7 @@ public class DefaultRESTClient{
 
 
         //Uncomment below to view the requestURL
-        debugPrint(requestURL.absoluteString)
+        debugPrint("debugPrint API URL - " + requestURL.absoluteString)
 
 
         let session = URLSession.shared
@@ -91,7 +91,11 @@ public class DefaultRESTClient{
 
                 if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299){
                     //debugPrint("Success" )
-                    clientResponse.successResponse = try JSONDecoder().decode(T.self, from: data!)
+                    //print(data?.prettyPrinted)
+                    let jsonDecoder:JSONDecoder = JSONDecoder()
+                    jsonDecoder.dateDecodingStrategy = .millisecondsSince1970
+                    clientResponse.successResponse = try jsonDecoder.decode(T.self, from: data!)
+                    //dump(clientResponse)
                }else{
                    debugPrint("HTTPResponse Error \(httpResponse.statusCode)")
                 
@@ -113,7 +117,6 @@ public class DefaultRESTClient{
                     }
                         
                 }
-
                 fusionAuthClientResponse(clientResponse)
 
             }
