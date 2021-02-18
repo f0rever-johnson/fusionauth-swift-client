@@ -14,6 +14,7 @@ import Foundation
 public struct SearchResults<T>{
     public var results:Array<T>? = nil
     public var total:UInt64? = nil
+    public var totalEqualToActual:Bool
 
     public init(results: Array<T>? = nil, total: UInt64? = nil) {
         self.results = results

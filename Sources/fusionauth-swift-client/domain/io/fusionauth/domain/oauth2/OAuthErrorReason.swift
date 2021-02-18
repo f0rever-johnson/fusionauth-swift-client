@@ -15,6 +15,7 @@ public enum OAuthErrorReason:String,Codable{
     case accessTokenUnavailableForProcessing = "access_token_unavailable_for_processing"
     case accessTokenFailedProcessing = "access_token_failed_processing"
     case refreshTokenNotFound = "refresh_token_not_found"
+    case refreshTokenTypeNotSupported = "refresh_token_type_not_supported"
     case invalidClientId = "invalid_client_id"
     case invalidUserCredentials = "invalid_user_credentials"
     case invalidGrantType = "invalid_grant_type"
@@ -51,5 +52,9 @@ public enum OAuthErrorReason:String,Codable{
     case invalidClientAuthenticationScheme = "invalid_client_authentication_scheme"
     case invalidClientAuthentication = "invalid_client_authentication"
     case clientIdMismatch = "client_id_mismatch"
+    case changePasswordAdministrative = "change_password_administrative"
+    case changePasswordBreached = "  change_password_breached"
+    case changePasswordExpired = "change_password_expired"
+    case changePasswordValidation = "change_password_validation"
     case unknown = "unknown"
 }
