@@ -9,7 +9,7 @@
 import Foundation
 
 
-public struct ValidateResponse:Codable{
+public class ValidateResponse:Codable{
     public var jwt:JWT? = nil
 
     public init(jwt: JWT? = nil) {

@@ -12,7 +12,7 @@ import XCTest
 class FusionAuthClientTest: XCTestCase {
     
     let baseUrl:String = "factoryWinventory.ddns.net"
-    let apiKey:String = "E9XCHRTDFwc0x_JcdcGmi78PEpcl2PdMcl0pines2DB4Df3jQHjG-Sm-"
+    var apiKey:String = "E9XCHRTDFwc0x_JcdcGmi78PEpcl2PdMcl0pines2DB4Df3jQHjG-Sm-"
     let applicationId:UUID = UUID.init(uuidString: "d5b8a58a-4ceb-4a69-b9d9-0dd706774c14")!
     
     let emailAddress:String = "swiftclient@fusionauth.io"
@@ -147,25 +147,23 @@ class FusionAuthClientTest: XCTestCase {
             self.AssertSuccess(response: loginResponse)
             self.token = loginResponse.successResponse?.token
             self.user = loginResponse.successResponse?.user
+            complete(true)
         })
     }
     
-    func UpdateApplication(application:Application){
-        let expect:XCTestExpectation = XCTestExpectation()
+    func UpdateApplication(application:Application, complete:@escaping (Bool) -> ()){
         let applicationRequest:ApplicationRequest = ApplicationRequest(application: application)
         client?.UpdateApplication(applicationId: applicationId, request: applicationRequest, clientResponse: { updateApplicationResponse in
             self.AssertSuccess(response: updateApplicationResponse)
             self.application = updateApplicationResponse.successResponse?.application
-            expect.fulfill()
+            complete(true)
         })
-        wait(for: [expect], timeout: 30)
     }
     
     func CreateApplication(complete:@escaping (Bool) ->() ){
         client?.RetrieveApplication(applicationId: applicationId, clientResponse: { retrieveApplicationResponse in
             if retrieveApplicationResponse.WasSuccessful{
                 self.client?.DeleteApplication(applicationId: self.applicationId, clientResponse: { deleteApplicationResponse in
-                    dump(deleteApplicationResponse)
                     self.AssertSuccess(response: deleteApplicationResponse)
                     createApplication()
                     
@@ -190,6 +188,8 @@ class FusionAuthClientTest: XCTestCase {
     }
     
     func testPatchApplication(){
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
         let expect:XCTestExpectation = XCTestExpectation()
         CreateApplication { complete in
             let registrationConfiguration:RegistrationConfiguration = RegistrationConfiguration(enabled:true)
@@ -275,5 +275,221 @@ class FusionAuthClientTest: XCTestCase {
         })
         wait(for: [expect], timeout: 30)
     }
+    
+    func testRetrieveApplication(){
+        let expect:XCTestExpectation = XCTestExpectation()
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
+        CreateApplication { complete in
+            self.client?.RetrieveApplication(applicationId: self.application?.id, clientResponse: { retrieveApplicationResponse in
+                XCTAssertEqual("Swift Client Test", retrieveApplicationResponse.successResponse?.application?.name)
+                self.AssertSuccess(response: retrieveApplicationResponse)
+                expect.fulfill()
+            })
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    
+    func testRetrieveRefreshTokensTest(){
+        let expect:XCTestExpectation = XCTestExpectation()
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
+        CreateApplication { caComplete in
+            self.CreateUser { cuComplete in
+                RetrieveRefreshTokens()
+            }
+        }
+        
+        func RetrieveRefreshTokens(){
+            guard let id = user?.id else{return}
+            client?.RetrieveRefreshTokens(userId: id, clientResponse: { retrieveRefreshTokensResponse in
+                self.AssertSuccess(response: retrieveRefreshTokensResponse)
+                XCTAssertNil(retrieveRefreshTokensResponse.successResponse?.refreshTokens)
+                expect.fulfill()
+            })
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    
+    func testUpdateApplication(){
+        let expect:XCTestExpectation = XCTestExpectation()
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
+        CreateApplication { caComplete in
+            var app = self.application!
+            app.name = "Swift Client Test (Updated)"
+            self.UpdateApplication(application: app) { uaComplete in
+                UpdateApplication()
+            }
+        }
+        func UpdateApplication(){
+            let application:Application = .init( name: "Swift Client Test (updated)")
+            let applicationRequest:ApplicationRequest = .init(application:application)
+            client?.UpdateApplication(applicationId: applicationId, request: applicationRequest, clientResponse: { uaComplete in
+                guard let name = uaComplete.successResponse?.application?.name else{return}
+                XCTAssertEqual("Swift Client Test (updated)", name)
+                self.AssertSuccess(response: uaComplete)
+                expect.fulfill()
+            })
+            
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    
+    func testValidateJWT(){
+        let expect:XCTestExpectation = XCTestExpectation()
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
+        CreateApplication { caComplete in
+            self.CreateUser { cuComplete in
+                self.Login { loginComplete in
+                    ValidateJWT()
+                }
+            }
+        }
 
+        func ValidateJWT(){
+            client?.ValidateJWT(encodedJWT: token!, clientResponse: { validateJWTResponse in
+                dump(validateJWTResponse)
+                self.AssertSuccess(response: validateJWTResponse)
+                guard let jwt = validateJWTResponse.successResponse?.jwt else{return}
+                dump(jwt.otherClaims)
+                guard let userId = self.user?.id else{return}
+                guard let appId = self.application?.id else{return}
+                XCTAssertEqual(jwt.sub, userId.uuidString.lowercased())
+                XCTAssertEqual(jwt.otherClaims!["applicationId"]?.jsonString(), appId.uuidString.lowercased())
+                expect.fulfill()
+            })
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    
+    func testRetrievePublicKeysTest(){
+        let expect:XCTestExpectation = XCTestExpectation()
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
+        CreateApplication { caComplete in
+            self.CreateUser { cuComplete in
+                RetrievePublicKeys()
+            }
+        }
+        
+        // No Application Specific Public Keys
+        func RetrievePublicKeys(){
+            client?.RetrieveJWTPublicKey(keyId: applicationId.uuidString, clientResponse: { retrieveJWTKeyResponse in
+                self.AssertMissing(response: retrieveJWTKeyResponse)
+                
+                self.client?.RetrieveJWTPublicKeys(clientResponse: { retrieveJWTKeysResponse in
+                    self.AssertSuccess(response: retrieveJWTKeysResponse)
+                    expect.fulfill()
+                })
+            })
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    
+    func testDeactivateApplication(){
+        let expect:XCTestExpectation = XCTestExpectation()
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
+        CreateApplication { caComplete in
+            self.client?.DeactivateApplication(applicationId: self.applicationId, clientResponse: { daApplicationResponse in
+                self.AssertSuccess(response: daApplicationResponse)
+                print("I am working")
+                expect.fulfill()
+            })
+        }
+        wait(for: [expect], timeout: 30)
+    }
+    
+    
+    
+    func testReactivateApplication(){
+        let expect:XCTestExpectation = XCTestExpectation()
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
+        
+        testDeactivateApplication()
+
+        client?.ReactivateApplication(applicationId: applicationId, clientResponse: { [self] raApplication in
+            self.AssertSuccess(response: raApplication)
+            self.client?.RetrieveApplication(applicationId: self.applicationId, clientResponse: { retrieveResponse in
+                guard let name = retrieveResponse.successResponse?.application?.name else{return}
+                guard let active = retrieveResponse.successResponse?.application?.active else{return}
+                XCTAssertEqual("Swift Client Test", name)
+                XCTAssertTrue(active)
+                self.AssertSuccess(response: retrieveResponse)
+                expect.fulfill()
+            })
+        })
+        wait(for: [expect], timeout: 30)
+    }
+    
+    func testRegister(){
+        let expect:XCTestExpectation = XCTestExpectation()
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
+        CreateApplication { caComplete in
+            self.CreateUser { cuComplete in
+                RetrieveRegistration()
+            }
+        }
+        
+        func RetrieveRegistration(){
+            client?.RetrieveRegistration(userId: (user?.id)!, applicationId: applicationId, clientResponse: { retrieveRegistrationResponse in
+                XCTAssertEqual(self.user?.username, retrieveRegistrationResponse.successResponse?.registration?.username)
+                self.AssertSuccess(response: retrieveRegistrationResponse)
+                UpdateRegistration()
+            })
+        }
+        
+        func UpdateRegistration(){
+            let userRegistration:UserRegistration = UserRegistration(applicationId: applicationId, cleanSpeakId: UUID(uuidString: "9af3fc1d-9236-4793-93df-aeac5f67f23e"), username: user?.username, usernameStatus: .ACTIVE)
+            let registrationRequest:RegistrationRequest = RegistrationRequest(registration:userRegistration)
+            client?.UpdateRegistration(userId: (user?.id)!, request: registrationRequest, clientResponse: { updateRegistrationResponse in
+                XCTAssertEqual(self.user?.username, updateRegistrationResponse.successResponse?.registration?.username)
+                self.AssertSuccess(response: updateRegistrationResponse)
+                DeleteUserAndRegistration()
+            })
+        }
+        
+        func DeleteUserAndRegistration(){
+            client?.DeleteRegistration(userId: (user?.id)!, applicationId: applicationId, clientResponse: { deleteRegistrationResponse in
+                self.AssertSuccess(response: deleteRegistrationResponse)
+                self.client?.DeleteUser(userId: (self.user?.id)!, hardDelete: true, clientResponse: { deleteUserResponse in
+                    RetrieveEmptyRegistration()
+                })
+            })
+        }
+        
+        func RetrieveEmptyRegistration(){
+            let randomUserId:UUID = UUID(uuidString: "f64992f5-c705-47b2-bc88-4046ac8a82ee")!
+            client?.RetrieveRegistration(userId: randomUserId, applicationId: applicationId, clientResponse: { retrieveEmptyRegistrationResponse in
+                self.AssertMissing(response: retrieveEmptyRegistrationResponse)
+                expect.fulfill()
+            })
+        }
+        
+        wait(for: [expect], timeout: 30)
+    }
+    
+    func testSystemConfiguration() {
+        let expect:XCTestExpectation = XCTestExpectation()
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
+        client?.RetrieveSystemConfiguration(clientResponse: { retrieveSystemConfigResponse in
+            self.AssertSuccess(response: retrieveSystemConfigResponse)
+            expect.fulfill()
+        })
+        wait(for: [expect], timeout: 30)
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
 }

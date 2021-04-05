@@ -94,6 +94,7 @@ public class DefaultRESTClient{
                     //print(data?.prettyPrinted)
                     let jsonDecoder:JSONDecoder = JSONDecoder()
                     jsonDecoder.dateDecodingStrategy = .millisecondsSince1970
+                    
                     clientResponse.successResponse = try jsonDecoder.decode(T.self, from: data!)
                     //dump(clientResponse)
                }else{

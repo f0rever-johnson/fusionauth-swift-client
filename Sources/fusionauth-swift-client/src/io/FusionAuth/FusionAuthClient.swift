@@ -2261,10 +2261,10 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveJWTPublicKey(keyId:String, clientResponse: @escaping(ClientResponse<PublicKeyResponse>) -> ()){
         let urlPath:String = "/api/jwt/public-key"
-        let urlSegment:[String] = [keyId]
+        let urlParameter:[URLQueryItem] = [URLQueryItem(name: "kid", value: keyId)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<PublicKeyResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<PublicKeyResponse>) in
             clientResponse(response)
         })
     }
@@ -2506,12 +2506,12 @@ public class FusionAuthClient{
     ///   - userId: The Id of the user.
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
-    public func RetrieveRefreshTokens(userId:UUID, clientResponse: @escaping(ClientResponse<RefreshResponse>) -> ()){
+    public func RetrieveRefreshTokens(userId:UUID, clientResponse: @escaping(ClientResponse<RefreshTokenResponse>) -> ()){
         let urlPath:String = "/api/jwt/refresh"
         let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId.uuidString)]
         let httpMethod:HTTPMethod = .GET
 
-        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RefreshResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RefreshTokenResponse>) in
             clientResponse(response)
         })
     }
@@ -2522,7 +2522,7 @@ public class FusionAuthClient{
     ///   - applicationId: The Id of the application.
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
-    public func RetrieveRegistrations(userId:UUID, applicationId:UUID, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
+    public func RetrieveRegistration(userId:UUID, applicationId:UUID, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
         let urlSegment:[String] = [userId.uuidString, applicationId.uuidString]
         let httpMethod:HTTPMethod = .GET
@@ -3492,7 +3492,7 @@ public class FusionAuthClient{
     ///   - request: The request that contains all of the new registration information.
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
-    public func UpdateRegistrations(userId:UUID, request:RegistrationRequest, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
+    public func UpdateRegistration(userId:UUID, request:RegistrationRequest, clientResponse: @escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
         let urlSegment:[String] = [userId.uuidString]
         let data = try! jsonEncoder.encode(request)
@@ -3664,7 +3664,7 @@ public class FusionAuthClient{
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func ValidateJWT(encodedJWT:String, clientResponse: @escaping(ClientResponse<ValidateResponse>) -> ()){
         let urlPath:String = "/api/jwt/validate"
-        let authorization:String = ("JWT" + encodedJWT)
+        let authorization:String = ("Bearer " + encodedJWT)
         let httpMethod:HTTPMethod = .GET
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, authorization: authorization, fusionAuthClientResponse: { (response:ClientResponse<ValidateResponse>) in
