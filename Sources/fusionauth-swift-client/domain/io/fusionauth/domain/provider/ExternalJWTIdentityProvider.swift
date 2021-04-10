@@ -19,7 +19,7 @@ public class ExternalJWTIdentityProvider:BaseIdentityProvider, Codable{
     public var lambdaConfiguration: LambdaConfiguration? = nil
     public var lastUpdateInstant: Date? = nil
     public var name: String? = nil
-    public var applicationConfiguration: [UUID : ExternalJWTApplicationConfiguration]? = nil
+    public var applicationConfiguration: [String : ExternalJWTApplicationConfiguration]? = nil
     public var data: [String : JSONObject]? = nil
     public var debug: Bool? = nil
     public var id: UUID? = nil
@@ -32,7 +32,7 @@ public class ExternalJWTIdentityProvider:BaseIdentityProvider, Codable{
     public var uniqueIdentityClaim:String? = nil
     public var type:IdentityProviderType? = nil
     
-    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, applicationConfiguration: [UUID : ExternalJWTApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, enabled: Bool? = nil, claimMap: [String : String]? = nil, domains: [String]? = nil, headerKeyParameter: String? = nil, keys: [String : String]? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil, uniqueIdentityClaim: String? = nil, type: IdentityProviderType? = nil) {
+    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, applicationConfiguration: [String : ExternalJWTApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, enabled: Bool? = nil, claimMap: [String : String]? = nil, domains: [String]? = nil, headerKeyParameter: String? = nil, keys: [String : String]? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil, uniqueIdentityClaim: String? = nil, type: IdentityProviderType? = nil) {
         self.insertinstant = insertinstant
         self.lambdaConfiguration = lambdaConfiguration
         self.lastUpdateInstant = lastUpdateInstant

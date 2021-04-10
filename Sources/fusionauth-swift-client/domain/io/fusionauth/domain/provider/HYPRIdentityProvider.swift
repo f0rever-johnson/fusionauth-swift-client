@@ -10,7 +10,7 @@ import Foundation
 public class HYPRIdentityProvider:BaseIdentityProvider, Codable{
 
     public typealias D = HYPRApplicationConfiguration
-    public var applicationConfiguration: [UUID : HYPRApplicationConfiguration]? = nil
+    public var applicationConfiguration: [String : HYPRApplicationConfiguration]? = nil
     public var data: [String : JSONObject]? = nil
     public var debug: Bool? = nil
     public var id: UUID? = nil
@@ -23,7 +23,7 @@ public class HYPRIdentityProvider:BaseIdentityProvider, Codable{
     public var relyingPartyApplicationId:String? = nil
     public var relyingPartyURL:String? = nil
     
-    public init(applicationConfiguration: [UUID : HYPRApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, relyingPartyApplicationId: String? = nil, relyingPartyURL: String? = nil) {
+    public init(applicationConfiguration: [String : HYPRApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, relyingPartyApplicationId: String? = nil, relyingPartyURL: String? = nil) {
         self.applicationConfiguration = applicationConfiguration
         self.data = data
         self.debug = debug

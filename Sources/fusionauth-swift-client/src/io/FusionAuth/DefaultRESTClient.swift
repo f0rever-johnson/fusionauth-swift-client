@@ -9,7 +9,7 @@ import Foundation
 
 public class DefaultRESTClient{
 
-    private let TENANT_ID_HEADER:String =  "X-FusionAuth-TenantId"
+    private let TENANT_ID_HEADER:String = "X-FusionAuth-TenantId"
     private(set) var apiKey:String?
     private(set) var baseUrl:String
     private(set) var tenantId:String?
@@ -67,7 +67,6 @@ public class DefaultRESTClient{
         request.timeoutInterval = TimeInterval(timeout)
         request.setValue((authorization ?? apiKey ?? ""), forHTTPHeaderField: "Authorization")
         request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
-
 
         if tenantId != nil {
             request.setValue(tenantId, forHTTPHeaderField: TENANT_ID_HEADER)

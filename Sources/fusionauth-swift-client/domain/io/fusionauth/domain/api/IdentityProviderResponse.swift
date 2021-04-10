@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct IdentityProviderResponse:Codable {
+public class IdentityProviderResponse:Codable {
     public var identityProvider:IdentityProviderConverter? = nil
     public var identityProviders:[IdentityProviderConverter]? = nil
 

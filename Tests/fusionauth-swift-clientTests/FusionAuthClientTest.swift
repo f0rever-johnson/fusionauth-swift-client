@@ -39,6 +39,11 @@ class FusionAuthClientTest: XCTestCase {
         user = nil
     }
     
+    func NewClientWithTenantId(tenantId:String) -> FusionAuthClient{
+        let RestClientWithTenantId = DefaultRESTClient(baseUrl: baseUrl, apiKey: apiKey, tenantId: tenantId, urlScheme: "https", port: 443)
+        return FusionAuthClient(fusionAuth: RestClientWithTenantId)
+    }
+    
     
     func AssertSuccess<T>(response: ClientResponse<T>){
         let message:String = response.exception == nil ? "No Errors" : response.exception!.localizedDescription
@@ -49,7 +54,7 @@ class FusionAuthClientTest: XCTestCase {
     }
     func AssertStatusCode<T>(response:ClientResponse<T>, expectedCode:Int){
         XCTAssertEqual(expectedCode, response.statusCode, response.errorResponse != nil ? (response.errorResponse?.ToString())! : "No Errors")
-        XCTAssertNil(response.errorResponse)
+        XCTAssertNil(response.exception)
         if expectedCode == 400{
             XCTAssertNotNil(response.errorResponse)
         }else{
@@ -96,7 +101,6 @@ class FusionAuthClientTest: XCTestCase {
        
         client?.RetrieveUserActions(clientResponse: { (retrieveUserActionResponse) in
             print("retrieveUserActionResponse")
-            dump(retrieveUserActionResponse)
             self.AssertSuccess(response: retrieveUserActionResponse)
             if retrieveUserActionResponse.WasSuccessful{
                 if let userActions = retrieveUserActionResponse.successResponse?.userActions{
@@ -118,7 +122,6 @@ class FusionAuthClientTest: XCTestCase {
             let userActionRequest:UserActionRequest = UserActionRequest(userAction: userAction)
             
             self.client?.CreateUserAction(userActionId: nil, request: userActionRequest, clientResponse: { (createUserActionResponse) in
-                dump(createUserActionResponse.WasSuccessful)
                 self.AssertSuccess(response: createUserActionResponse)
                 self.userAction = createUserActionResponse.successResponse?.userAction
                 //expect.fulfill()
@@ -221,6 +224,8 @@ class FusionAuthClientTest: XCTestCase {
     
     func testCancelAction(){
         let expect:XCTestExpectation = XCTestExpectation()
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
         CreateApplication { caComplete in
             self.CreateUserAction(actionName: "SwiftClientUserAction", isTemporal: true) { (cuaComplete) in
                 self.CreateUser { cuComplete in
@@ -255,7 +260,6 @@ class FusionAuthClientTest: XCTestCase {
             tenant?.eventConfiguration = eventConfiguration
             let tenantRequest:TenantRequest = TenantRequest(tenant:tenant)
             
-            dump(tenant)
             
             self.client?.CreateTenant(tenantId: nil, request: tenantRequest, clientResponse: { createTenantResponse in
                 self.AssertSuccess(response: createTenantResponse)
@@ -350,10 +354,8 @@ class FusionAuthClientTest: XCTestCase {
 
         func ValidateJWT(){
             client?.ValidateJWT(encodedJWT: token!, clientResponse: { validateJWTResponse in
-                dump(validateJWTResponse)
                 self.AssertSuccess(response: validateJWTResponse)
                 guard let jwt = validateJWTResponse.successResponse?.jwt else{return}
-                dump(jwt.otherClaims)
                 guard let userId = self.user?.id else{return}
                 guard let appId = self.application?.id else{return}
                 XCTAssertEqual(jwt.sub, userId.uuidString.lowercased())
@@ -482,6 +484,219 @@ class FusionAuthClientTest: XCTestCase {
             expect.fulfill()
         })
         wait(for: [expect], timeout: 30)
+    }
+    
+    func testGroups(){
+        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        setUp()
+        func CreateGroups() -> ClientResponse<GroupResponse>{
+            var createGroupResponse:ClientResponse<GroupResponse> = ClientResponse()
+            let expect = XCTestExpectation()
+            let group:Group = Group( name: "Swift Group")
+            let groupRequest:GroupRequest = GroupRequest(group:group)
+            client?.CreateGroup(groupId: nil, request: groupRequest, clientResponse: { (cgResponse) in
+                 createGroupResponse = cgResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return createGroupResponse
+        }
+        
+        func RetrieveGroup(fusionAuthClient:FusionAuthClient, groupId:UUID) -> ClientResponse<GroupResponse>{
+            var groupResponse:ClientResponse<GroupResponse> = ClientResponse()
+            let expect = XCTestExpectation()
+            fusionAuthClient.RetrieveGroup(groupId: groupId, clientResponse: { rgResponse in
+                groupResponse = rgResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return groupResponse
+        }
+        
+        func RetrieveGroups(fusionAuthClient:FusionAuthClient) -> ClientResponse<GroupResponse>{
+            var groupResponse:ClientResponse<GroupResponse> = ClientResponse()
+            let expect = XCTestExpectation()
+            fusionAuthClient.RetrieveGroups(clientResponse: { rgResponse in
+                groupResponse = rgResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return groupResponse
+        }
+        
+        func DeleteGroups(groupId:UUID){
+            let expect = XCTestExpectation()
+            client?.DeleteGroup(groupId: groupId, clientResponse: { _ in
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+        }
+        
+        func createTenant(tenantId:UUID) -> ClientResponse<TenantResponse>{
+            let expect = XCTestExpectation()
+            var createTenantResponse:ClientResponse<TenantResponse> = ClientResponse()
+            let tenant:Tenant = Tenant(name: "Swift Tenant")
+            let tenantRequest:TenantRequest = TenantRequest(sourceTenantId: tenantId, tenant: tenant)
+            client?.CreateTenant(tenantId: nil, request: tenantRequest, clientResponse: { ctResponse in
+                createTenantResponse = ctResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return createTenantResponse
+        }
+        
+        func deleteTenant(tenantId:UUID) -> ClientResponse<RESTVoid>{
+            let expect = XCTestExpectation()
+            var deleteTenantResponse:ClientResponse<RESTVoid> = ClientResponse()
+            client?.DeleteTenant(tenantId: tenantId, clientResponse: { dtResponse in
+                deleteTenantResponse = dtResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return deleteTenantResponse
+        }
+        
+        var retrieveResponse = RetrieveGroups(fusionAuthClient: client!)
+        AssertSuccess(response: retrieveResponse)
+        
+        if let groups = retrieveResponse.successResponse?.groups{
+            if ((!groups.isEmpty) && (groups.count > 0 )){
+                for g in groups{
+                    if (g.name == "Swift Group"){
+                        if let id = g.id{
+                            DeleteGroups(groupId: id)
+                        }
+                    }
+                }
+            }
+        }
+        
+        let createResponse = CreateGroups()
+        AssertSuccess(response: createResponse)
+        retrieveResponse = RetrieveGroups(fusionAuthClient: client!)
+        AssertSuccess(response: retrieveResponse)
+        
+        // Use a tenantId
+        apiKey = "E9XCHRTDFwc0x_JcdcGmi78PEpcl2PdMcl0pines2DB4Df3jQHjG-Sm-"
+        setUp()
+        func RetrieveTenants() -> ClientResponse<TenantResponse>{
+            let expect = XCTestExpectation()
+            var retrieveTenants:ClientResponse<TenantResponse> = ClientResponse()
+            client?.RetrieveTenants(clientResponse: { rtResponse in
+                retrieveTenants = rtResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return retrieveTenants
+        }
+        
+        let tenantResponse = RetrieveTenants()
+        AssertSuccess(response: tenantResponse)
+        guard let tenantId = tenantResponse.successResponse?.tenants?[2].id else{return XCTFail()}
+        let tenantClient = NewClientWithTenantId(tenantId: tenantId.uuidString)
+        var tenantGroupRetrieveResponse = RetrieveGroup(fusionAuthClient: tenantClient, groupId: (createResponse.successResponse?.group?.id)!)
+        AssertSuccess(response: tenantGroupRetrieveResponse)
+        
+        // 400, bad tenant Id
+        
+        let badTenantClient = NewClientWithTenantId(tenantId: UUID.init().uuidString)
+        
+        tenantGroupRetrieveResponse = RetrieveGroup(fusionAuthClient: badTenantClient, groupId: (createResponse.successResponse?.group?.id)!)
+        AssertStatusCode(response: tenantGroupRetrieveResponse, expectedCode: 400)
+        
+        // 404, Wrong tenant Id
+    
+        let createTenantResponse = createTenant(tenantId: tenantId)
+        AssertSuccess(response: createTenantResponse)
+        
+        guard let newTenantId = createTenantResponse.successResponse?.tenant?.id else{return XCTFail()}
+        let wrongTenantClient = NewClientWithTenantId(tenantId: newTenantId.uuidString)
+        
+        tenantGroupRetrieveResponse = RetrieveGroup(fusionAuthClient: wrongTenantClient, groupId: (createResponse.successResponse?.group?.id)!)
+        AssertMissing(response: tenantGroupRetrieveResponse)
+        
+        let deleteResponse = deleteTenant(tenantId: (createTenantResponse.successResponse?.tenant?.id)!)
+        AssertSuccess(response: deleteResponse)
+       
+    }
+    
+    func testIdentityProviders(){
+        func CreateIdentityProvider() -> ClientResponse<IdentityProviderResponse>{
+            let expect = XCTestExpectation()
+            var createIdentityProviderResponse:ClientResponse<IdentityProviderResponse> = ClientResponse()
+            let externalJWTIdentityProvider = ExternalJWTIdentityProvider(name: "Swift IdentityProvider", headerKeyParameter: "kid", uniqueIdentityClaim: "username")
+            let identityProvider = IdentityProviderConverter.ExternalJWT(externalJWTIdentityProvider)
+            let identityProviderRequest:IdentityProviderRequest = .init(identityProvider: identityProvider)
+            
+            client?.CreateIdentityProvider(identityProviderId: nil, request: identityProviderRequest, clientResponse: { cipResponse in
+                createIdentityProviderResponse = cipResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return createIdentityProviderResponse
+        }
+        
+        func RetrieveIdentityProviders() -> ClientResponse<IdentityProviderResponse> {
+            let expect = XCTestExpectation()
+            var identityProvidersResponse:ClientResponse<IdentityProviderResponse> = ClientResponse()
+            client?.RetrieveIdentityProviders(clientResponse: { riResponse in
+                identityProvidersResponse = riResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return identityProvidersResponse
+        }
+        
+        func DeleteIdentityProvider(id:UUID) -> ClientResponse<RESTVoid>{
+            let expect = XCTestExpectation()
+            var deleteIdentityProviderResponse:ClientResponse<RESTVoid> = ClientResponse()
+            client?.DeleteIdentityProvider(identityProviderId: id, clientResponse: { dipResponse in
+                deleteIdentityProviderResponse = dipResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return deleteIdentityProviderResponse
+        }
+        
+        var retrieveResponse = RetrieveIdentityProviders()
+        AssertSuccess(response: retrieveResponse)
+        if let idProviders:[IdentityProviderConverter] = retrieveResponse.successResponse?.identityProviders{
+            
+            if !idProviders.isEmpty && idProviders.count > 0{
+                for idp in idProviders{
+                    if idp.GetType() == .ExternalJWT{
+                        let identityProvider = idp.GetIdentity() as! ExternalJWTIdentityProvider
+                        if let name = identityProvider.name{
+                            if name == "Swift IdentityProvider"{
+                                guard let id = identityProvider.id else{return}
+                                _ = DeleteIdentityProvider(id: id)
+                            }
+                        }
+                    }
+                        
+                }
+            }
+            
+            let createResponse = CreateIdentityProvider()
+            AssertSuccess(response: createResponse)
+            retrieveResponse = RetrieveIdentityProviders()
+            AssertSuccess(response: retrieveResponse)
+            
+            
+            
+            
+            
+        }
+        
+        
+       
+        
+        
+        
+        
+        
+        
+        
     }
 
     

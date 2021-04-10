@@ -11,7 +11,7 @@ public class SAMLv2IdentityProvider:BaseIdentityProvider{
     
     public typealias D = SAMLv2ApplicationConfiguration
     
-    public var applicationConfiguration: [UUID : SAMLv2ApplicationConfiguration]? = nil
+    public var applicationConfiguration: [String : SAMLv2ApplicationConfiguration]? = nil
     public var data: [String : JSONObject]? = nil
     public var debug: Bool? = nil
     public var id: UUID? = nil
@@ -33,7 +33,7 @@ public class SAMLv2IdentityProvider:BaseIdentityProvider{
     public var insertinstant: Date? = nil
     public var lastUpdateInstant: Date? = nil
 
-    public init(applicationConfiguration: [UUID : SAMLv2ApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonImageURL: String? = nil, buttonText: String? = nil, domains: [String]? = nil, emailClaim: String? = nil, idpEndpoint: String? = nil, issuer: String? = nil, keyId: UUID? = nil, postRequest: Bool? = nil, requestSigningKeyId: UUID? = nil, signRequest: Bool? = nil, lambdaConfiguration: LambdaConfiguration? = nil, useNameIdForEmail: Bool? = nil, insertinstant: Date? = nil, lastUpdateInstant: Date? = nil) {
+    public init(applicationConfiguration: [String : SAMLv2ApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonImageURL: String? = nil, buttonText: String? = nil, domains: [String]? = nil, emailClaim: String? = nil, idpEndpoint: String? = nil, issuer: String? = nil, keyId: UUID? = nil, postRequest: Bool? = nil, requestSigningKeyId: UUID? = nil, signRequest: Bool? = nil, lambdaConfiguration: LambdaConfiguration? = nil, useNameIdForEmail: Bool? = nil, insertinstant: Date? = nil, lastUpdateInstant: Date? = nil) {
         self.applicationConfiguration = applicationConfiguration
         self.data = data
         self.debug = debug

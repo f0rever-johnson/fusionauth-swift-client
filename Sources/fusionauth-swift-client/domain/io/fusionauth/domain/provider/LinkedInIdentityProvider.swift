@@ -12,7 +12,7 @@ public class LinkedInIdentityProvider:BaseIdentityProvider, Codable{
     public typealias D = LinkedInApplicationConfiguration
     
     public var enabled: Bool?
-    public var applicationConfiguration: [UUID : LinkedInApplicationConfiguration]? = nil
+    public var applicationConfiguration: [String : LinkedInApplicationConfiguration]? = nil
     public var data: [String : JSONObject]? = nil
     public var name: String? = nil
     public var debug: Bool? = nil
@@ -26,7 +26,7 @@ public class LinkedInIdentityProvider:BaseIdentityProvider, Codable{
     public var lambdaConfiguration: LambdaConfiguration? = nil
     public var lastUpdateInstant: Date? = nil
     
-    public init(enabled: Bool? = nil, applicationConfiguration: [UUID : LinkedInApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, name: String? = nil, debug: Bool? = nil, id: UUID? = nil, type: IdentityProviderType? = nil, buttonText: String? = nil, clientId: String? = nil, clientSecret: String? = nil, scope: String? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil) {
+    public init(enabled: Bool? = nil, applicationConfiguration: [String : LinkedInApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, name: String? = nil, debug: Bool? = nil, id: UUID? = nil, type: IdentityProviderType? = nil, buttonText: String? = nil, clientId: String? = nil, clientSecret: String? = nil, scope: String? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil) {
         self.enabled = enabled
         self.applicationConfiguration = applicationConfiguration
         self.data = data

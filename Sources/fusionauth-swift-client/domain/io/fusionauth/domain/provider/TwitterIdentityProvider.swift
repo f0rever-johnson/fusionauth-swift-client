@@ -12,7 +12,7 @@ import Foundation
 
 public class TwitterIdentityProvider:BaseIdentityProvider{
     public typealias D = TwitterApplicationConfiguration
-    public var applicationConfiguration: [UUID : TwitterApplicationConfiguration]? = nil
+    public var applicationConfiguration: [String : TwitterApplicationConfiguration]? = nil
     public var data: [String : JSONObject]? = nil
     public var debug: Bool? = nil
     public var id: UUID? = nil

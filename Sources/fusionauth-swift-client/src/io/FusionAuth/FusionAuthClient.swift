@@ -2154,7 +2154,7 @@ public class FusionAuthClient{
     public func RetrieveGroup(groupId:UUID, clientResponse: @escaping(ClientResponse<GroupResponse>) -> ()){
         let urlPath:String = "/api/group"
         let urlSegment:[String] = [groupId.uuidString]
-        let httpMethod:HTTPMethod = .PUT
+        let httpMethod:HTTPMethod = .GET
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
             clientResponse(response)
