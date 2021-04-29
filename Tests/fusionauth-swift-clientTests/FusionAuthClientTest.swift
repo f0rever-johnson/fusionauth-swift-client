@@ -681,30 +681,259 @@ class FusionAuthClientTest: XCTestCase {
             AssertSuccess(response: createResponse)
             retrieveResponse = RetrieveIdentityProviders()
             AssertSuccess(response: retrieveResponse)
-            
-            
-            
-            
-            
+        }
+    }
+    
+    func testIntegrations(){
+        func RetrieveIntegration() -> ClientResponse<IntegrationResponse>{
+            let expect = XCTestExpectation()
+            var integrationResponse:ClientResponse<IntegrationResponse> = ClientResponse()
+            client?.RetrieveIntegrations(clientResponse: { (riResponse) in
+                integrationResponse = riResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return integrationResponse
+        }
+        let response = RetrieveIntegration()
+        AssertSuccess(response: response)
+        
+        XCTAssertNotNil(response.successResponse?.integrations?.cleanSpeak)
+        XCTAssertNotNil(response.successResponse?.integrations?.twilio)
+    }
+    
+    func testLogin(){
+        func Login() -> ClientResponse<LoginResponse>{
+            let expect = XCTestExpectation()
+            var loginResponse:ClientResponse<LoginResponse> = ClientResponse()
+            let loginRequest = LoginRequest(applicationId: applicationId, ipAddress: "10.0.0.123", loginId: emailAddress, password: password)
+            client?.Login(request: loginRequest, clientResponse: { lrComplete in
+                loginResponse = lrComplete
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return loginResponse
+        }
+        CreateApplication { _ in
+            self.CreateUser { _ in
+                let loginResponse = Login()
+                self.AssertSuccess(response: loginResponse)
+            }
+        }
+    }
+    
+    func testTenant(){
+        
+        func RetrieveTenants() -> ClientResponse<TenantResponse>{
+            let expect = XCTestExpectation()
+            var retrieveTenantsResponse:ClientResponse<TenantResponse> = ClientResponse()
+            client?.RetrieveTenants(clientResponse: { rtResponse in
+                retrieveTenantsResponse = rtResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return retrieveTenantsResponse
         }
         
+        func CreateTenant(tenantId:UUID? = nil, tenantRequest:TenantRequest) -> ClientResponse<TenantResponse>{
+            let expect = XCTestExpectation()
+            var createTenantsResponse:ClientResponse<TenantResponse> = ClientResponse()
+            client?.CreateTenant(tenantId:tenantId, request:tenantRequest, clientResponse: { ctResponse in
+                createTenantsResponse = ctResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return createTenantsResponse
+        }
         
-       
+        func DeleteTenant(tenantId:UUID) -> ClientResponse<RESTVoid>{
+            let expect = XCTestExpectation()
+            var deleteTenantResponse:ClientResponse<RESTVoid> = ClientResponse()
+            client?.DeleteTenant(tenantId: tenantId, clientResponse: { dtResponse in
+                deleteTenantResponse = dtResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return deleteTenantResponse
+        }
         
+        let response = RetrieveTenants()
+        AssertSuccess(response: response)
         
+        guard let tenants = response.successResponse?.tenants else{return XCTFail()}
+        guard let name = tenants[2].name else{return XCTFail()}
+        XCTAssertEqual(name, "Default")
+      
         
+        // Make a copy of the default tenant
+        let tenant:Tenant = Tenant(name:"Swift Tenant")
+        let tenantRequest:TenantRequest = TenantRequest(sourceTenantId: tenants[2].id, tenant: tenant)
         
+        let createTenantResponse = CreateTenant(tenantId: nil, tenantRequest: tenantRequest)
+        AssertSuccess(response: createTenantResponse)
         
+        guard let newName = createTenantResponse.successResponse?.tenant?.name else{return XCTFail()}
+        guard let id = createTenantResponse.successResponse?.tenant?.id else{return XCTFail()}
         
+        XCTAssertEqual(newName, "Swift Tenant")
+        XCTAssertNotNil(createTenantResponse.successResponse?.tenant?.id)
+        
+        let deleteResponse = DeleteTenant(tenantId: id)
+        AssertSuccess(response: deleteResponse)
         
     }
+    
+    func testUnverifiedUserLogin(){
+        
+        func CreateTenant(tenantId:UUID? = nil, tenantRequest:TenantRequest) -> ClientResponse<TenantResponse>{
+            let expect = XCTestExpectation()
+            var createTenantsResponse:ClientResponse<TenantResponse> = ClientResponse()
+            client?.CreateTenant(tenantId:tenantId, request:tenantRequest, clientResponse: { ctResponse in
+                createTenantsResponse = ctResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return createTenantsResponse
+        }
+        
+        func RetrieveTenants() -> ClientResponse<TenantResponse>{
+            let expect = XCTestExpectation()
+            var retrieveTenantsResponse:ClientResponse<TenantResponse> = ClientResponse()
+            client?.RetrieveTenants(clientResponse: { rtResponse in
+                retrieveTenantsResponse = rtResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return retrieveTenantsResponse
+        }
+        
+        func DeleteTenant(tenantId:UUID) -> ClientResponse<RESTVoid>{
+            let expect = XCTestExpectation()
+            var deleteTenantResponse:ClientResponse<RESTVoid> = ClientResponse()
+            client?.DeleteTenant(tenantId: tenantId, clientResponse: { dtResponse in
+                deleteTenantResponse = dtResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return deleteTenantResponse
+        }
+        
+        func RetrieveEmailTemplateResponse() -> ClientResponse<EmailTemplateResponse>{
+            let expect = XCTestExpectation()
+            var retrieveEmailTemplateResponse:ClientResponse<EmailTemplateResponse> = ClientResponse()
+            client?.RetrieveEmailTemplates(clientResponse: { retResponse in
+                retrieveEmailTemplateResponse = retResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return retrieveEmailTemplateResponse
+        }
+        
+        func CreateApplication(client:FusionAuthClient, request:ApplicationRequest) -> ClientResponse<ApplicationResponse> {
+            let expect = XCTestExpectation()
+            var createApplicationResponse:ClientResponse<ApplicationResponse> = ClientResponse()
+            client.CreateApplication(applicationId: nil, request: request, clientResponse: { caResponse in
+                createApplicationResponse = caResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return createApplicationResponse
+        }
+        
+        func RetrieveApplications() -> ClientResponse<ApplicationResponse>{
+            let expect = XCTestExpectation()
+            var retrieveApplicationsResponse:ClientResponse<ApplicationResponse> = ClientResponse()
+            client?.RetrieveApplications(clientResponse: { raResponse in
+                retrieveApplicationsResponse = raResponse
+                expect.fulfill()
+            })
+            wait(for: [expect], timeout: 30)
+            return retrieveApplicationsResponse
+        }
+        
+        func Register(client:FusionAuthClient, request:RegistrationRequest) -> ClientResponse<RegistrationResponse>{
+            let expect = XCTestExpectation()
+            var registerResponse:ClientResponse<RegistrationResponse> = ClientResponse()
+            client.Register(userId: nil, request: request) { rResponse in
+                registerResponse = rResponse
+                expect.fulfill()
+            }
+            wait(for: [expect], timeout: 30)
+            return registerResponse
+        }
+        
+        func Login(client:FusionAuthClient, request:LoginRequest) -> ClientResponse<LoginResponse>{
+            let expect = XCTestExpectation()
+            var loginResponse:ClientResponse<LoginResponse> = ClientResponse()
+            client.Login(request: request) { lresponse in
+                loginResponse = lresponse
+                expect.fulfill()
+            }
+            wait(for: [expect], timeout: 30)
+            return loginResponse
+        }
+        
+        var tenantResponse = RetrieveTenants()
+        AssertSuccess(response: tenantResponse)
+        
+        // Retrieve the default verification template
+        let emailTemplateResponse = RetrieveEmailTemplateResponse()
+        AssertSuccess(response: emailTemplateResponse)
+        guard let emailVerificationTemplate = emailTemplateResponse.successResponse?.emailTemplates?[0] else {return XCTFail("Email Template is Nil")}
+        
+        guard let tenants = tenantResponse.successResponse?.tenants else{return XCTFail("Tenants is nil")}
+        
+        var newTenant:Tenant = Tenant()
+        
+        for tenant in tenants{
+            if tenant.name == "Default" {
+                newTenant = tenant
+                newTenant.emailConfiguration?.verifyEmail = true
+                newTenant.emailConfiguration?.verificationEmailTemplateId = emailVerificationTemplate.id
+                newTenant.name = "Verification Required Tenant"
+                newTenant.id = nil
+            }
+        }
 
-    
-    
-    
-    
-    
-    
-    
-    
+        let tenantRequest = TenantRequest(tenant:newTenant)
+        tenantResponse = CreateTenant(tenantRequest: tenantRequest)
+        AssertSuccess(response: tenantResponse)
+        
+        guard let verificationRequiredTenant = tenantResponse.successResponse?.tenant else{return XCTFail("Tenant is nil")}
+        
+        // Create a new application within the new tenant requiring email verification
+        var applicationResponse = RetrieveApplications()
+        AssertSuccess(response: applicationResponse)
+        
+        var verificationRequiredApplication:Application = Application(name:"Verification Required Tenant", tenantId: verificationRequiredTenant.id!)
+        
+        let tenantClient = NewClientWithTenantId(tenantId: verificationRequiredTenant.id!.uuidString)
+        
+        let applicationRequest = ApplicationRequest(application:verificationRequiredApplication)
+        
+        applicationResponse = CreateApplication(client: tenantClient, request: applicationRequest)
+        AssertSuccess(response: applicationResponse)
+        
+        verificationRequiredApplication = (applicationResponse.successResponse?.application)!
+        
+        let userRegistration = UserRegistration(applicationId:verificationRequiredApplication.id)
+        let user = User(email:"\(UUID()) + @example.com", password: "password")
+        let registrationRequest = RegistrationRequest(registration: userRegistration, user:user)
+        let registrationResponse = Register(client: tenantClient, request: registrationRequest)
+        
+        AssertSuccess(response: registrationResponse)
+        
+        let loginRequest = LoginRequest(applicationId:verificationRequiredApplication.id!, loginId: registrationResponse.successResponse?.user?.email!, password: "password")
+        
+        let loginResponse = Login(client: tenantClient, request: loginRequest)
+        
+        XCTAssertEqual(loginResponse.statusCode, 212)
+        XCTAssertNotNil(loginResponse.successResponse)
+        
+        
+        // Cleanup the verificationRequiredTenant, this will also delete the verificationRequiredApplication
+        let deleteTenantResponse = DeleteTenant(tenantId: verificationRequiredTenant.id!)
+        AssertSuccess(response: deleteTenantResponse)
+        
+    }
 }
