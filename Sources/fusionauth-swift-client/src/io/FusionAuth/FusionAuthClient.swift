@@ -55,7 +55,7 @@ public class FusionAuthClient{
         let data:Data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         }
     }
@@ -271,7 +271,7 @@ public class FusionAuthClient{
         let data:Data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityResponse>) in
             clientResponse(response)
         }
     }
@@ -292,7 +292,7 @@ public class FusionAuthClient{
         let data:Data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityTypeResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityTypeResponse>) in
             clientResponse(response)
         }
     }
@@ -315,7 +315,7 @@ public class FusionAuthClient{
         let data:Data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod, urlParameters:urlParameters, data:data) { (response:ClientResponse<EntityTypeResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityTypeResponse>) in
             clientResponse(response)
         }
     }
@@ -757,7 +757,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [entityId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         }
     }
@@ -775,7 +775,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [entityTypeId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         }
     }
@@ -796,7 +796,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [entityTypeId?.uuidString ?? "", "permission", permissionId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .DELETE
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         }
     }
@@ -1628,7 +1628,7 @@ public class FusionAuthClient{
         let data:Data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .PATCH
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod) { (response:ClientResponse<EntityTypeResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityTypeResponse>) in
             clientResponse(response)
         }
     }
@@ -3406,7 +3406,7 @@ public class FusionAuthClient{
         let data:Data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters:urlParameters, data:data) { (response:ClientResponse<EntitySearchResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntitySearchResponse>) in
             clientResponse(response)
         }
     }
@@ -3422,14 +3422,14 @@ public class FusionAuthClient{
     /// IOException.
     public func SearchEntitiesByIds(ids:[String], clientResponse:@escaping(ClientResponse<EntitySearchResponse>) -> ()){
         let urlPath:String = "/api/entity/search"
-        let urlParameters:[URLQueryItem] = []
+        var urlParameters:[URLQueryItem] = []
         for id in ids{
             let queryItem = URLQueryItem(name: "ids", value: id)
             urlParameters.append(queryItem)
         }
         let httpMethod:HTTPMethod = .GET
         
-        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<<#typeName#>>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<EntitySearchResponse>) in
             clientResponse(response)
         }
     }
@@ -3761,7 +3761,7 @@ public class FusionAuthClient{
     /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
     /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
     /// IOException.
-    public func UpdateEntityType(entityTypeId:UUID? request:EntityTypeRequest, clientResponse:@escaping(ClientResponse<EntityTypeResponse>) -> ()){
+    public func UpdateEntityType(entityTypeId:UUID?, request:EntityTypeRequest, clientResponse:@escaping(ClientResponse<EntityTypeResponse>) -> ()){
         let urlPath:String = "/api/entity/type"
         let urlSegment:[String] = [entityTypeId?.uuidString ?? ""]
         let data:Data = try! jsonEncoder.encode(request)
@@ -3787,7 +3787,7 @@ public class FusionAuthClient{
         let urlSegment:[String] = [entityTypeId?.uuidString ?? "", "permission", permissionId?.uuidString ?? ""]
         let httpMethod:HTTPMethod = .PUT
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityTypeResponse>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<EntityTypeSearchResponse>) in
             clientResponse(response)
         }
     }

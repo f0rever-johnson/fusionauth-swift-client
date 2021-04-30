@@ -23,6 +23,7 @@ public enum IdentityProviderConverter:Codable, IdentityProvider {
     case Apple(AppleIdentityProvider)
     case HYPR(HYPRIdentityProvider)
     case LinkedIn(LinkedInIdentityProvider)
+    case SAMLv2IdPInitiated(SAMLv2IdPInitiatedIdentityProvider)
     
     private enum CodingKeys:CodingKey{
         case type
@@ -83,6 +84,8 @@ public enum IdentityProviderConverter:Codable, IdentityProvider {
             self = try .Apple(svContainer.decode(AppleIdentityProvider.self))
         case .LinkedIn:
             self = try .LinkedIn(svContainer.decode(LinkedInIdentityProvider.self))
+        case .SAMLv2IdPInitiated:
+            self = try .SAMLv2IdPInitiated(svContainer.decode(SAMLv2IdPInitiatedIdentityProvider.self))
         }
     
     }
@@ -108,6 +111,8 @@ public enum IdentityProviderConverter:Codable, IdentityProvider {
                 try identityProviderContainer.encode(hypr)
             case .LinkedIn(let linkedin):
                 try identityProviderContainer.encode(linkedin)
+            case .SAMLv2IdPInitiated(let SAMLv2IdpInitated):
+                try identityProviderContainer.encode(SAMLv2IdpInitated)
         }
     }
     
@@ -132,6 +137,8 @@ public enum IdentityProviderConverter:Codable, IdentityProvider {
                 return .HYPR
             case .LinkedIn(_):
                 return .LinkedIn
+            case .SAMLv2IdPInitiated(_):
+                return .SAMLv2IdPInitiated
         }
     }
     
@@ -155,6 +162,8 @@ public enum IdentityProviderConverter:Codable, IdentityProvider {
             case .HYPR(let value):
                 return value
             case .LinkedIn(let value):
+                return value
+            case .SAMLv2IdPInitiated(let value):
                 return value
         }
     }
