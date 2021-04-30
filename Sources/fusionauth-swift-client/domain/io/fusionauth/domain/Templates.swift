@@ -32,8 +32,9 @@ public struct Templates:Codable{
     public var registrationComplete:String? = nil
     public var registrationSend:String? = nil
     public var registrationVerify:String? = nil
-    
-    public init(emailComplete: String? = nil, emailSend: String? = nil, emailVerify: String? = nil, helpers: String? = nil, oauth2Authorize: String? = nil, oauth2ChildRegistrationNotAllowed: String? = nil, oauth2ChildRegistrationNotAllowedComplete: String? = nil, oauth2CompleteRegistration: String? = nil, oauth2Device: String? = nil, oauth2Error: String? = nil, oauth2Logout: String? = nil, oauth2Passwordless: String? = nil, oauth2Register: String? = nil, oauth2TwoFactor: String? = nil, oauth2Wait: String? = nil, passwordChange: String? = nil, passwordComplete: String? = nil, passwordForgot: String? = nil, passwordSent: String? = nil, registrationComplete: String? = nil, registrationSend: String? = nil, registrationVerify: String? = nil) {
+    public var samlv2Logout:String? = nil
+
+    public init(emailComplete: String? = nil, emailSend: String? = nil, emailVerify: String? = nil, helpers: String? = nil, oauth2Authorize: String? = nil, oauth2ChildRegistrationNotAllowed: String? = nil, oauth2ChildRegistrationNotAllowedComplete: String? = nil, oauth2CompleteRegistration: String? = nil, oauth2Device: String? = nil, oauth2Error: String? = nil, oauth2Logout: String? = nil, oauth2Passwordless: String? = nil, oauth2Register: String? = nil, oauth2TwoFactor: String? = nil, oauth2Wait: String? = nil, passwordChange: String? = nil, passwordComplete: String? = nil, passwordForgot: String? = nil, passwordSent: String? = nil, registrationComplete: String? = nil, registrationSend: String? = nil, registrationVerify: String? = nil, samlv2Logout: String? = nil) {
         self.emailComplete = emailComplete
         self.emailSend = emailSend
         self.emailVerify = emailVerify
@@ -56,7 +57,6 @@ public struct Templates:Codable{
         self.registrationComplete = registrationComplete
         self.registrationSend = registrationSend
         self.registrationVerify = registrationVerify
+        self.samlv2Logout = samlv2Logout
     }
-
-
 }

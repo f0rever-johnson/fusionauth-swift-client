@@ -23,4 +23,5 @@ public enum IdentityProviderType: String, Codable {
     case HYPR = "HYPR"
     case Apple = "Apple"
     case LinkedIn = "LinkedIn"
+    case SAMLv2IdPInitiated = "SAMLv2IdPInitiated"
 }

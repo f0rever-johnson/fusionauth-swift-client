@@ -38,6 +38,27 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    /// Activates the FusionAuth Reactor using a license id and optionally a license text (for air-gapped deployments)
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - licenseId: The license id
+    ///   - request: An optional request that contains the license text to activate Reactor (useful for air-gap deployments of FusionAuth)
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func ActivateReactor(licenseId:String, request:ReactorRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/reactor"
+        let urlSegment:[String] = [licenseId]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
 
     /// Adds a user to an existing family. The family id must be specified.
     /// - Parameters:
@@ -233,6 +254,72 @@ public class FusionAuthClient{
         })
     }
     
+    
+    /// Creates an Entity. You can optionally specify an Id for the Entity. If not provided one will be generated.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - entityId:  (Optional) The Id for the Entity. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the Entity.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func CreateEntity(entityId:UUID, request:EntityRequest, clientResponse:@escaping(ClientResponse<EntityResponse>) -> ()){
+        let urlPath:String = "/api/entity"
+        let urlSegment:[String] = [entityId.uuidString]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Creates a Entity Type. You can optionally specify an Id for the Entity Type, if not provided one will be generated.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - entityTypeId:  (Optional) The Id for the Entity Type. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the Entity Type.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func CreateEntityType(entityTypeId:UUID?, request:EntityTypeRequest, clientResponse:@escaping(ClientResponse<EntityTypeResponse>) -> ()){
+        let urlPath:String = "/api/entity/type"
+        let urlSegment:[String] = [entityTypeId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityTypeResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Creates a new permission for an entity type. You must specify the id of the entity type you are creating the permission for.
+    /// You can optionally specify an Id for the permission inside the EntityTypePermission object itself, if not provided one will be generated.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - entityTypeId: The Id of the entity type to create the permission on.
+    ///   - permissionId: (Optional) The Id of the permission. If not provided a secure random UUID will be generated.
+    ///   - request:  The request object that contains all of the information used to create the permission.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func CreateEntityTypePermissions(entityTypeId:UUID?, permissionId:UUID?, request:EntityTypeRequest, clientResponse:@escaping(ClientResponse<EntityTypeResponse>) -> ()){
+        let urlPath:String = "/api/entity/type"
+        let urlSegment:[String] = [entityTypeId?.uuidString ?? "", "permission", permissionId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod, urlParameters:urlParameters, data:data) { (response:ClientResponse<EntityTypeResponse>) in
+            clientResponse(response)
+        }
+    }
+
     /// Creates a family with the user id in the request as the owner and sole member of the family. You can optionally specify an id for the family, if not provided one will be generated.
     /// - Parameters:
     ///   - familyId: (Optional) The id for the family. If not provided a secure random UUID will be generated.
@@ -516,7 +603,23 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
+    
+    ///  Deactivates the FusionAuth Reactor.
+    /// This is an asynchronous method.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeactivateReactor(clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/reactor"
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Deactivates the user action with the given Id.
     /// - Parameters:
     ///   - userActionId: The Id of the user action to deactivate.
@@ -641,7 +744,62 @@ public class FusionAuthClient{
         })
     }
     
+    /// Deletes the Entity for the given Id.
+    /// - Parameters:
+    ///   - entityId:  The Id of the Entity to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteEntity(entityId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/entity"
+        let urlSegment:[String] = [entityId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
     
+    /// Deletes the Entity Type for the given Id.
+    /// - Parameters:
+    ///   - entityTypeId:  The Id of the Entity Type to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteEntityType(entityTypeId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/entity/type"
+        let urlSegment:[String] = [entityTypeId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Hard deletes a permission. This is a dangerous operation and should not be used in most circumstances. This
+    /// permanently removes the given permission from all grants that had it.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - entityTypeId: The Id of the entityType the the permission belongs to.
+    ///   - permissionId: The Id of the permission to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteEntityTypePermissionsAsync(entityTypeId:UUID?, permissionId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/entity/type"
+        let urlSegment:[String] = [entityTypeId?.uuidString ?? "", "permission", permissionId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
     /// Deletes the form for the given Id.
     /// - Parameters:
     ///   - formId: The Id of the form to delete.
@@ -1454,6 +1612,27 @@ public class FusionAuthClient{
         }
     }
     
+    /// Updates, via PATCH, the Entity Type with the given Id.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - entityTypeId: The Id of the Entity Type to update.
+    ///   - request: The request that contains just the new Entity Type information.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func PatchEntityType(entityTypeId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<EntityTypeResponse>) -> ()){
+        let urlPath:String = "/api/entity/type"
+        let urlSegment:[String] = [entityTypeId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment httpMethod: httpMethod) { (response:ClientResponse<EntityTypeResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Updates, via PATCH, the group with the given Id
     /// - Parameters:
     ///   - groupId: The Id of the group to update.
@@ -1733,6 +1912,25 @@ public class FusionAuthClient{
         })
     }
     
+    ///  Request a refresh of the Entity search index. This API is not generally necessary and the search index will become consistent in a
+    /// reasonable amount of time. There may be scenarios where you may wish to manually request an index refresh. One example may be
+    /// if you are using the Search API or Delete Tenant API immediately following a Entity Create etc, you may wish to request a refresh to
+    ///  ensure the index immediately current before making a query request to the search index.
+    /// This is an asynchronous method.
+    /// - Parameter clientResponse: See returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RefreshEntitySearchIndex(clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/entity/search"
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Request a refresh of the User search index. This API is not generally necessary and the search index will become consistent in a reasonable amount of time. There may be scenarios where you may wish to manually request an index refresh. One example may be if you are using the Search API or Delete Tenant API immediately following a User Create etc, you may wish to request a refresh to ensure the index immediately current before making a query request to the search index.
     /// - Parameter clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
@@ -1744,6 +1942,22 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
+    }
+    
+    /// Regenerates any keys that are used by the FusionAuth Reactor.
+    /// This is an asynchronous method.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RegenerateReactorKeys(clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/reactor"
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
     }
     
     /// Registers a user for an application. If you provide the User and the UserRegistration object on this request, it will create the user as well as register them for the application. This is called a Full Registration. However, if you only provide the UserRegistration object, then the user must already exist and they will be registered for the application. The user id can also be provided and it will either be used to look up an existing user or it will be used for the newly created User.
@@ -2046,6 +2260,58 @@ public class FusionAuthClient{
         })
     }
     
+    /// Retrieves the Entity for the given Id.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - entityId: The Id of the Entity.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveEntity(entityId:UUID?, clientResponse:@escaping(ClientResponse<EntityResponse>) -> ()){
+        let urlPath:String = "/api/entity"
+        let urlSegment:[String] = [entityId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<EntityResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Retrieves the Entity Type for the given Id.
+    /// - Parameters:
+    ///   - entityId: The Id of the Entity Type.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveEntityType(entityId:UUID?, clientResponse:@escaping(ClientResponse<EntityTypeResponse>) -> ()){
+        let urlPath:String = "/api/entity/type"
+        let urlSegment:[String] = [entityId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<EntityTypeResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Retrieves all of the Entity Types.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveEntityTypes(clientResponse:@escaping(ClientResponse<EntityTypeResponse>) -> ()){
+        let urlPath:String = "/api/entity/type"
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<EntityTypeResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Retrieves a single event log for the given Id.
     /// - Parameters:
     ///   - eventLogId: The Id of the event log to retrieve.
@@ -2176,8 +2442,8 @@ public class FusionAuthClient{
 
     /// Retrieves the identity provider for the given id or all of the identity providers if the id is null.
     /// - Parameters:
-    ///   - identityProviderId: (Optional) The identity provider id.
-    ///   - clientResponse: See Returns
+    /// - identityProviderId: The identity provider id.
+    /// - clientResponse: See Returns
     /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveIdentityProvider(identityProviderId:UUID?, clientResponse: @escaping(ClientResponse<IdentityProviderResponse>) -> ()){
         let urlPath:String = "/api/identity-provider"
@@ -2189,6 +2455,26 @@ public class FusionAuthClient{
         })
     }
     
+    /// Retrieves one or more identity provider for the given type. For types such as Google, Facebook, Twitter and LinkedIn, only a single
+    /// identity provider can exist. For types such as OpenID Connect and SAMLv2 more than one identity provider can be configured so this request
+    /// may return multiple identity providers. This is an asynchronous method.
+    /// - Parameters:
+    ///   - type: The type of the identity provider
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveIdentityProviderByTypeAsync(type:IdentityProviderType, clientResponse:@escaping(ClientResponse<IdentityProviderResponse>) -> ()){
+        let urlPath:String = "/api/identity-provider"
+        let urlParameter:[URLQueryItem] = [URLQueryItem(name: "type", value: type.rawValue)]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter) { (response:ClientResponse<IdentityProviderResponse>) in
+            clientResponse(response)
+        }
+    }
+ 
     /// Retrieves all of the identity providers.
     /// - Parameter clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
@@ -2203,8 +2489,8 @@ public class FusionAuthClient{
     
     /// Retrieves all of the actions for the user with the given Id that are currently inactive. An inactive action means one that is time based and has been canceled or has expired, or is not time based. This is an asynchronous method.
     /// - Parameters:
-    ///   - userId: The Id of the user to fetch the actions for.
-    ///   - clientResponse: See Returns
+    /// - userId: The Id of the user to fetch the actions for.
+    /// - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     public func RetrieveInactiveActions(userId:UUID?, clientResponse:@escaping(ClientResponse<ActionResponse>) -> ()){
         let urlPath:String = "/api/user/action"
@@ -2465,6 +2751,21 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<PendingResponse>) in
             clientResponse(response)
         })
+    }
+    
+    /// Retrieves the FusionAuth Reactor status.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveReactorStatus(clientResponse:@escaping(ClientResponse<ReactorStatus>) -> ()){
+        let urlPath:String = "/api/reactor"
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<ReactorStatus>) in
+            clientResponse(response)
+        }
     }
     
     /// Retrieves the last number of login records.
@@ -3091,6 +3392,67 @@ public class FusionAuthClient{
         })
     }
     
+    /// Searches entities with the specified criteria and pagination.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - request: The search criteria and pagination information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func SearchEntities(request:EntitySearchRequest, clientResponse:@escaping(ClientResponse<EntitySearchResponse>) -> ()){
+        let urlPath:String = "/api/entity/search"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters:urlParameters, data:data) { (response:ClientResponse<EntitySearchResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    ///  Retrieves the entities for the given ids. If any id is invalid, it is ignored.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - ids: The entity ids to search for.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func SearchEntitiesByIds(ids:[String], clientResponse:@escaping(ClientResponse<EntitySearchResponse>) -> ()){
+        let urlPath:String = "/api/entity/search"
+        let urlParameters:[URLQueryItem] = []
+        for id in ids{
+            let queryItem = URLQueryItem(name: "ids", value: id)
+            urlParameters.append(queryItem)
+        }
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<<#typeName#>>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Searches the entity types with the specified criteria and pagination.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - request: The search criteria and pagination information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func SearchEntityTypes(request:EntityTypeSearchRequest, clientResponse:@escaping(ClientResponse<EntityTypeSearchResponse>) -> ()){
+        let urlPath:String = "/api/entity/type/search"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityTypeSearchResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Searches the event logs with the specified criteria and pagination.
     /// - Parameters:
     ///   - request: The search criteria and pagination information.
@@ -3367,6 +3729,67 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<EmailTemplateResponse>) in
             clientResponse(response)
         })
+    }
+    
+    /// Updates the Entity with the given Id.
+    /// - Parameters:
+    ///   - entityId: The Id of the Entity to update.
+    ///   - request: The request that contains all of the new Entity information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func UpdateEntity(entityId:UUID?, request:EntityRequest, clientResponse:@escaping(ClientResponse<EntityResponse>) -> ()){
+        let urlPath:String = "/api/entity"
+        let urlSegment:[String] = [entityId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Updates the Entity Type with the given Id.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - entityTypeId: The Id of the Entity Type to update.
+    ///   - request: The request that contains all of the new Entity Type information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func UpdateEntityType(entityTypeId:UUID? request:EntityTypeRequest, clientResponse:@escaping(ClientResponse<EntityTypeResponse>) -> ()){
+        let urlPath:String = "/api/entity/type"
+        let urlSegment:[String] = [entityTypeId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityTypeResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Updates the permission with the given id for the entity type.
+    /// - Parameters:
+    ///   - entityTypeId:  The Id of the entityType that the permission belongs to.
+    ///   - permissionId: The Id of the permission to update.
+    ///   - request: The request that contains all of the new permission information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func UpdateEntityTypePermission(entityTypeId:UUID?, permissionId:UUID?, request:EntityTypeRequest, clientResponse:@escaping(ClientResponse<EntityTypeSearchResponse>) -> ()){
+        let urlPath:String = "/api/entity/type"
+        let urlSegment:[String] = [entityTypeId?.uuidString ?? "", "permission", permissionId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityTypeResponse>) in
+            clientResponse(response)
+        }
     }
     
     /// Updates the form with the given Id.

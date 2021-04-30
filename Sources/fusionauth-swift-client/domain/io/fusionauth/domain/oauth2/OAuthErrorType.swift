@@ -19,6 +19,7 @@ public enum OAuthErrorType:String, Codable{
     case unsupportdGrantType = "unsupported_grant_type"
     case unsupportedResponseType = "unsupported_response_typ"
     case changePasswordRequired = "change_password_required"
+    case notLicensed = "not_licensed"
     case twoFactorRequired = "two_factor_required"
     case authorizationPending = "authorization_pending"
     case expiredToken = "expired_token"

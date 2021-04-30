@@ -6,6 +6,8 @@
 //
 import Foundation
 
+// Protocols do not allow generic parameters; use associated types instead
+
 public protocol BaseIdentityProvider:Enableable, IdentityProvider{
     
     associatedtype D
