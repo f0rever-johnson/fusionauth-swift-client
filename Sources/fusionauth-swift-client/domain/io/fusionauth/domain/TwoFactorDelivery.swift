@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- * Two Factor Delivery Options
+ * @deprecated Use <code>User.twoFactor.methods</code>
  */
 
 public enum TwoFactorDelivery:String, Codable {

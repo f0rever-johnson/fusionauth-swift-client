@@ -17,9 +17,8 @@ public class EntitySearchCriteria: BaseElasticSearchCriteria, Codable {
     public var ids: [UUID]? = nil
     public var query: String? = nil
     public var sortFields: [SortField]? = nil
-    public var tenantId:UUID? = nil
     
-    public init(numberOfResults: Int? = nil, orderBy: String? = nil, startRow: Int? = nil, accurateTotal: Bool? = nil, ids: [UUID]? = nil, query: String? = nil, sortFields: [SortField]? = nil, tenantId: UUID? = nil) {
+    public init(numberOfResults: Int? = nil, orderBy: String? = nil, startRow: Int? = nil, accurateTotal: Bool? = nil, ids: [UUID]? = nil, query: String? = nil, sortFields: [SortField]? = nil) {
         self.numberOfResults = numberOfResults
         self.orderBy = orderBy
         self.startRow = startRow
@@ -27,7 +26,6 @@ public class EntitySearchCriteria: BaseElasticSearchCriteria, Codable {
         self.ids = ids
         self.query = query
         self.sortFields = sortFields
-        self.tenantId = tenantId
     }
 
 }

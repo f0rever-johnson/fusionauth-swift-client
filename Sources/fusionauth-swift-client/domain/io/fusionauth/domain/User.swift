@@ -33,6 +33,7 @@ public class User:SecureIdentity{
     public var registrations:[UserRegistration]? = nil
     public var tenantId:UUID? = nil
     public var timezone:String? = nil
+    public var twoFactor:UserTwoFactorConfiguration? = nil
     
     
     //Required by SecureIdentity Protocol
@@ -54,9 +55,10 @@ public class User:SecureIdentity{
     public var username:String? = nil
     public var usernameStatus:ContentStatus? = nil
     public var verified:Bool? = nil
+
     
     
-    public init(active: Bool? = nil, birthDate: String? = nil, cleanSpeakId: UUID? = nil, data: [String : JSONObject]? = nil, email: String? = nil, expiry: Date? = nil, firstName: String? = nil, fullName: String? = nil, imageUrl: String? = nil, insertInstant: Date? = nil, lastName: String? = nil, lastUpdateInstant: Date? = nil, memberships: [GroupMember]? = nil, middleName: String? = nil, mobilePhone: String? = nil, parentEmail: String? = nil, preferredLanguages: [String]? = nil, registrations: [UserRegistration]? = nil, tenantId: UUID? = nil, timezone: String? = nil, breachedPasswordLastCheckedInstant: Date? = nil, breachedPasswordStatus: BreachedPasswordStatus? = nil, connectorId: UUID? = nil, encryptionScheme: String? = nil, factor: Int? = nil, id: UUID? = nil, lastLoginInstant: Date? = nil, password: String? = nil, passwordChangeReason: ChangePasswordReason? = nil, passwordChangedRequired: Bool? = nil, passwordLastUpdateInstant: Date? = nil, salt: String? = nil, twoFactorDelivery: TwoFactorDelivery? = nil, twoFactorEnabled: Bool? = nil, twoFactorSecret: String? = nil, username: String? = nil, usernameStatus: ContentStatus? = nil, verified: Bool? = nil) {
+    public init(active: Bool? = nil, birthDate: String? = nil, cleanSpeakId: UUID? = nil, data: [String : JSONObject]? = nil, email: String? = nil, expiry: Date? = nil, firstName: String? = nil, fullName: String? = nil, imageUrl: String? = nil, insertInstant: Date? = nil, lastName: String? = nil, lastUpdateInstant: Date? = nil, memberships: [GroupMember]? = nil, middleName: String? = nil, mobilePhone: String? = nil, parentEmail: String? = nil, preferredLanguages: [String]? = nil, registrations: [UserRegistration]? = nil, tenantId: UUID? = nil, timezone: String? = nil, twoFactor:UserTwoFactorConfiguration? = nil, breachedPasswordLastCheckedInstant: Date? = nil, breachedPasswordStatus: BreachedPasswordStatus? = nil, connectorId: UUID? = nil, encryptionScheme: String? = nil, factor: Int? = nil, id: UUID? = nil, lastLoginInstant: Date? = nil, password: String? = nil, passwordChangeReason: ChangePasswordReason? = nil, passwordChangedRequired: Bool? = nil, passwordLastUpdateInstant: Date? = nil, salt: String? = nil, twoFactorDelivery: TwoFactorDelivery? = nil, twoFactorEnabled: Bool? = nil, twoFactorSecret: String? = nil, username: String? = nil, usernameStatus: ContentStatus? = nil, verified: Bool? = nil) {
         self.active = active
         self.birthDate = birthDate
         self.cleanSpeakId = cleanSpeakId
@@ -77,6 +79,7 @@ public class User:SecureIdentity{
         self.registrations = registrations
         self.tenantId = tenantId
         self.timezone = timezone
+        self.twoFactor = twoFactor
         self.breachedPasswordLastCheckedInstant = breachedPasswordLastCheckedInstant
         self.breachedPasswordStatus = breachedPasswordStatus
         self.connectorId = connectorId

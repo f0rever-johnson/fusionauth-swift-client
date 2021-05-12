@@ -8,11 +8,13 @@
 import Foundation
 
 public class ApplicationFormConfiguration:Codable{
+ 
     public var adminRegistrationFormId:UUID?
+    public var selfServiceFormId:UUID? = nil
     
-    public init(adminRegistrationFormId: UUID? = nil) {
+    public init(adminRegistrationFormId: UUID? = nil, selfServiceFormId: UUID? = nil) {
         self.adminRegistrationFormId = adminRegistrationFormId
+        self.selfServiceFormId = selfServiceFormId
     }
-    
-    
+
 }

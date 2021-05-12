@@ -11,5 +11,6 @@ public enum FormType:String, Codable{
     case registration = "registration"
     case adminRegistration = "adminRegistration"
     case adminUser = "adminUser"
+    case selfServiceUser
     
 }

@@ -13,13 +13,11 @@ import Foundation
 
 public struct Integrations:Codable {
     public var cleanSpeak:CleanSpeakConfiguration? = nil
-    public var kafkaConfiguration:KafkaConfiguration? = nil
-    public var twilio:TwilioConfiguration? = nil
+    public var kafka:KafkaConfiguration? = nil
 
-    public init(cleanSpeak: CleanSpeakConfiguration? = nil, kafkaConfiguration: KafkaConfiguration? = nil, twilio: TwilioConfiguration? = nil) {
+    public init(cleanSpeak: CleanSpeakConfiguration? = nil, kafka: KafkaConfiguration? = nil) {
         self.cleanSpeak = cleanSpeak
-        self.kafkaConfiguration = kafkaConfiguration
-        self.twilio = twilio
+        self.kafka = kafka
     }
 
 }

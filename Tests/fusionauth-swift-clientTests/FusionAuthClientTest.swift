@@ -699,7 +699,7 @@ class FusionAuthClientTest: XCTestCase {
         AssertSuccess(response: response)
         
         XCTAssertNotNil(response.successResponse?.integrations?.cleanSpeak)
-        XCTAssertNotNil(response.successResponse?.integrations?.twilio)
+        XCTAssertNotNil(response.successResponse?.integrations?.kafka)
     }
     
     func testLogin(){

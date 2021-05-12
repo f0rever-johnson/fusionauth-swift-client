@@ -445,6 +445,46 @@ public class FusionAuthClient{
         })
     }
     
+    /// Creates an message template. You can optionally specify an Id for the template, if not provided one will be generated.
+    /// - Parameters:
+    ///   - messageTemplateId: (Optional) The Id for the template. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the message template.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func CreateMessageTemplate(messageTemplateId:UUID?, request:MessageTemplateRequest, clientResponse:@escaping(ClientResponse<MessageTemplateResponse>) -> ()){
+        let urlPath:String = "/api/message/template"
+        let urlSegment:[String] = [messageTemplateId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<MessageTemplateResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Creates a messenger.  You can optionally specify an Id for the messenger, if not provided one will be generated.
+    /// - Parameters:
+    ///   - messengerId: (Optional) The Id for the messenger. If not provided a secure random UUID will be generated.
+    ///   - request: The request object that contains all of the information used to create the messenger.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func CreateMessenger(messengerId:UUID?, request:MessengerRequest, clientResponse:@escaping(ClientResponse<MessengerResponse>) -> ()){
+        let urlPath:String = "/api/messenger"
+        let urlSegment:[String] = [messengerId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<MessengerResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Creates a tenant. You can optionally specify an Id for the tenant, if not provided one will be generated.
     /// - Parameters:
     ///   - tenantId: (Optional) The Id for the tenant. If not provided a secure random UUID will be generated.
@@ -762,6 +802,27 @@ public class FusionAuthClient{
         }
     }
     
+    ///  Deletes an Entity Grant for the given User or Entity.
+    /// - Parameters:
+    ///   - entityId: The Id of the Entity that the Entity Grant is being deleted for.
+    ///   - recipientEntityId: (Optional) The Id of the Entity that the Entity Grant is for.
+    ///   - userId:  (Optional) The Id of the User that the Entity Grant is for.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteEntityGrant(entityId:UUID?, recipientEntityId:UUID?, userId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/entity"
+        let urlParameters:[URLQueryItem] = [URLQueryItem(name: "recipientEntityId", value: recipientEntityId?.uuidString ?? ""), URLQueryItem(name: "userId", value: userId?.uuidString ?? "")]
+        let urlSegment:[String] = [entityId?.uuidString ?? "", "grant"]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Deletes the Entity Type for the given Id.
     /// - Parameters:
     ///   - entityTypeId:  The Id of the Entity Type to delete.
@@ -913,6 +974,41 @@ public class FusionAuthClient{
         })
     }
     
+    ///  Deletes the message template for the given Id.
+    /// - Parameters:
+    ///   - messageTemplateId:  The Id of the message template to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteMessageTemplate(messageTemplateId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/message/template"
+        let urlSegment:[String] = [messageTemplateId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Deletes the messenger for the given Id.
+    /// - Parameters:
+    ///   - messengerId: The Id of the messenger to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteMessenger(messengerId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/messenger"
+        let urlSegment:[String] = [messengerId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
     /// Deletes the user registration for the given user and application.
     /// - Parameters:
     ///   - userId: The Id of the user whose registration is being deleted.
@@ -1070,9 +1166,9 @@ public class FusionAuthClient{
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
-    public func DisableTwoFactor(userId:UUID, code:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+    public func DisableTwoFactor(userId:UUID, methodId:String, code:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/two-factor"
-        let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId.uuidString), URLQueryItem(name: "code", value: code)]
+        let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId.uuidString), URLQueryItem(name: "methodId", value: methodId), URLQueryItem(name: "code", value: code)]
         let httpMethod:HTTPMethod = .DELETE
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
@@ -1087,13 +1183,13 @@ public class FusionAuthClient{
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
-    public func EnableTwoFactor(userId:UUID, request:TwoFactorRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+    public func EnableTwoFactor(userId:UUID, request:TwoFactorRequest, clientResponse: @escaping(ClientResponse<TwoFactorResponse>) -> ()){
         let urlPath:String = "/api/user/two-factor"
         let urlSegment:[String] = [userId.uuidString]
         let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
 
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<TwoFactorResponse>) in
             clientResponse(response)
         })
     }
@@ -1284,7 +1380,25 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
+    
+    ///  Generate two-factor recovery codes for a user. Generating two-factor recovery codes will invalidate any existing recovery codes.
+    /// - Parameters:
+    ///   - userId: The Id of the user to generate new Two Factor recovery codes.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func GenerateTwoFactorRecoveryCodes(userId:UUID?, clientResponse:@escaping(ClientResponse<TwoFactorRecoveryCodeResponse>) -> ()){
+        let urlPath:String = "/api/user/two-factor/recovery-code"
+        let urlSegment:[String] = [userId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<TwoFactorRecoveryCodeResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Generate a Two Factor secret that can be used to enable Two Factor authentication for a User. The response will contain both the secret and a Base32 encoded form of the secret which can be shown to a User when using a 2 Step Authentication application such as Google Authenticator.
     /// - Parameter clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
@@ -1703,6 +1817,46 @@ public class FusionAuthClient{
         }
     }
     
+    /// Updates, via PATCH, the message template with the given Id.
+    /// - Parameters:
+    ///   - messageTemplateId:  The Id of the message template to update.
+    ///   - request: The request that contains just the new message template information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func PatchMessageTemplate(messageTemplateId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<MessageTemplateResponse>) -> ()){
+        let urlPath:String = "/api/message/template"
+        let urlSegment:[String] = [messageTemplateId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<MessageTemplateResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Updates, via PATCH, the messenger with the given Id.
+    /// - Parameters:
+    ///   - messengerId: The Id of the messenger to update.
+    ///   - request: The request that contains just the new messenger information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func PatchMessenger(messengerId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<MessengerResponse>) -> ()){
+        let urlPath:String = "/api/messenger"
+        let urlSegment:[String] = [messengerId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .PATCH
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<MessengerResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Updates, via PATCH, the registration for the user with the given id and the application defined in the request.
     /// - Parameters:
     ///   - userId: The Id of the user whose registration is going to be updated.
@@ -1710,7 +1864,7 @@ public class FusionAuthClient{
     ///   - clientResponse: See Returns
     /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
-    public func PatchRegistrations(userId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<RegistrationResponse>) -> ()){
+    public func PatchRegistration(userId:UUID?, request:[String:JSONObject], clientResponse:@escaping(ClientResponse<RegistrationResponse>) -> ()){
         let urlPath:String = "/api/user/registration"
         let urlSegment:[String] = [userId?.uuidString ?? ""]
         let data = try! jsonEncoder.encode(request)
@@ -2279,6 +2433,27 @@ public class FusionAuthClient{
         }
     }
     
+    /// Retrieves an Entity Grant for the given Entity and User/Entity.
+    /// - Parameters:
+    ///   - entityId: The Id of the Entity
+    ///   - recipientEntityId: (Optional) The Id of the Entity that the Entity Grant is for.
+    ///   - userId: (Optional) The Id of the User that the Entity Grant is for.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveEntityGrant(entityId:UUID?, recipientEntityId:UUID?, userId:UUID?, clientResponse:@escaping(ClientResponse<EntityGrantResponse>) -> ()){
+        let urlPath:String = "/api/entity"
+        let urlParameters:[URLQueryItem] = [URLQueryItem(name: "recipientEntityId", value: recipientEntityId?.uuidString ?? ""), URLQueryItem(name: "userId", value: userId?.uuidString ?? "")]
+        let urlSegment:[String] = [entityId?.uuidString ?? "", "grant"]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<EntityGrantResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Retrieves the Entity Type for the given Id.
     /// - Parameters:
     ///   - entityId: The Id of the Entity Type.
@@ -2667,6 +2842,90 @@ public class FusionAuthClient{
         })
     }
     
+    /// Retrieves the message template for the given Id. If you don't specify the id, this will return all of the message templates.
+    /// - Parameters:
+    ///   - messageTemplateId: (Optional) The Id of the message template.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveMessageTemplate(messageTemplateId:UUID?, clientResponse:@escaping(ClientResponse<MessageTemplateResponse>) -> ()){
+        let urlPath:String = "/api/message/template"
+        let urlSegment:[String] = [messageTemplateId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<MessageTemplateResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    ///  Retrieves all of the message templates.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveMessageTemplates(clientResponse:@escaping(ClientResponse<MessageTemplateResponse>) -> ()){
+        let urlPath:String = "/api/message/template"
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<MessageTemplateResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    ///  Creates a preview of the message template provided in the request, normalized to a given locale.
+    /// - Parameters:
+    ///   - request: The request that contains the email template and optionally a locale to render it in.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveMessageTemplatePreview(request:PreviewMessageTemplateRequest, clientResponse:@escaping(ClientResponse<PreviewMessageTemplateResponse>) -> ()){
+        let urlPath:String = "/api/message/template/preview"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<PreviewMessageTemplateResponse>) in
+            clientResponse(response)
+        }
+    }
+
+    ///  Retrieves the messenger with the given Id.
+    /// - Parameters:
+    ///   - messengerId: The Id of the messenger.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveMessenger(messengerId:UUID?, clientResponse:@escaping(ClientResponse<MessengerResponse>) -> ()){
+        let urlPath:String = "/api/messenger"
+        let urlSegment:[String] = [messengerId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<MessengerResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Retrieves all of the messengers.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveMessengers(clientResponse:@escaping(ClientResponse<MessengerResponse>) -> ()){
+        let urlPath:String = "/api/messenger"
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<MessengerResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Retrieves the monthly active user report between the two instants. If you specify an application id, it will only return the monthly active counts for that application.
     /// - Parameters:
     ///   - applicationId: (Optional) The application id.
@@ -2928,6 +3187,24 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<TotalsReportResponse>) in
             clientResponse(response)
         })
+    }
+    
+    /// Retrieve two-factor recovery codes for a user.
+    /// - Parameters:
+    ///   - userId: The Id of the user to retrieve Two Factor recovery codes.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveTwoFactorRecoveryCodes(userId:UUID?, clientResponse:@escaping(ClientResponse<TwoFactorRecoveryCodeResponse>) -> ()){
+        let urlPath:String = "/api/user/two-factor/recovery-code"
+        let urlSegment:[String] = [userId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<TwoFactorRecoveryCodeResponse>) in
+            clientResponse(response)
+        }
     }
     
     /// Retrieves the user for the given Id.
@@ -3434,6 +3711,24 @@ public class FusionAuthClient{
         }
     }
     
+    /// Searches Entity Grants with the specified criteria and pagination.
+    /// - Parameters:
+    ///   - request:  The search criteria and pagination information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func SearchEntityGrants(request:EntityGrantSearchRequest, clientResponse:@escaping(ClientResponse<EntityGrantSearchResponse>) -> ()){
+        let urlPath:String = "/api/entity/grant/search"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<EntityGrantSearchResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Searches the entity types with the specified criteria and pagination.
     /// This is an asynchronous method.
     /// - Parameters:
@@ -3574,6 +3869,7 @@ public class FusionAuthClient{
     ///   - request: The request object that contains all of the information used to send the code.
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    @available(swift, obsoleted: 1.0, renamed: "SendTwoFactorCodeForEnableDisable")
     public func SendTwoFactorCode(request:TwoFactorSendRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/two-factor/send"
         let data = try! jsonEncoder.encode(request)
@@ -3584,11 +3880,30 @@ public class FusionAuthClient{
         })
     }
     
+    ///  Send a Two Factor authentication code to assist in setting up Two Factor authentication or disabling.
+    /// - Parameters:
+    ///   - request: The request object that contains all of the information used to send the code.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func SendTwoFactorCodeForEnableDisable(request:TwoFactorSendRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/two-factor/send"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Send a Two Factor authentication code to allow the completion of Two Factor authentication.
     /// - Parameters:
     ///   - twoFactorId: The Id returned by the Login API necessary to complete Two Factor authentication.
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    @available(swift, obsoleted: 1.0, renamed: "SendTwoFactorCodeForLoginUsingMethod")
     public func SendTwoFactorCodeForLogin(twoFactorId:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/two-factor/send"
         let urlSegment:[String] = [twoFactorId]
@@ -3597,6 +3912,26 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
+    }
+    
+    /// Send a Two Factor authentication code to allow the completion of Two Factor authentication.
+    /// - Parameters:
+    ///   - twoFactorId: The Id returned by the Login API necessary to complete Two Factor authentication.
+    ///   - request:  The Two Factor send request that contains all of the information used to send the Two Factor code to the user.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func SendTwoFactorCodeForLoginUsingMethod(twoFactorId:String, request:TwoFactorSendRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/two-factor/send"
+        let urlSegment:[String] = [twoFactorId]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
     }
     
     /// Begins a login request for a 3rd party login that requires user interaction such as HYPR.
@@ -3627,6 +3962,28 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
+    }
+    
+    /// Start a Two-Factor login request by generating a two-factor identifier. This code can then be sent to the Two Factor Send
+    /// API (/api/two-factor/send)in order to send a one-time use code to a user. You can also use one-time use code returned
+    /// to send the code out-of-band. The Two-Factor login is completed by making a request to the Two-Factor Login
+    /// API (/api/two-factor/login). with the two-factor identifier and the one-time use code.
+    /// This API is intended to allow you to begin a Two-Factor login outside of a normal login that originated from the Login API (/api/login).
+    /// - Parameters:
+    ///   - request:  The Two-Factor start request that contains all of the information used to begin the Two-Factor login request.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func StartTwoFactorLogin(request:TwoFactorStartRequest, clientResponse:@escaping(ClientResponse<TwoFactorStartResponse>) -> ()){
+        let urlPath:String = "/api/two-factor/start"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<TwoFactorStartResponse>) in
+            clientResponse(response)
+        }
     }
     
     /// Complete login using a 2FA challenge
@@ -3909,6 +4266,46 @@ public class FusionAuthClient{
         })
     }
     
+    /// Updates the message template with the given Id.
+    /// - Parameters:
+    ///   - messageTemplateId: The Id of the message template to update.
+    ///   - request: The request that contains all of the new message template information.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func UpdateMessageTemplate(messageTemplateId:UUID?, request:MessageTemplateRequest, clientResponse:@escaping(ClientResponse<MessageTemplateResponse>) -> ()){
+        let urlPath:String = "/api/message/template"
+        let urlSegment:[String] = [messageTemplateId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<MessageTemplateResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Updates the messenger with the given Id.
+    /// - Parameters:
+    ///   - messengerId:  The Id of the messenger to update.
+    ///   - request:  The request object that contains all of the new messenger information.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func UpdateMessenger(messengerId:UUID?, request:MessengerRequest, clientResponse:@escaping(ClientResponse<MessengerResponse>) -> ()){
+        let urlPath:String = "/api/messenger"
+        let urlSegment:[String] = [messengerId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<MessengerResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Updates the registration for the user with the given id and the application defined in the request.
     /// - Parameters:
     ///   - userId: The Id of the user whose registration is going to be updated.
@@ -4060,6 +4457,26 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data: data, fusionAuthClientResponse: { (response:ClientResponse<WebhookResponse>) in
             clientResponse(response)
         })
+    }
+    
+    /// Creates or updates an Entity Grant. This is when a User/Entity is granted permissions to an Entity.
+    /// - Parameters:
+    ///   - entityId: The Id of the Entity that the User/Entity is being granted access to.
+    ///   - request: The request object that contains all of the information used to create the Entity Grant.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func UpsertEntityGrant(entityId:UUID?, request:EntityGrantRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/entity"
+        let urlSegment:[String] = [entityId?.uuidString ?? "", "grant"]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
     }
     
     /// Validates the end-user provided user_code from the user-interaction of the Device Authorization Grant. If you build your own activation form you should validate the user provided code prior to beginning the Authorization grant.

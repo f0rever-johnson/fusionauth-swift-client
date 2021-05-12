@@ -12,6 +12,7 @@ import Foundation
  */
 
 public struct Tenant:Codable{
+    
     public var configured:Bool? = nil
     public var connectorPolicies:[ConnectorPolicy]? = nil
     public var data: [String:JSONObject]? = nil
@@ -30,6 +31,7 @@ public struct Tenant:Codable{
     public var logoutURL:String? = nil
     public var maximumPasswordAge:MaximumPasswordAge? = nil
     public var minimumPasswordAge:MinimumPasswordAge? = nil
+    public var multiFactorConfiguration:TenantMultiFactorConfiguration? = nil
     public var name:String? = nil
     public var passwordEncrytionConfiguration:PasswordEncryptionConfiguration? = nil
     public var passwordValidationRules:PasswordValidationRules? = nil
@@ -37,7 +39,7 @@ public struct Tenant:Codable{
     public var themeId:UUID? = nil
     public var userDeletePolicy:TenantUserDeletePolicy? = nil
     
-    public init(configured: Bool? = nil, connectorPolicies: [ConnectorPolicy]? = nil, data: [String : JSONObject]? = nil, emailConfiguration: EmailConfiguration? = nil, eventConfiguration: EventConfiguration? = nil, externalIdentifierConfiguration: ExternalIdentifierConfiguration? = nil, failedAuthenticationConfiguration: FailedAuthenticationConfiguration? = nil, familyConfiguration: FamilyConfiguration? = nil, formConfiguration: TenantFormConfiguration? = nil, httpSessionMaxInactiveInterval: Int? = nil, id: UUID? = nil, insertInstant: Date? = nil, issuer: String? = nil, jwtConfiguration: JWTConfiguration? = nil, lastUpdateInstant: Date? = nil, logoutURL: String? = nil, maximumPasswordAge: MaximumPasswordAge? = nil, minimumPasswordAge: MinimumPasswordAge? = nil, name: String? = nil, passwordEncrytionConfiguration: PasswordEncryptionConfiguration? = nil, passwordValidationRules: PasswordValidationRules? = nil, state: ObjectState? = nil, themeId: UUID? = nil, userDeletePolicy: TenantUserDeletePolicy? = nil) {
+    public init(configured: Bool? = nil, connectorPolicies: [ConnectorPolicy]? = nil, data: [String : JSONObject]? = nil, emailConfiguration: EmailConfiguration? = nil, eventConfiguration: EventConfiguration? = nil, externalIdentifierConfiguration: ExternalIdentifierConfiguration? = nil, failedAuthenticationConfiguration: FailedAuthenticationConfiguration? = nil, familyConfiguration: FamilyConfiguration? = nil, formConfiguration: TenantFormConfiguration? = nil, httpSessionMaxInactiveInterval: Int? = nil, id: UUID? = nil, insertInstant: Date? = nil, issuer: String? = nil, jwtConfiguration: JWTConfiguration? = nil, lastUpdateInstant: Date? = nil, logoutURL: String? = nil, maximumPasswordAge: MaximumPasswordAge? = nil, minimumPasswordAge: MinimumPasswordAge? = nil, multiFactorConfiguration: TenantMultiFactorConfiguration? = nil, name: String? = nil, passwordEncrytionConfiguration: PasswordEncryptionConfiguration? = nil, passwordValidationRules: PasswordValidationRules? = nil, state: ObjectState? = nil, themeId: UUID? = nil, userDeletePolicy: TenantUserDeletePolicy? = nil) {
         self.configured = configured
         self.connectorPolicies = connectorPolicies
         self.data = data
@@ -56,6 +58,7 @@ public struct Tenant:Codable{
         self.logoutURL = logoutURL
         self.maximumPasswordAge = maximumPasswordAge
         self.minimumPasswordAge = minimumPasswordAge
+        self.multiFactorConfiguration = multiFactorConfiguration
         self.name = name
         self.passwordEncrytionConfiguration = passwordEncrytionConfiguration
         self.passwordValidationRules = passwordValidationRules
@@ -63,5 +66,7 @@ public struct Tenant:Codable{
         self.themeId = themeId
         self.userDeletePolicy = userDeletePolicy
     }
+    
+    
 }
 
