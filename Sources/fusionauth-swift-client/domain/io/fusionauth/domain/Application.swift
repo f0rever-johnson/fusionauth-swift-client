@@ -12,7 +12,8 @@ import Foundation
  */
 
 public struct Application:Codable{
-
+    
+    
     public var active:Bool? = nil
     public var authenticationTokenConfiguration:AuthenticationTokenConfiguration? = nil
     public var cleanSpeakConfiguration:CleanSpeakConfiguration? = nil
@@ -35,10 +36,13 @@ public struct Application:Codable{
     public var samlv2Configuration:SAMLV2Configuration? = nil
     public var state:ObjectState? = nil
     public var tenantId:UUID? = nil
+    public var themeId:UUID? = nil
+    public var unverified:RegistrationUnverifiedOptions? = nil
     public var verificationEmailTemplateId:UUID? = nil
+    public var verificationStrategy:VerificationStrategy? = nil
     public var verifyRegistration:Bool? = nil
     
-    public init(active: Bool? = nil, authenticationTokenConfiguration: AuthenticationTokenConfiguration? = nil, cleanSpeakConfiguration: CleanSpeakConfiguration? = nil, data: [String : JSONObject]? = nil, emailConfiguration: ApplicationEmailConfiguration? = nil, formConfiguration: ApplicationFormConfiguration? = nil, id: UUID? = nil, insertInstant: Date? = nil, jwtConfiguration: JWTConfiguration? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: LoginConfiguration? = nil, miltiFactorConfiguration: ApplicationMultiFactorConfiguration? = nil, name: String? = nil, oauthConfiguration: OAuth2Configuration? = nil, passwordlessConfiguration: PasswordlessConfiguration? = nil, registrationConfiguration: RegistrationConfiguration? = nil, registrationDeletePolicy: ApplicationRegistrationDeletePolicy? = nil, roles: [ApplicationRole]? = nil, samlv2Configuration: SAMLV2Configuration? = nil, state: ObjectState? = nil, tenantId: UUID? = nil, verificationEmailTemplateId: UUID? = nil, verifyRegistration: Bool? = nil) {
+    public init(active: Bool? = nil, authenticationTokenConfiguration: AuthenticationTokenConfiguration? = nil, cleanSpeakConfiguration: CleanSpeakConfiguration? = nil, data: [String : JSONObject]? = nil, emailConfiguration: ApplicationEmailConfiguration? = nil, formConfiguration: ApplicationFormConfiguration? = nil, id: UUID? = nil, insertInstant: Date? = nil, jwtConfiguration: JWTConfiguration? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: LoginConfiguration? = nil, miltiFactorConfiguration: ApplicationMultiFactorConfiguration? = nil, name: String? = nil, oauthConfiguration: OAuth2Configuration? = nil, passwordlessConfiguration: PasswordlessConfiguration? = nil, registrationConfiguration: RegistrationConfiguration? = nil, registrationDeletePolicy: ApplicationRegistrationDeletePolicy? = nil, roles: [ApplicationRole]? = nil, samlv2Configuration: SAMLV2Configuration? = nil, state: ObjectState? = nil, tenantId: UUID? = nil, themeId: UUID? = nil, unverified: RegistrationUnverifiedOptions? = nil, verificationEmailTemplateId: UUID? = nil, verificationStrategy: VerificationStrategy? = nil, verifyRegistration: Bool? = nil) {
         self.active = active
         self.authenticationTokenConfiguration = authenticationTokenConfiguration
         self.cleanSpeakConfiguration = cleanSpeakConfiguration
@@ -61,9 +65,13 @@ public struct Application:Codable{
         self.samlv2Configuration = samlv2Configuration
         self.state = state
         self.tenantId = tenantId
+        self.themeId = themeId
+        self.unverified = unverified
         self.verificationEmailTemplateId = verificationEmailTemplateId
+        self.verificationStrategy = verificationStrategy
         self.verifyRegistration = verifyRegistration
     }
+    
     
     
 }

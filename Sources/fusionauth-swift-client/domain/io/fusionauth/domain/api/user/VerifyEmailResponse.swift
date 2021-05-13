@@ -9,9 +9,12 @@
 import Foundation
 
 public struct VerifyEmailResponse:Codable {
+   
+    public var oneTimeCode:String? = nil
     public var verificationId:String? = nil
-
-    public init(verificationId: String? = nil) {
+    
+    public init(oneTimeCode: String? = nil, verificationId: String? = nil) {
+        self.oneTimeCode = oneTimeCode
         self.verificationId = verificationId
     }
 

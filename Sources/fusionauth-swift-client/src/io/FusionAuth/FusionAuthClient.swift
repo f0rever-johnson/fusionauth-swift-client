@@ -42,20 +42,18 @@ public class FusionAuthClient{
     /// Activates the FusionAuth Reactor using a license id and optionally a license text (for air-gapped deployments)
     /// This is an asynchronous method.
     /// - Parameters:
-    ///   - licenseId: The license id
     ///   - request: An optional request that contains the license text to activate Reactor (useful for air-gap deployments of FusionAuth)
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
     /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
     /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
     /// IOException.
-    public func ActivateReactor(licenseId:String, request:ReactorRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+    public func ActivateReactor(request:ReactorRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/reactor"
-        let urlSegment:[String] = [licenseId]
         let data:Data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         }
     }
@@ -146,7 +144,27 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
+    ///  Creates an API key. You can optionally specify a unique Id for the key, if not provided one will be generated.
+    /// an API key can only be created with equal or lesser authority. An API key cannot create another API key unless it is granted
+    /// to that API key.If an API key is locked to a tenant, it can only create API Keys for that same tenant.
+    /// - Parameters:
+    ///   - keyId: (Optional) The unique Id of the API key. If not provided a secure random Id will be generated.
+    ///   - request: The request object that contains all of the information needed to create the APIKey.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func CreateAPIKeys(keyId:UUID?, request:APIKeyRequest, clientResponse:@escaping(ClientResponse<APIKeyResponse>) -> ()){
+        let urlPath:String = "/api/api-key"
+        let urlSegment:[String] = [keyId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<APIKeyResponse>) in
+            clientResponse(response)
+        }
+    }
     /// Creates an application. You can optionally specify an Id for the application, if not provided one will be generated.
     /// - Parameters:
     ///   - applicationId: (Optional) The Id to use for the application. If not provided a secure random UUID will be generated.
@@ -700,7 +718,25 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-
+    
+    /// Deletes the API key for the given Id.
+    /// - Parameters:
+    ///   - keyId: The Id of the authentication API key to delete.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteAPIKey(keyId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/api-key"
+        let urlSegment:[String] = [keyId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Hard deletes an application. This is a dangerous operation and should not be used in most circumstances. This will delete the application, any registrations for that application, metrics and reports for the application, all the roles for the application, and any other data associated with the application. This operation could take a very long time, depending on the amount of data in your database.
     /// - Parameters:
     ///   - applicationId: The Id of the application to delete.
@@ -1557,13 +1593,13 @@ public class FusionAuthClient{
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
-    public func LoginPing(userId:UUID, applicationId:UUID, callerIPAddress:String?, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+    public func LoginPing(userId:UUID, applicationId:UUID, callerIPAddress:String?, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
         let urlPath:String = "/api/login"
         let urlSegment:[String] = [userId.uuidString, applicationId.uuidString]
         let urlParameter:[URLQueryItem] =  [URLQueryItem(name: "ipAddress", value: callerIPAddress)]
         let httpMethod:HTTPMethod = .PUT
 
-        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
             clientResponse(response)
         })
     }
@@ -1633,6 +1669,26 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<LoginResponse>) in
             clientResponse(response)
         })
+    }
+    
+    /// Updates an authentication API key by given id
+    /// - Parameters:
+    ///   - keyId:  The Id of the authentication key. If not provided a secure random api key will be generated.
+    ///   - request: The request object that contains all of the information needed to create the APIKey.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func PatchAPIkey(keyId:UUID?, request:APIKeyRequest, clientResponse:@escaping(ClientResponse<APIKeyResponse>) -> ()){
+        let urlPath:String = "/api/api-key"
+        let urlSegment:[String] = [keyId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<APIKeyResponse>) in
+            clientResponse(response)
+        }
     }
     
     /// Updates, via PATCH, the application with the given Id.
@@ -2195,6 +2251,24 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<VerifyEmailResponse>) in
             clientResponse(response)
         })
+    }
+    
+    /// Retrieves an authentication API key for the given id
+    /// - Parameters:
+    ///   - keyId: The Id of the API key to retrieve.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveAPIKey(keyId:UUID?, clientResponse:@escaping(ClientResponse<APIKeyResponse>) -> ()){
+        let urlPath:String = "/api/api-key"
+        let urlSegment:[String] = [keyId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<APIKeyResponse>) in
+            clientResponse(response)
+        }
     }
     
     /// Retrieves a single action log (the log of a user action that was taken on a user previously) for the given Id.
@@ -3018,11 +3092,11 @@ public class FusionAuthClient{
     /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
     /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
     /// IOException.
-    public func RetrieveReactorStatus(clientResponse:@escaping(ClientResponse<ReactorStatus>) -> ()){
+    public func RetrieveReactorStatus(clientResponse:@escaping(ClientResponse<ReactorResponse>) -> ()){
         let urlPath:String = "/api/reactor"
         let httpMethod:HTTPMethod = .GET
         
-        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<ReactorStatus>) in
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<ReactorResponse>) in
             clientResponse(response)
         }
     }
@@ -3480,6 +3554,21 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, authorization:authorization, fusionAuthClientResponse: { (response:ClientResponse<UserResponse>) in
             clientResponse(response)
         })
+    }
+    
+    /// Retrieves the FusionAuth version string.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveVersion(clientResponse:@escaping(ClientResponse<VersionResponse>) -> ()){
+        let urlPath:String = "/api/system/version"
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<VersionResponse>) in
+            clientResponse(response)
+        }
     }
     
     /// Retrieves the webhook for the given Id. If you pass in null for the id, this will return all the webhooks.
@@ -4001,6 +4090,25 @@ public class FusionAuthClient{
         })
     }
     
+    /// Updates an API key by given id
+    /// - Parameters:
+    ///   - apiKeyId:  The Id of the API key to update.
+    ///   - request:  The request object that contains all of the information used to create the API Key.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func UpdateAPIKey(apiKeyId:UUID?, request:APIKeyRequest, clientResponse:@escaping(ClientResponse<APIKeyResponse>) -> ()){
+        let urlPath:String = "/api/api-key"
+        let urlSegment:[String] = [apiKeyId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<APIKeyResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Updates the application with the given Id.
     /// - Parameters:
     ///   - applicationId: The Id of the application to update.
@@ -4517,6 +4625,7 @@ public class FusionAuthClient{
     ///   - verificationId: The email verification id sent to the user.
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    @available(swift, obsoleted: 1.0, renamed: "VerifyEmailAddress")
     public func VerifyEmail(verificationId:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/verify-email"
         let urlSegment:[String] = [verificationId]
@@ -4528,11 +4637,35 @@ public class FusionAuthClient{
 
     }
     
+    /// Confirms a user's email address.
+    ///
+    /// The request body will contain the verificationId. You may also be required to send a one-time use code based upon your configuration. When
+    /// the tenant is configured to gate a user until their email address is verified, this procedures requires two values instead of one.
+    /// The verificationId is a high entropy value and the one-time use code is a low entropy value that is easily entered in a user interactive form. The
+    /// two values together are able to confirm a user's email address and mark the user's email address as verified.
+    /// - Parameters:
+    ///   - request: The request that contains the verificationId and optional one-time use code paired with the verificationId.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func VerifyEmailAddress(request:VerifyEmailRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/user/verify-email"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Confirms an application registration. The Id given is usually from an email sent to the user.
     /// - Parameters:
     ///   - verificationId: This is an asynchronous method.
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
+    @available(swift, obsoleted: 1.0, renamed: "VerifyUserRegistrations")
     public func VerifyRegistration(verificationId:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/verify-registration"
         let urlSegment:[String] = [verificationId]
@@ -4541,6 +4674,29 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
+    }
+    
+    ///  Confirms a user's registration.
+    ///
+    /// The request body will contain the verificationId. You may also be required to send a one-time use code based upon your configuration. When
+    /// the application is configured to gate a user until their registration is verified, this procedures requires two values instead of one.
+    /// The verificationId is a high entropy value and the one-time use code is a low entropy value that is easily entered in a user interactive form. The
+    /// two values together are able to confirm a user's registration and mark the user's registration as verified.
+    /// - Parameters:
+    ///   - request: The request that contains the verificationId and optional one-time use code paired with the verificationId.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func VerifyUserRegistration(request:VerifyRegistrationRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/user/verify-registration"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
     }
 }
 

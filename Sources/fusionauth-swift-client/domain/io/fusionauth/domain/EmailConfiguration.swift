@@ -11,7 +11,7 @@ import Foundation
  */
 
 public struct EmailConfiguration:Codable{
-
+    
     public var defaultFromEmail:String? = nil
     public var defaultFromName:String? = nil
     public var forgotPasswordEmailTemplateId:UUID? = nil
@@ -22,12 +22,14 @@ public struct EmailConfiguration:Codable{
     public var properties:String? = nil
     public var security:EmailSecurityType? = nil
     public var setPasswordEmailTemplateId:UUID? = nil
+    public var unverified:EmailUnverifiedOptions? = nil
     public var username:String? = nil
+    public var verificationEmailTemplateId:UUID? = nil
+    public var verificationStrategy:VerificationStrategy? = nil
     public var verifyEmail:Bool? = nil
     public var verifyEmailWhenChanged:Bool? = nil
-    public var verificationEmailTemplateId:UUID? = nil
     
-    public init(defaultFromEmail: String? = nil, defaultFromName: String? = nil, forgotPasswordEmailTemplateId: UUID? = nil, host: String? = nil, password: String? = nil, passwordlessEmailTemplateId: UUID? = nil, port: Int? = nil, properties: String? = nil, security: EmailSecurityType? = nil, setPasswordEmailTemplateId: UUID? = nil, username: String? = nil, verifyEmail: Bool? = nil, verifyEmailWhenChanged: Bool? = nil, verificationEmailTemplateId: UUID? = nil) {
+    public init(defaultFromEmail: String? = nil, defaultFromName: String? = nil, forgotPasswordEmailTemplateId: UUID? = nil, host: String? = nil, password: String? = nil, passwordlessEmailTemplateId: UUID? = nil, port: Int? = nil, properties: String? = nil, security: EmailSecurityType? = nil, setPasswordEmailTemplateId: UUID? = nil, unverified: EmailUnverifiedOptions? = nil, username: String? = nil, verificationEmailTemplateId: UUID? = nil, verificationStrategy: VerificationStrategy? = nil, verifyEmail: Bool? = nil, verifyEmailWhenChanged: Bool? = nil) {
         self.defaultFromEmail = defaultFromEmail
         self.defaultFromName = defaultFromName
         self.forgotPasswordEmailTemplateId = forgotPasswordEmailTemplateId
@@ -38,11 +40,15 @@ public struct EmailConfiguration:Codable{
         self.properties = properties
         self.security = security
         self.setPasswordEmailTemplateId = setPasswordEmailTemplateId
+        self.unverified = unverified
         self.username = username
+        self.verificationEmailTemplateId = verificationEmailTemplateId
+        self.verificationStrategy = verificationStrategy
         self.verifyEmail = verifyEmail
         self.verifyEmailWhenChanged = verifyEmailWhenChanged
-        self.verificationEmailTemplateId = verificationEmailTemplateId
     }
+
+    
 }
 
 

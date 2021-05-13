@@ -9,7 +9,7 @@ import Foundation
 
 
 public struct Templates:Codable{
-
+    
     public var accountEdit:String? = nil
     public var accountIndex:String? = nil
     public var accountTwoFactorDisable:String? = nil
@@ -17,6 +17,8 @@ public struct Templates:Codable{
     public var accountTwoFactorIndex:String? = nil
     public var emailComplete:String? = nil
     public var emailSend:String? = nil
+    public var emailSent:String? = nil
+    public var emailVerificationRequired:String? = nil
     public var emailVerify:String? = nil
     public var helpers:String? = nil
     public var ident:String? = nil
@@ -38,10 +40,12 @@ public struct Templates:Codable{
     public var passwordSent:String? = nil
     public var registrationComplete:String? = nil
     public var registrationSend:String? = nil
+    public var registrationSent:String? = nil
+    public var registrationVerificationRequired:String? = nil
     public var registrationVerify:String? = nil
     public var samlv2Logout:String? = nil
-    
-    public init(accountEdit: String? = nil, accountIndex: String? = nil, accountTwoFactorDisable: String? = nil, accountTwoFactorEnable: String? = nil, accountTwoFactorIndex: String? = nil, emailComplete: String? = nil, emailSend: String? = nil, emailVerify: String? = nil, helpers: String? = nil, ident: String? = nil, oauth2Authorize: String? = nil, oauth2ChildRegistrationNotAllowed: String? = nil, oauth2ChildRegistrationNotAllowedComplete: String? = nil, oauth2CompleteRegistration: String? = nil, oauth2Device: String? = nil, oauth2Error: String? = nil, oauth2Logout: String? = nil, oauth2Passwordless: String? = nil, oauth2Register: String? = nil, oauth2TwoFactor: String? = nil, oauth2TwoFactorMethods: String? = nil, oauth2Wait: String? = nil, passwordChange: String? = nil, passwordComplete: String? = nil, passwordForgot: String? = nil, passwordSent: String? = nil, registrationComplete: String? = nil, registrationSend: String? = nil, registrationVerify: String? = nil, samlv2Logout: String? = nil) {
+
+    public init(accountEdit: String? = nil, accountIndex: String? = nil, accountTwoFactorDisable: String? = nil, accountTwoFactorEnable: String? = nil, accountTwoFactorIndex: String? = nil, emailComplete: String? = nil, emailSend: String? = nil, emailSent: String? = nil, emailVerificationRequired: String? = nil, emailVerify: String? = nil, helpers: String? = nil, ident: String? = nil, oauth2Authorize: String? = nil, oauth2ChildRegistrationNotAllowed: String? = nil, oauth2ChildRegistrationNotAllowedComplete: String? = nil, oauth2CompleteRegistration: String? = nil, oauth2Device: String? = nil, oauth2Error: String? = nil, oauth2Logout: String? = nil, oauth2Passwordless: String? = nil, oauth2Register: String? = nil, oauth2TwoFactor: String? = nil, oauth2TwoFactorMethods: String? = nil, oauth2Wait: String? = nil, passwordChange: String? = nil, passwordComplete: String? = nil, passwordForgot: String? = nil, passwordSent: String? = nil, registrationComplete: String? = nil, registrationSend: String? = nil, registrationSent: String? = nil, registrationVerificationRequired: String? = nil, registrationVerify: String? = nil, samlv2Logout: String? = nil) {
         self.accountEdit = accountEdit
         self.accountIndex = accountIndex
         self.accountTwoFactorDisable = accountTwoFactorDisable
@@ -49,6 +53,8 @@ public struct Templates:Codable{
         self.accountTwoFactorIndex = accountTwoFactorIndex
         self.emailComplete = emailComplete
         self.emailSend = emailSend
+        self.emailSent = emailSent
+        self.emailVerificationRequired = emailVerificationRequired
         self.emailVerify = emailVerify
         self.helpers = helpers
         self.ident = ident
@@ -70,9 +76,9 @@ public struct Templates:Codable{
         self.passwordSent = passwordSent
         self.registrationComplete = registrationComplete
         self.registrationSend = registrationSend
+        self.registrationSent = registrationSent
+        self.registrationVerificationRequired = registrationVerificationRequired
         self.registrationVerify = registrationVerify
         self.samlv2Logout = samlv2Logout
     }
-
-    
 }

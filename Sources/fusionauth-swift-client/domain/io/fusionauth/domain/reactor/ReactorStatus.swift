@@ -10,24 +10,23 @@ import Foundation
 public class ReactorStatus:Codable{
 
     public var advancedIdentityProviders:ReactorFeatureStatus? = nil
-    public var advancedRegistrationForms:ReactorFeatureStatus? = nil
+    public var advancedMultiFactorAuthentication:ReactorFeatureStatus? = nil
+    public var advancedRegistration:ReactorFeatureStatus? = nil
+    public var applicationThemes:ReactorFeatureStatus? = nil
     public var breachedPasswordDetection:ReactorFeatureStatus? = nil
-    public var breachedPasswordMetrics:[String:BreachedPasswordTenantMetric]? = nil
     public var connectors:ReactorFeatureStatus? = nil
     public var entityManagement:ReactorFeatureStatus? = nil
     public var licensed:Bool? = nil
-    public var multiFactorAuthentication:ReactorFeatureStatus? = nil
     
-    public init(advancedIdentityProviders: ReactorFeatureStatus? = nil, advancedRegistrationForms: ReactorFeatureStatus? = nil, breachedPasswordDetection: ReactorFeatureStatus? = nil, breachedPasswordMetrics: [String : BreachedPasswordTenantMetric]? = nil, connectors: ReactorFeatureStatus? = nil, entityManagement: ReactorFeatureStatus? = nil, licensed: Bool? = nil, multiFactorAuthentication: ReactorFeatureStatus? = nil) {
+    public init(advancedIdentityProviders: ReactorFeatureStatus? = nil, advancedMultiFactorAuthentication: ReactorFeatureStatus? = nil, advancedRegistration: ReactorFeatureStatus? = nil, applicationThemes: ReactorFeatureStatus? = nil, breachedPasswordDetection: ReactorFeatureStatus? = nil, connectors: ReactorFeatureStatus? = nil, entityManagement: ReactorFeatureStatus? = nil, licensed: Bool? = nil) {
         self.advancedIdentityProviders = advancedIdentityProviders
-        self.advancedRegistrationForms = advancedRegistrationForms
+        self.advancedMultiFactorAuthentication = advancedMultiFactorAuthentication
+        self.advancedRegistration = advancedRegistration
+        self.applicationThemes = applicationThemes
         self.breachedPasswordDetection = breachedPasswordDetection
-        self.breachedPasswordMetrics = breachedPasswordMetrics
         self.connectors = connectors
         self.entityManagement = entityManagement
         self.licensed = licensed
-        self.multiFactorAuthentication = multiFactorAuthentication
     }
-    
-    
+
 }

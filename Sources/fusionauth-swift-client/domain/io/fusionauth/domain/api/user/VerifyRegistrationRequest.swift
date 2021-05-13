@@ -1,15 +1,14 @@
 //
-//  VerifyRegistrationResponse.swift
-//  FusionAuth Swift Client
+//  File.swift
+//  
 //
-//  Created by Everaldlee Johnson on 12/11/18.
-//  Copyright © 2018 F0rever_Johnson. All rights reserved.
+//  Created by Everaldlee Johnson on 5/12/21.
 //
 
 import Foundation
 
-public struct VerifyRegistrationResponse:Codable {
- 
+public class VerifyRegistrationRequest:Codable{
+
     public var oneTimeCode:String? = nil
     public var verificationId:String? = nil
     
@@ -17,5 +16,4 @@ public struct VerifyRegistrationResponse:Codable {
         self.oneTimeCode = oneTimeCode
         self.verificationId = verificationId
     }
-
 }

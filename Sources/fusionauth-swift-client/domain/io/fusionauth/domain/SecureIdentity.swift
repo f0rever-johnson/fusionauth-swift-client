@@ -20,6 +20,7 @@ public protocol SecureIdentity:Codable{
     var passwordChangedRequired:Bool? { get set }
     var passwordLastUpdateInstant:Date? { get set }
     var salt:String? { get set }
+    var uniqueUsername:String? {get set}
     var username:String? { get set }
     var usernameStatus:ContentStatus? { get set }
     var verified:Bool? { get set }

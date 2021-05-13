@@ -8,6 +8,8 @@
 import Foundation
 
 public enum UserState:String, Codable{
-    case authenticated = "Authenticated"
-    case authenticatedNotRegistered = "AuthenticatedNotRegistered"
+    case Authenticated
+    case AuthenticatedNotRegistered
+    case uthenticatedNotVerified
+    case AuthenticatedRegistrationNotVerified
 }
