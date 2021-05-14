@@ -25,6 +25,7 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 xcuserdata/
+.swiftpm/
 
 ## Other
 *.moved-aside
