@@ -12,7 +12,23 @@ Refer to the FusionAuth API documentation for request and response formats.
 * https://fusionauth.io/docs/v1/tech/client-libraries/netcore
 
 ## Supported Frameworks
-Swift (iOS, macOS)
+Swift (iOS, macOS)Framework
+
+#### SPM
+
+If you are using the Swift Package Manager, open the following menu item in Xcode:
+
+**File > Swift Packages > Add Package Dependency...**
+
+In the **Choose Package Repository** prompt add this url: 
+
+```
+https://github.com/f0rever-johnson/fusionauth-swift-client.git
+```
+
+Then, press **Next** and complete the remaining steps.
+
+> For more information on SPM, check [its official documentation](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app).
 
 ## License
 
