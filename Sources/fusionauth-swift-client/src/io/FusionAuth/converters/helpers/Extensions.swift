@@ -94,7 +94,7 @@ extension Data {
 }
 
 extension Dictionary {
-    func percentEncoded() -> Data? {
+    public func percentEncoded() -> Data? {
         return map { key, value in
             let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
             let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
