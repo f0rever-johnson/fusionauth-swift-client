@@ -65,9 +65,14 @@ public class DefaultRESTClient{
         let request = NSMutableURLRequest(url: requestURL)
         request.httpMethod = httpMethod.rawValue
         request.timeoutInterval = TimeInterval(timeout)
-        request.setValue((authorization ?? apiKey ?? ""), forHTTPHeaderField: "Authorization")
         request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
 
+        if authorization != nil{
+            request.setValue(authorization, forHTTPHeaderField: "Authorization")
+        }else if apiKey != nil{
+            request.setValue(apiKey, forHTTPHeaderField: "Authorization")
+        }
+        
         if tenantId != nil {
             request.setValue(tenantId, forHTTPHeaderField: TENANT_ID_HEADER)
         }
