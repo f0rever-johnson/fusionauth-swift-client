@@ -38,6 +38,8 @@ public enum OAuthErrorReason:String,Codable{
     case missingClientId = "missing_client_id"
     case missingClientSecret = "missing_client_secret"
     case missingCode = "missing_code"
+    case missingCodeChallenge = "missing_code_challenge"
+    case missingCodeVerifier = "missing_code_verifier"
     case missingDeviceCode = "missing_device_code"
     case missingGrantType = "missing_grant_type"
     case missingRedirectURI = "missing_redirect_uri"

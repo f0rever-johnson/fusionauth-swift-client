@@ -12,7 +12,7 @@ import Foundation
  */
 
 public class IdentityProviderOAuth2Configuration:Codable {
-    
+ 
     public var authorizationEndpoint:String? = nil
     public var clientAuthenticationMethod:ClientAuthenticationMethod? = nil
     public var clientId:String? = nil
@@ -21,19 +21,9 @@ public class IdentityProviderOAuth2Configuration:Codable {
     public var issuer:String? = nil
     public var scope:String? = nil
     public var tokenEndpoint:String? = nil
+    public var uniqueIdClaim:String? = nil
     public var userinfoEndpoint:String? = nil
-
-    public init(authorizationEndpoint: String? = nil, clientAuthenticationMethod: ClientAuthenticationMethod? = nil, clientId: String? = nil, clientSecret: String? = nil, emailClaim: String? = nil, issuer: String? = nil, scope: String? = nil, tokenEndpoint: String? = nil, userinfoEndpoint: String? = nil) {
-        self.authorizationEndpoint = authorizationEndpoint
-        self.clientAuthenticationMethod = clientAuthenticationMethod
-        self.clientId = clientId
-        self.clientSecret = clientSecret
-        self.emailClaim = emailClaim
-        self.issuer = issuer
-        self.scope = scope
-        self.tokenEndpoint = tokenEndpoint
-        self.userinfoEndpoint = userinfoEndpoint
-    }
+    public var usernameClaim:String? = nil
   
 
     private enum CodingKeys:String, CodingKey{
@@ -45,6 +35,20 @@ public class IdentityProviderOAuth2Configuration:Codable {
         case tokenEndpoint = "token_endpoint"
         case userinfoEndpoint = "userinfo_endpoint"
 
+    }
+    
+    public init(authorizationEndpoint: String? = nil, clientAuthenticationMethod: ClientAuthenticationMethod? = nil, clientId: String? = nil, clientSecret: String? = nil, emailClaim: String? = nil, issuer: String? = nil, scope: String? = nil, tokenEndpoint: String? = nil, uniqueIdClaim: String? = nil, userinfoEndpoint: String? = nil, usernameClaim: String? = nil) {
+        self.authorizationEndpoint = authorizationEndpoint
+        self.clientAuthenticationMethod = clientAuthenticationMethod
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.emailClaim = emailClaim
+        self.issuer = issuer
+        self.scope = scope
+        self.tokenEndpoint = tokenEndpoint
+        self.uniqueIdClaim = uniqueIdClaim
+        self.userinfoEndpoint = userinfoEndpoint
+        self.usernameClaim = usernameClaim
     }
 
 }

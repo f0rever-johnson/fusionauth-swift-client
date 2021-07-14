@@ -9,10 +9,12 @@
 import Foundation
 
 public class SendResponse:Codable{
+
+    public var anonymousResults:[String:EmailTemplateErrors]? = nil
     public var results:[UUID:EmailTemplateErrors]? = nil
 
-    public init(results: [UUID:EmailTemplateErrors]? = nil) {
+    public init(anonymousResults: [String : EmailTemplateErrors]? = nil, results: [UUID : EmailTemplateErrors]? = nil) {
+        self.anonymousResults = anonymousResults
         self.results = results
     }
-
 }

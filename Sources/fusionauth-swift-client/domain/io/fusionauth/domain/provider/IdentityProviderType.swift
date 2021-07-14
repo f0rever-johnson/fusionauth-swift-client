@@ -14,14 +14,23 @@ import Foundation
 
 public enum IdentityProviderType: String, Codable {
     
+    case Apple = "Apple"
+    case EpicGames = "EpicGames"
     case ExternalJWT = "ExternalJWT"
-    case OpenIdConnect = "OpenIdConnect"
     case Facebook = "Facebook"
     case Google = "Google"
-    case Twitter = "Twitter"
-    case SAMLv2 = "SAMLv2"
     case HYPR = "HYPR"
-    case Apple = "Apple"
     case LinkedIn = "LinkedIn"
+    case Nintendo = "Nintendo"
+    case OpenIdConnect = "OpenIdConnect"
+    case SAMLv2 = "SAMLv2"
     case SAMLv2IdPInitiated = "SAMLv2IdPInitiated"
+    case SonyPSN = "SonyPSN"
+    case Steam = "Steam"
+    case Twitch = "Twitch"
+    case Twitter = "Twitter"
+    case Xbox = "Xbox"
+    
+    
+    
 }

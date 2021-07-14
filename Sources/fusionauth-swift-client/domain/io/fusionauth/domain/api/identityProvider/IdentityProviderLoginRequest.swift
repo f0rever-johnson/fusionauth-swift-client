@@ -9,6 +9,7 @@
 import Foundation
 
 public struct IdentityProviderLoginRequest:BaseLoginRequest, Codable{
+
     public var ipAddress: String? = nil
     public var metaData: MetaData? = nil
     public var encodedJWT:String? = nil
@@ -16,9 +17,9 @@ public struct IdentityProviderLoginRequest:BaseLoginRequest, Codable{
     public var noJWT: Bool? = nil
     public var data:[String:String]? = nil
     public var identityProviderId:UUID? = nil
-
-
-    public init(ipAddress: String? = nil, metaData: MetaData? = nil, encodedJWT: String? = nil, applicationId: UUID? = nil, noJWT: Bool? = nil, data: [String:String]? = nil, identityProviderId: UUID? = nil) {
+    public var noLink:Bool? = nil
+    
+    public init(ipAddress: String? = nil, metaData: MetaData? = nil, encodedJWT: String? = nil, applicationId: UUID? = nil, noJWT: Bool? = nil, data: [String : String]? = nil, identityProviderId: UUID? = nil, noLink: Bool? = nil) {
         self.ipAddress = ipAddress
         self.metaData = metaData
         self.encodedJWT = encodedJWT
@@ -26,5 +27,7 @@ public struct IdentityProviderLoginRequest:BaseLoginRequest, Codable{
         self.noJWT = noJWT
         self.data = data
         self.identityProviderId = identityProviderId
+        self.noLink = noLink
     }
+    
 }

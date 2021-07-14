@@ -8,7 +8,7 @@
 import Foundation
 
 public class LinkedInIdentityProvider:BaseIdentityProvider, Codable{
-   
+    
     public typealias D = LinkedInApplicationConfiguration
     
     public var enabled: Bool?
@@ -25,8 +25,17 @@ public class LinkedInIdentityProvider:BaseIdentityProvider, Codable{
     public var insertinstant: Date? = nil
     public var lambdaConfiguration: LambdaConfiguration? = nil
     public var lastUpdateInstant: Date? = nil
+    public var linkingStrategy: IdentityProviderLinkingStrategy? = nil
     
-    public init(enabled: Bool? = nil, applicationConfiguration: [String : LinkedInApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, name: String? = nil, debug: Bool? = nil, id: UUID? = nil, type: IdentityProviderType? = nil, buttonText: String? = nil, clientId: String? = nil, clientSecret: String? = nil, scope: String? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil) {
+
+    private enum CodingKeys:String, CodingKey{
+        case buttonText
+        case clientId = "client_id"
+        case clientSecret = "client_secret"
+        case scope
+    }
+    
+    public init(enabled: Bool? = nil, applicationConfiguration: [String : LinkedInApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, name: String? = nil, debug: Bool? = nil, id: UUID? = nil, type: IdentityProviderType? = nil, buttonText: String? = nil, clientId: String? = nil, clientSecret: String? = nil, scope: String? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil) {
         self.enabled = enabled
         self.applicationConfiguration = applicationConfiguration
         self.data = data
@@ -41,13 +50,7 @@ public class LinkedInIdentityProvider:BaseIdentityProvider, Codable{
         self.insertinstant = insertinstant
         self.lambdaConfiguration = lambdaConfiguration
         self.lastUpdateInstant = lastUpdateInstant
-    }
-
-    private enum CodingKeys:String, CodingKey{
-        case buttonText
-        case clientId = "client_id"
-        case clientSecret = "client_secret"
-        case scope
+        self.linkingStrategy = linkingStrategy
     }
 
 }

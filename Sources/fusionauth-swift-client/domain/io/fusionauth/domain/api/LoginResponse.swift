@@ -9,12 +9,13 @@
 import Foundation
 
 public struct LoginResponse:Codable {
-
+    
     public var actions:[LoginPreventedResponse]? = nil
     public var changePasswordId:String? = nil
     public var changePasswordReason:ChangePasswordReason? = nil
     public var emailVerificationId:String? = nil
     public var methods:[TwoFactorMethod]? = nil
+    public var pendingIdPLinkId:String? = nil
     public var refreshToken:String? = nil
     public var registrationVerificationId:String? = nil
     public var state:[String:JSONObject]? = nil
@@ -23,12 +24,13 @@ public struct LoginResponse:Codable {
     public var twoFactorTrustId:String? = nil
     public var user:User? = nil
     
-    public init(actions: [LoginPreventedResponse]? = nil, changePasswordId: String? = nil, changePasswordReason: ChangePasswordReason? = nil, emailVerificationId: String? = nil, methods: [TwoFactorMethod]? = nil, refreshToken: String? = nil, registrationVerificationId: String? = nil, state: [String : JSONObject]? = nil, token: String? = nil, twoFactorId: String? = nil, twoFactorTrustId: String? = nil, user: User? = nil) {
+    public init(actions: [LoginPreventedResponse]? = nil, changePasswordId: String? = nil, changePasswordReason: ChangePasswordReason? = nil, emailVerificationId: String? = nil, methods: [TwoFactorMethod]? = nil, pendingIdPLinkId: String? = nil, refreshToken: String? = nil, registrationVerificationId: String? = nil, state: [String : JSONObject]? = nil, token: String? = nil, twoFactorId: String? = nil, twoFactorTrustId: String? = nil, user: User? = nil) {
         self.actions = actions
         self.changePasswordId = changePasswordId
         self.changePasswordReason = changePasswordReason
         self.emailVerificationId = emailVerificationId
         self.methods = methods
+        self.pendingIdPLinkId = pendingIdPLinkId
         self.refreshToken = refreshToken
         self.registrationVerificationId = registrationVerificationId
         self.state = state
@@ -37,4 +39,5 @@ public struct LoginResponse:Codable {
         self.twoFactorTrustId = twoFactorTrustId
         self.user = user
     }
+    
 }

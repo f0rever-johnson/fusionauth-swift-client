@@ -11,13 +11,19 @@ import XCTest
 
 class FusionAuthClientTest: XCTestCase {
     
-    let baseUrl:String = "factoryWinventory.ddns.net"
-    var apiKey:String = "E9XCHRTDFwc0x_JcdcGmi78PEpcl2PdMcl0pines2DB4Df3jQHjG-Sm-"
-    let applicationId:UUID = UUID.init(uuidString: "d5b8a58a-4ceb-4a69-b9d9-0dd706774c14")!
+    let baseUrl:String = "fwt.ddns.net"
     
-    let emailAddress:String = "swiftclient@fusionauth.io"
-    let username:String = "swiftClient"
-    let password:String = "verySecurePassword:)"
+    let port:Int = 443
+    
+    var apiKey:String? = "dRud1UxqjBGRok3Jk6oyg0jzZTel89ghN5Y31kkO3lo_Cak_ecWiuk9D"
+    
+    let applicationId:UUID = UUID(uuidString: "7ae2647c-9445-4d4e-8378-365f065d5765")!
+    
+    let emailAddress:String = "swiftclient@test.com"
+    
+    let username:String = "swift"
+    
+    let password:String = "password"
     
     var application:Application?
     var client:FusionAuthClient?
@@ -28,7 +34,7 @@ class FusionAuthClientTest: XCTestCase {
     var userActionLog:UserActionLog?
 
     override func setUp() {
-        let defaultRestClient = DefaultRESTClient(baseUrl: baseUrl, apiKey:apiKey, urlScheme: "https", port: 443)
+        let defaultRestClient = DefaultRESTClient(baseUrl: baseUrl, apiKey:apiKey, urlScheme: "https", port: port)
 
         client = FusionAuthClient(fusionAuth: defaultRestClient)
     }
@@ -40,7 +46,7 @@ class FusionAuthClientTest: XCTestCase {
     }
     
     func NewClientWithTenantId(tenantId:String) -> FusionAuthClient{
-        let RestClientWithTenantId = DefaultRESTClient(baseUrl: baseUrl, apiKey: apiKey, tenantId: tenantId, urlScheme: "https", port: 443)
+        let RestClientWithTenantId = DefaultRESTClient(baseUrl: baseUrl, apiKey: apiKey, tenantId: tenantId, urlScheme: "https", port: port)
         return FusionAuthClient(fusionAuth: RestClientWithTenantId)
     }
     
@@ -191,7 +197,7 @@ class FusionAuthClientTest: XCTestCase {
     }
     
     func testPatchApplication(){
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         let expect:XCTestExpectation = XCTestExpectation()
         CreateApplication { complete in
@@ -224,7 +230,7 @@ class FusionAuthClientTest: XCTestCase {
     
     func testCancelAction(){
         let expect:XCTestExpectation = XCTestExpectation()
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         CreateApplication { caComplete in
             self.CreateUserAction(actionName: "SwiftClientUserAction", isTemporal: true) { (cuaComplete) in
@@ -282,12 +288,14 @@ class FusionAuthClientTest: XCTestCase {
     
     func testRetrieveApplication(){
         let expect:XCTestExpectation = XCTestExpectation()
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        //apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
+        apiKey = nil
         setUp()
         CreateApplication { complete in
             self.client?.RetrieveApplication(applicationId: self.application?.id, clientResponse: { retrieveApplicationResponse in
                 XCTAssertEqual("Swift Client Test", retrieveApplicationResponse.successResponse?.application?.name)
                 self.AssertSuccess(response: retrieveApplicationResponse)
+                dump(retrieveApplicationResponse)
                 expect.fulfill()
             })
         }
@@ -296,7 +304,7 @@ class FusionAuthClientTest: XCTestCase {
     
     func testRetrieveRefreshTokensTest(){
         let expect:XCTestExpectation = XCTestExpectation()
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         CreateApplication { caComplete in
             self.CreateUser { cuComplete in
@@ -317,7 +325,7 @@ class FusionAuthClientTest: XCTestCase {
     
     func testUpdateApplication(){
         let expect:XCTestExpectation = XCTestExpectation()
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         CreateApplication { caComplete in
             var app = self.application!
@@ -342,7 +350,7 @@ class FusionAuthClientTest: XCTestCase {
     
     func testValidateJWT(){
         let expect:XCTestExpectation = XCTestExpectation()
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         CreateApplication { caComplete in
             self.CreateUser { cuComplete in
@@ -368,7 +376,7 @@ class FusionAuthClientTest: XCTestCase {
     
     func testRetrievePublicKeysTest(){
         let expect:XCTestExpectation = XCTestExpectation()
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         CreateApplication { caComplete in
             self.CreateUser { cuComplete in
@@ -392,7 +400,7 @@ class FusionAuthClientTest: XCTestCase {
     
     func testDeactivateApplication(){
         let expect:XCTestExpectation = XCTestExpectation()
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         CreateApplication { caComplete in
             self.client?.DeactivateApplication(applicationId: self.applicationId, clientResponse: { daApplicationResponse in
@@ -408,7 +416,7 @@ class FusionAuthClientTest: XCTestCase {
     
     func testReactivateApplication(){
         let expect:XCTestExpectation = XCTestExpectation()
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         
         testDeactivateApplication()
@@ -429,7 +437,7 @@ class FusionAuthClientTest: XCTestCase {
     
     func testRegister(){
         let expect:XCTestExpectation = XCTestExpectation()
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         CreateApplication { caComplete in
             self.CreateUser { cuComplete in
@@ -477,7 +485,7 @@ class FusionAuthClientTest: XCTestCase {
     
     func testSystemConfiguration() {
         let expect:XCTestExpectation = XCTestExpectation()
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         client?.RetrieveSystemConfiguration(clientResponse: { retrieveSystemConfigResponse in
             self.AssertSuccess(response: retrieveSystemConfigResponse)
@@ -487,7 +495,7 @@ class FusionAuthClientTest: XCTestCase {
     }
     
     func testGroups(){
-        apiKey = "a2LMkmZzCODNvRPbIQ8k-dQ3idlxnshffTTINyCzox_BhuDR6psCYmKw"
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         func CreateGroups() -> ClientResponse<GroupResponse>{
             var createGroupResponse:ClientResponse<GroupResponse> = ClientResponse()

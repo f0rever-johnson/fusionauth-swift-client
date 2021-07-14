@@ -26,4 +26,11 @@ public enum LambdaType:String, Codable{
     case TwitterReconcile = "TwitterReconcile"
     case LDAPConnectorReconcile = "LDAPConnectorReconcile"
     case LinkedInReconcile = "LinkedInReconcile"
+    case EpicGamesReconcile = "EpicGamesReconcile"
+    case NintendoReconcile = "NintendoReconcile"
+    case SonyPSNReconcile = "SonyPSNReconcile"
+    case SteamReconcile = "SteamReconcile"
+    case TwitchReconcile = "TwitchReconcile"
+    case XboxReconcile = "XboxReconcile"
+    case ClientCredentialsJWTPopulate = "ClientCredentialsJWTPopulate"
 }
