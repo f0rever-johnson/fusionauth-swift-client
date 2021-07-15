@@ -19,6 +19,7 @@ public protocol BaseIdentityProvider:Enableable, IdentityProvider{
     var insertinstant:Date? { get set}
     var lambdaConfiguration:LambdaConfiguration? { set get }
     var lastUpdateInstant:Date? { get set }
+    var linkingStrategy:IdentityProviderLinkingStrategy? {get set}
     var name:String? { get set }
     var type:IdentityProviderType? { get }
     

@@ -12,7 +12,7 @@ import Foundation
  */
 
 public class OpenIdConnectIdentityProvider:BaseIdentityProvider {
-
+    
     public typealias D = OpenIdConnectApplicationConfiguration
     
     public var applicationConfiguration: [String : OpenIdConnectApplicationConfiguration]? = nil
@@ -28,8 +28,9 @@ public class OpenIdConnectIdentityProvider:BaseIdentityProvider {
     public var oauth2:IdentityProviderOAuth2Configuration? = nil
     public var insertinstant: Date? = nil
     public var lastUpdateInstant: Date? = nil
+    public var linkingStrategy: IdentityProviderLinkingStrategy? = nil
     
-    public init(applicationConfiguration: [String : OpenIdConnectApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonImageURL: String? = nil, domains: [String]? = nil, lambdaConfiguration: LambdaConfiguration? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil, insertinstant: Date? = nil, lastUpdateInstant: Date? = nil) {
+    public init(applicationConfiguration: [String : OpenIdConnectApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonImageURL: String? = nil, domains: [String]? = nil, lambdaConfiguration: LambdaConfiguration? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil, insertinstant: Date? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil) {
         self.applicationConfiguration = applicationConfiguration
         self.data = data
         self.debug = debug
@@ -43,6 +44,7 @@ public class OpenIdConnectIdentityProvider:BaseIdentityProvider {
         self.oauth2 = oauth2
         self.insertinstant = insertinstant
         self.lastUpdateInstant = lastUpdateInstant
+        self.linkingStrategy = linkingStrategy
     }
 
 }

@@ -611,6 +611,24 @@ public class FusionAuthClient{
         })
     }
     
+    /// Link an external user from a 3rd party identity provider to a FusionAuth user.
+    /// - Parameters:
+    ///   - request: The request object that contains all of the information used to link the FusionAuth user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func CreateUserLink(request:IdentityProviderLinkRequest, clientResponse:@escaping(ClientResponse<IdentityProviderLinkResponse>) -> ()){
+        let urlPath:String = "/api/identity-provider/link"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<IdentityProviderLinkResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Creates a webhook. You can optionally specify an Id for the webhook, if not provided one will be generated.
     /// - Parameters:
     ///   - webhookId: (Optional) The Id for the webhook. If not provided a secure random UUID will be generated.
@@ -1111,6 +1129,26 @@ public class FusionAuthClient{
         })
     }
     
+    /// Remove an existing link that has been made from a 3rd party identity provider to a FusionAuth user.
+    /// - Parameters:
+    ///   - identityProviderId:  The unique Id of the identity provider.
+    ///   - identityProviderUserId: The unique Id of the user in the 3rd party identity provider to unlink.
+    ///   - userId: The unique Id of the FusionAuth user to unlink.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteUserLink(identityProviderId:UUID?, identityProviderUserId:String, userId:UUID?, clientResponse:@escaping(ClientResponse<IdentityProviderLinkResponse>) -> ()){
+        let urlPath:String = "/api/identity-provider/link"
+        let urlParameters:[URLQueryItem] = [URLQueryItem(name: "identityProviderId", value: identityProviderId?.uuidString), URLQueryItem(name: "identityProviderUserId", value: identityProviderUserId), URLQueryItem(name: "userId", value: userId?.uuidString)]
+        let httpMethod:HTTPMethod = .DELETE
+        
+        fusionAuth.RESTClient(urlPath: urlPath,  httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<IdentityProviderLinkResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Deletes the user for the given Id. This permanently deletes all information, metrics, reports and data associated with the user.
     /// - Parameters:
     ///   - userId: The Id of the user to delete.
@@ -1169,7 +1207,7 @@ public class FusionAuthClient{
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
     
-    public func DeleteUsersByQueryAsync(request:UserDeleteRequest, clientResponse: @escaping(ClientResponse<UserDeleteResponse>) -> ()){
+    public func DeleteUsersByQuery(request:UserDeleteRequest, clientResponse: @escaping(ClientResponse<UserDeleteResponse>) -> ()){
         let urlPath:String = "/api/user/bulk"
         let data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .DELETE
@@ -2188,6 +2226,27 @@ public class FusionAuthClient{
         })
     }
     
+    /// Requests Elasticsearch to delete and rebuild the index for FusionAuth users or entities. Be very careful when running this request as it will
+    /// increase the CPU and I/O load on your database until the operation completes. Generally speaking you do not ever need to run this operation unless
+    /// instructed by FusionAuth support, or if you are migrating a database another system and you are not brining along the Elasticsearch index.
+    /// You have been warned.
+    /// - Parameters:
+    ///   - request: The request that contains the index name.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func Reindex(request:ReindexRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/system/reindex"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Removes a user from the family with the given id.
     /// - Parameters:
     ///   - familyId: The id of the family to remove the user from.
@@ -3183,6 +3242,22 @@ public class FusionAuthClient{
         })
     }
     
+    /// Retrieve the status of a re-index process. A status code of 200 indicates the re-index is in progress, a status code of
+    /// 404 indicates no re-index is in progress.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveReindexStatus(clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/system/reindex"
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
     /// Retrieves the system configuration.
     /// - Parameter clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an IOException.
@@ -3486,6 +3561,45 @@ public class FusionAuthClient{
             clientResponse(response)
         }
         
+    }
+    
+    /// Retrieve a single Identity Provider user (link).
+    /// - Parameters:
+    ///   - identityProviderId:  The unique Id of the identity provider
+    ///   - identityProviderUserId: The unique Id of the user in the 3rd party identity provider.
+    ///   - userId: The unique Id of the FusionAuth user
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveUserLink(identityProviderId:UUID?, identityProviderUserId:String, userId:UUID?, clientResponse:@escaping(ClientResponse<IdentityProviderLinkResponse>) -> ()){
+        let urlPath:String = "/api/identity-provider/link"
+        let urlParameters:[URLQueryItem] = [URLQueryItem(name: "identityProviderId", value: identityProviderId?.uuidString), URLQueryItem(name: "identityProviderUserId", value: identityProviderUserId), URLQueryItem(name: "userId", value: userId?.uuidString)]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<IdentityProviderLinkResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Retrieve all Identity Provider users (links) for the user. Specify the optional identityProviderId to retrieve links for a particular IdP.
+    /// - Parameters:
+    ///   - identityProviderId: (Optional) The unique Id of the identity provider. Specify this value to reduce the links returned to those for a particular IdP.
+    ///   - userId: The unique Id of the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveUserLinksByUserId(identityProviderId:UUID?, userId:UUID?, clientResponse:@escaping(ClientResponse<IdentityProviderLinkResponse>) -> ()){
+        let urlPath:String = "/api/identity-provider/link"
+        let urlParameters:[URLQueryItem] = [URLQueryItem(name: "identityProviderId", value: identityProviderId?.uuidString), URLQueryItem(name: "userId", value: userId?.uuidString)]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameters) { (response:ClientResponse<IdentityProviderLinkResponse>) in
+            clientResponse(response)
+        }
     }
     
     /// Retrieves the login report between the two instants for a particular user by Id. If you specify an application id, it will only return the login counts for that application.

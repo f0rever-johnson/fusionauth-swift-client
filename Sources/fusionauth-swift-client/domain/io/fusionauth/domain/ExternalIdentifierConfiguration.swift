@@ -11,7 +11,7 @@ import Foundation
  * Creates a new External Identifier Configuration Object.
  */
 
-public struct ExternalIdentifierConfiguration:Codable {
+public class ExternalIdentifierConfiguration:Codable {
     
     public var authorizationGrantIdTimeToLiveInSeconds:Int? = nil
     public var changePasswordIdGenerator:SecureGeneratorConfiguration? = nil
@@ -25,6 +25,7 @@ public struct ExternalIdentifierConfiguration:Codable {
     public var oneTimePasswordTimeToLiveInSeconds:Int? = nil
     public var passwordlessLoginGenerator:SecureGeneratorConfiguration? = nil
     public var passwordlessLoginTimeToLiveInSeconds:Int? = nil
+    public var pendingAccountLinkTimeToLiveInSeconds:Int? = nil
     public var registrationVerificationIdGenerator:SecureGeneratorConfiguration? = nil
     public var registrationVerificationIdTimeToLiveInSeconds:Int? = nil
     public var registrationVerificationOneTimeCodeGenerator:SecureGeneratorConfiguration? = nil
@@ -36,7 +37,7 @@ public struct ExternalIdentifierConfiguration:Codable {
     public var twoFactorOneTimeCodeIdTimeToLiveInSeconds:Int? = nil
     public var twoFactorTrustIdTimeToLiveInSeconds:Int? = nil
     
-    public init(authorizationGrantIdTimeToLiveInSeconds: Int? = nil, changePasswordIdGenerator: SecureGeneratorConfiguration? = nil, changePasswordIdTimeToLiveInSeconds: Int? = nil, deviceCodeTimeToLiveInSeconds: Int? = nil, deviceUserCodeIdGenerator: SecureGeneratorConfiguration? = nil, emailVerificationIdGenerator: SecureGeneratorConfiguration? = nil, emailVerificationIdTimeToLiveInSeconds: Int? = nil, emailVerificationOneTimeCodeGenerator: SecureGeneratorConfiguration? = nil, externalAuthenticationIdTimeToLiveInSeconds: Int? = nil, oneTimePasswordTimeToLiveInSeconds: Int? = nil, passwordlessLoginGenerator: SecureGeneratorConfiguration? = nil, passwordlessLoginTimeToLiveInSeconds: Int? = nil, registrationVerificationIdGenerator: SecureGeneratorConfiguration? = nil, registrationVerificationIdTimeToLiveInSeconds: Int? = nil, registrationVerificationOneTimeCodeGenerator: SecureGeneratorConfiguration? = nil, samlv2AuthNRequestIdTimeToLiveInSeconds: Int? = nil, setupPasswordIdGenerator: SecureGeneratorConfiguration? = nil, setupPasswordIdTimeToLiveInSeconds: Int? = nil, twoFactorIdTimeToLiveInSeconds: Int? = nil, twoFactorOneTimeCodeIdGenerator: SecureGeneratorConfiguration? = nil, twoFactorOneTimeCodeIdTimeToLiveInSeconds: Int? = nil, twoFactorTrustIdTimeToLiveInSeconds: Int? = nil) {
+    public init(authorizationGrantIdTimeToLiveInSeconds: Int? = nil, changePasswordIdGenerator: SecureGeneratorConfiguration? = nil, changePasswordIdTimeToLiveInSeconds: Int? = nil, deviceCodeTimeToLiveInSeconds: Int? = nil, deviceUserCodeIdGenerator: SecureGeneratorConfiguration? = nil, emailVerificationIdGenerator: SecureGeneratorConfiguration? = nil, emailVerificationIdTimeToLiveInSeconds: Int? = nil, emailVerificationOneTimeCodeGenerator: SecureGeneratorConfiguration? = nil, externalAuthenticationIdTimeToLiveInSeconds: Int? = nil, oneTimePasswordTimeToLiveInSeconds: Int? = nil, passwordlessLoginGenerator: SecureGeneratorConfiguration? = nil, passwordlessLoginTimeToLiveInSeconds: Int? = nil, pendingAccountLinkTimeToLiveInSeconds: Int? = nil, registrationVerificationIdGenerator: SecureGeneratorConfiguration? = nil, registrationVerificationIdTimeToLiveInSeconds: Int? = nil, registrationVerificationOneTimeCodeGenerator: SecureGeneratorConfiguration? = nil, samlv2AuthNRequestIdTimeToLiveInSeconds: Int? = nil, setupPasswordIdGenerator: SecureGeneratorConfiguration? = nil, setupPasswordIdTimeToLiveInSeconds: Int? = nil, twoFactorIdTimeToLiveInSeconds: Int? = nil, twoFactorOneTimeCodeIdGenerator: SecureGeneratorConfiguration? = nil, twoFactorOneTimeCodeIdTimeToLiveInSeconds: Int? = nil, twoFactorTrustIdTimeToLiveInSeconds: Int? = nil) {
         self.authorizationGrantIdTimeToLiveInSeconds = authorizationGrantIdTimeToLiveInSeconds
         self.changePasswordIdGenerator = changePasswordIdGenerator
         self.changePasswordIdTimeToLiveInSeconds = changePasswordIdTimeToLiveInSeconds
@@ -49,6 +50,7 @@ public struct ExternalIdentifierConfiguration:Codable {
         self.oneTimePasswordTimeToLiveInSeconds = oneTimePasswordTimeToLiveInSeconds
         self.passwordlessLoginGenerator = passwordlessLoginGenerator
         self.passwordlessLoginTimeToLiveInSeconds = passwordlessLoginTimeToLiveInSeconds
+        self.pendingAccountLinkTimeToLiveInSeconds = pendingAccountLinkTimeToLiveInSeconds
         self.registrationVerificationIdGenerator = registrationVerificationIdGenerator
         self.registrationVerificationIdTimeToLiveInSeconds = registrationVerificationIdTimeToLiveInSeconds
         self.registrationVerificationOneTimeCodeGenerator = registrationVerificationOneTimeCodeGenerator

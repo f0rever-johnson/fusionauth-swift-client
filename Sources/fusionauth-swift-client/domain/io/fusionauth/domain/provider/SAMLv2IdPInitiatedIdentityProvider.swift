@@ -10,7 +10,7 @@ import Foundation
 ///SAML v2 IdP Initiated identity provider configuration.
 
 public class SAMLv2IdPInitiatedIdentityProvider:BaseIdentityProvider, Codable{
-
+    
     public typealias D = SAMLv2IdPInitiatedApplicationConfiguration
 
     public var applicationConfiguration: [String : SAMLv2IdPInitiatedApplicationConfiguration]? = nil
@@ -20,6 +20,7 @@ public class SAMLv2IdPInitiatedIdentityProvider:BaseIdentityProvider, Codable{
     public var insertinstant: Date? = nil
     public var lambdaConfiguration: LambdaConfiguration? = nil
     public var lastUpdateInstant: Date? = nil
+    public var linkingStrategy: IdentityProviderLinkingStrategy? = nil
     public var name: String? = nil
     public var type: IdentityProviderType? = nil
     public var enabled: Bool? = nil
@@ -28,7 +29,7 @@ public class SAMLv2IdPInitiatedIdentityProvider:BaseIdentityProvider, Codable{
     public var keyId:UUID? = nil
     public var useNameIdForEmail:Bool? = nil
     
-    public init(applicationConfiguration: [String : SAMLv2IdPInitiatedApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, emailClaim: String? = nil, issuer: String? = nil, keyId: UUID? = nil, useNameIdForEmail: Bool? = nil) {
+    public init(applicationConfiguration: [String : SAMLv2IdPInitiatedApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, emailClaim: String? = nil, issuer: String? = nil, keyId: UUID? = nil, useNameIdForEmail: Bool? = nil) {
         self.applicationConfiguration = applicationConfiguration
         self.data = data
         self.debug = debug
@@ -36,6 +37,7 @@ public class SAMLv2IdPInitiatedIdentityProvider:BaseIdentityProvider, Codable{
         self.insertinstant = insertinstant
         self.lambdaConfiguration = lambdaConfiguration
         self.lastUpdateInstant = lastUpdateInstant
+        self.linkingStrategy = linkingStrategy
         self.name = name
         self.type = type
         self.enabled = enabled

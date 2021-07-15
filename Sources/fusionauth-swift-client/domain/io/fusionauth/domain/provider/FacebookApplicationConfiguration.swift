@@ -12,7 +12,7 @@ import Foundation
  */
 
 public class FacebookApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable{
-    
+ 
     public var createRegistration: Bool?
     public var data:[String:JSONObject]? = nil
     public var enabled: Bool? = nil
@@ -20,18 +20,8 @@ public class FacebookApplicationConfiguration:BaseIdentityProviderApplicationCon
     public var buttonText:String? = nil
     public var clientSecret:String? = nil
     public var fields:String? = nil
+    public var loginMethods:IdentityProviderLoginMethod? = nil
     public var permissions:String? = nil
-
-    public init(createRegistration: Bool?, data: [String:JSONObject]? = nil, enabled: Bool? = nil, appId: String? = nil, buttonText: String? = nil, clientSecret: String? = nil, fields: String? = nil, permissions: String? = nil) {
-        self.createRegistration = createRegistration
-        self.data = data
-        self.enabled = enabled
-        self.appId = appId
-        self.buttonText = buttonText
-        self.clientSecret = clientSecret
-        self.fields = fields
-        self.permissions = permissions
-    }
     
     private enum CodingKeys:String, CodingKey{
         case createRegistration
@@ -42,5 +32,17 @@ public class FacebookApplicationConfiguration:BaseIdentityProviderApplicationCon
         case clientSecret = "client_secret"
         case fields
         case permissions
+    }
+    
+    public init(createRegistration: Bool? = nil, data: [String : JSONObject]? = nil, enabled: Bool? = nil, appId: String? = nil, buttonText: String? = nil, clientSecret: String? = nil, fields: String? = nil, loginMethods: IdentityProviderLoginMethod? = nil, permissions: String? = nil) {
+        self.createRegistration = createRegistration
+        self.data = data
+        self.enabled = enabled
+        self.appId = appId
+        self.buttonText = buttonText
+        self.clientSecret = clientSecret
+        self.fields = fields
+        self.loginMethods = loginMethods
+        self.permissions = permissions
     }
 }

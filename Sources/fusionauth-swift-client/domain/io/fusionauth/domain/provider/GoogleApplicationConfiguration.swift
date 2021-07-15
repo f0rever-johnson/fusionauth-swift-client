@@ -12,23 +12,15 @@ import Foundation
  */
 
 public class GoogleApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable {
+
     public var createRegistration: Bool? = nil
     public var enabled: Bool? = nil
     public var data: [String : JSONObject]? = nil
     public var buttonText:String? = nil
     public var clientId:String? = nil
     public var clientSecret:String? = nil
+    public var loginMethod:IdentityProviderLoginMethod? = nil
     public var scope:String? = nil
-
-    public init(createRegistration: Bool? = nil, enabled: Bool? = nil, data: [String : JSONObject]? = nil, buttonText: String? = nil, clientId: String? = nil, clientSecret: String? = nil, scope: String? = nil) {
-        self.createRegistration = createRegistration
-        self.enabled = enabled
-        self.data = data
-        self.buttonText = buttonText
-        self.clientId = clientId
-        self.clientSecret = clientSecret
-        self.scope = scope
-    }
 
     private enum CodingKeys:String, CodingKey{
         case createRegistration
@@ -38,6 +30,17 @@ public class GoogleApplicationConfiguration:BaseIdentityProviderApplicationConfi
         case clientId = "client_id"
         case clientSecret = "client_secret"
         case scope
+    }
+    
+    public init(createRegistration: Bool? = nil, enabled: Bool? = nil, data: [String : JSONObject]? = nil, buttonText: String? = nil, clientId: String? = nil, clientSecret: String? = nil, loginMethod: IdentityProviderLoginMethod? = nil, scope: String? = nil) {
+        self.createRegistration = createRegistration
+        self.enabled = enabled
+        self.data = data
+        self.buttonText = buttonText
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.loginMethod = loginMethod
+        self.scope = scope
     }
 
 }

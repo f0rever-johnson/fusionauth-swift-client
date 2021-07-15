@@ -12,12 +12,13 @@ import Foundation
  */
 
 public class ExternalJWTIdentityProvider:BaseIdentityProvider, Codable{
-   
+
     public typealias D = ExternalJWTApplicationConfiguration
     
     public var insertinstant: Date? = nil
     public var lambdaConfiguration: LambdaConfiguration? = nil
     public var lastUpdateInstant: Date? = nil
+    public var linkingStrategy: IdentityProviderLinkingStrategy?
     public var name: String? = nil
     public var applicationConfiguration: [String : ExternalJWTApplicationConfiguration]? = nil
     public var data: [String : JSONObject]? = nil
@@ -32,10 +33,11 @@ public class ExternalJWTIdentityProvider:BaseIdentityProvider, Codable{
     public var uniqueIdentityClaim:String? = nil
     public var type:IdentityProviderType? = nil
     
-    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, applicationConfiguration: [String : ExternalJWTApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, enabled: Bool? = nil, claimMap: [String : String]? = nil, domains: [String]? = nil, headerKeyParameter: String? = nil, keys: [String : String]? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil, uniqueIdentityClaim: String? = nil, type: IdentityProviderType? = nil) {
+    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, name: String? = nil, applicationConfiguration: [String : ExternalJWTApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, enabled: Bool? = nil, claimMap: [String : String]? = nil, domains: [String]? = nil, headerKeyParameter: String? = nil, keys: [String : String]? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil, uniqueIdentityClaim: String? = nil, type: IdentityProviderType? = nil) {
         self.insertinstant = insertinstant
         self.lambdaConfiguration = lambdaConfiguration
         self.lastUpdateInstant = lastUpdateInstant
+        self.linkingStrategy = linkingStrategy
         self.name = name
         self.applicationConfiguration = applicationConfiguration
         self.data = data
