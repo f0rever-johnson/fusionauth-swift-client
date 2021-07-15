@@ -13,7 +13,7 @@ public class DefaultRESTClient{
     private(set) var apiKey:String?
     private(set) var baseUrl:String
     private(set) var tenantId:String?
-    private(set) var port:Int? = 9011
+    private(set) var port:Int = 9011
     private(set) var timeout:Int = 2000
     private(set) var urlScheme:String = "https"
     
@@ -21,7 +21,7 @@ public class DefaultRESTClient{
      This sets up the url for the RESTClient.
      */
     
-    public init(baseUrl:String, apiKey:String? = nil, tenantId:String? = nil, urlScheme:String = "https", port:Int? = 9011, timeout:Int = 2000){
+    public init(baseUrl:String, apiKey:String? = nil, tenantId:String? = nil, urlScheme:String = "https", port:Int = 9011, timeout:Int = 2000){
         self.urlScheme = urlScheme
         self.baseUrl = baseUrl
         self.apiKey = apiKey
