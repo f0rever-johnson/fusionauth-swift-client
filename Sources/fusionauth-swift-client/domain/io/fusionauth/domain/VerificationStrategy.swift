@@ -8,6 +8,6 @@
 import Foundation
 
 public enum VerificationStrategy:String, Codable{
-    case ClickableLing
+    case ClickableLink
     case FormField
 }
