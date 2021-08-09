@@ -18,9 +18,7 @@ public struct RefreshToken:Codable {
     public var insertInstant:Date? = nil
     public var metaData:MetaData? = nil
     public var startInstant:Date? = nil
+    public var tenantId:UUID? = nil
     public var token:String? = nil
     public var userId:UUID? = nil
-
-
-
 }
