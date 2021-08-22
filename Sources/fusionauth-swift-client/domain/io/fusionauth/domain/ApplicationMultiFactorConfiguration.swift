@@ -7,6 +7,6 @@
 
 import Foundation
 
-public class ApplicationMultiFactorConfiguration:Codable{
+public struct ApplicationMultiFactorConfiguration:Codable{
     
 }

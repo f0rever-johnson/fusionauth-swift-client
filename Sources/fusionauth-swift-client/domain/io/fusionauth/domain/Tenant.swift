@@ -13,36 +13,42 @@ import Foundation
 
 public struct Tenant:Codable{
 
-    public var configured:Bool? = nil
-    public var connectorPolicies:[ConnectorPolicy]? = nil
-    public var data: [String:JSONObject]? = nil
-    public var emailConfiguration:EmailConfiguration? = nil
-    public var eventConfiguration:EventConfiguration? = nil
-    public var externalIdentifierConfiguration:ExternalIdentifierConfiguration? = nil
-    public var failedAuthenticationConfiguration:FailedAuthenticationConfiguration? = nil
-    public var familyConfiguration:FamilyConfiguration? = nil
-    public var formConfiguration:TenantFormConfiguration? = nil
-    public var httpSessionMaxInactiveInterval:Int? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var issuer:String? = nil
-    public var jwtConfiguration:JWTConfiguration? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var loginConfiguration:TenantLoginConfiguration? = nil
-    public var logoutURL:String? = nil
-    public var maximumPasswordAge:MaximumPasswordAge? = nil
-    public var minimumPasswordAge:MinimumPasswordAge? = nil
-    public var multiFactorConfiguration:TenantMultiFactorConfiguration? = nil
-    public var name:String? = nil
-    public var oauth2Configuration:TenantOauth2Configuration? = nil
-    public var passwordEncrytionConfiguration:PasswordEncryptionConfiguration? = nil
-    public var passwordValidationRules:PasswordValidationRules? = nil
-    public var state:ObjectState? = nil
-    public var themeId:UUID? = nil
-    public var userDeletePolicy:TenantUserDeletePolicy? = nil
-    public var usernameConfiguration:TenantUsernameConfiguration? = nil
+    public var accessControlConfiguration:TenantAccessControlConfiguration?
+    public var captchaConfiguration:TenantCaptchaConfiguration?
+    public var configured:Bool?
+    public var connectorPolicies:[ConnectorPolicy]?
+    public var data: [String:JSONObject]?
+    public var emailConfiguration:EmailConfiguration?
+    public var eventConfiguration:EventConfiguration?
+    public var externalIdentifierConfiguration:ExternalIdentifierConfiguration?
+    public var failedAuthenticationConfiguration:FailedAuthenticationConfiguration?
+    public var familyConfiguration:FamilyConfiguration?
+    public var formConfiguration:TenantFormConfiguration?
+    public var httpSessionMaxInactiveInterval:Int?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var issuer:String?
+    public var jwtConfiguration:JWTConfiguration?
+    public var lastUpdateInstant:Date?
+    public var loginConfiguration:TenantLoginConfiguration?
+    public var logoutURL:String?
+    public var maximumPasswordAge:MaximumPasswordAge?
+    public var minimumPasswordAge:MinimumPasswordAge?
+    public var multiFactorConfiguration:TenantMultiFactorConfiguration?
+    public var name:String?
+    public var oauth2Configuration:TenantOauth2Configuration?
+    public var passwordEncrytionConfiguration:PasswordEncryptionConfiguration?
+    public var passwordValidationRules:PasswordValidationRules?
+    public var rateLimitConfiguration:TenantRateLimitConfiguration?
+    public var registrationConfiguration:TenantRegistrationConfiguration?
+    public var state:ObjectState?
+    public var themeId:UUID?
+    public var userDeletePolicy:TenantUserDeletePolicy?
+    public var usernameConfiguration:TenantUsernameConfiguration?
 
-    public init(configured: Bool? = nil, connectorPolicies: [ConnectorPolicy]? = nil, data: [String : JSONObject]? = nil, emailConfiguration: EmailConfiguration? = nil, eventConfiguration: EventConfiguration? = nil, externalIdentifierConfiguration: ExternalIdentifierConfiguration? = nil, failedAuthenticationConfiguration: FailedAuthenticationConfiguration? = nil, familyConfiguration: FamilyConfiguration? = nil, formConfiguration: TenantFormConfiguration? = nil, httpSessionMaxInactiveInterval: Int? = nil, id: UUID? = nil, insertInstant: Date? = nil, issuer: String? = nil, jwtConfiguration: JWTConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: TenantLoginConfiguration? = nil, logoutURL: String? = nil, maximumPasswordAge: MaximumPasswordAge? = nil, minimumPasswordAge: MinimumPasswordAge? = nil, multiFactorConfiguration: TenantMultiFactorConfiguration? = nil, name: String? = nil, oauth2Configuration: TenantOauth2Configuration? = nil, passwordEncrytionConfiguration: PasswordEncryptionConfiguration? = nil, passwordValidationRules: PasswordValidationRules? = nil, state: ObjectState? = nil, themeId: UUID? = nil, userDeletePolicy: TenantUserDeletePolicy? = nil, usernameConfiguration: TenantUsernameConfiguration? = nil) {
+    public init(accessControlConfiguration: TenantAccessControlConfiguration? = nil, captchaConfiguration: TenantCaptchaConfiguration? = nil, configured: Bool? = nil, connectorPolicies: [ConnectorPolicy]? = nil, data: [String : JSONObject]? = nil, emailConfiguration: EmailConfiguration? = nil, eventConfiguration: EventConfiguration? = nil, externalIdentifierConfiguration: ExternalIdentifierConfiguration? = nil, failedAuthenticationConfiguration: FailedAuthenticationConfiguration? = nil, familyConfiguration: FamilyConfiguration? = nil, formConfiguration: TenantFormConfiguration? = nil, httpSessionMaxInactiveInterval: Int? = nil, id: UUID? = nil, insertInstant: Date? = nil, issuer: String? = nil, jwtConfiguration: JWTConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: TenantLoginConfiguration? = nil, logoutURL: String? = nil, maximumPasswordAge: MaximumPasswordAge? = nil, minimumPasswordAge: MinimumPasswordAge? = nil, multiFactorConfiguration: TenantMultiFactorConfiguration? = nil, name: String? = nil, oauth2Configuration: TenantOauth2Configuration? = nil, passwordEncrytionConfiguration: PasswordEncryptionConfiguration? = nil, passwordValidationRules: PasswordValidationRules? = nil, rateLimitConfiguration: TenantRateLimitConfiguration? = nil, registrationConfiguration: TenantRegistrationConfiguration? = nil, state: ObjectState? = nil, themeId: UUID? = nil, userDeletePolicy: TenantUserDeletePolicy? = nil, usernameConfiguration: TenantUsernameConfiguration? = nil) {
+        self.accessControlConfiguration = accessControlConfiguration
+        self.captchaConfiguration = captchaConfiguration
         self.configured = configured
         self.connectorPolicies = connectorPolicies
         self.data = data
@@ -67,10 +73,13 @@ public struct Tenant:Codable{
         self.oauth2Configuration = oauth2Configuration
         self.passwordEncrytionConfiguration = passwordEncrytionConfiguration
         self.passwordValidationRules = passwordValidationRules
+        self.rateLimitConfiguration = rateLimitConfiguration
+        self.registrationConfiguration = registrationConfiguration
         self.state = state
         self.themeId = themeId
         self.userDeletePolicy = userDeletePolicy
         self.usernameConfiguration = usernameConfiguration
     }
+    
 }
 

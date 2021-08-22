@@ -8,7 +8,7 @@
 import Foundation
 
 ///  Models a specific entity type permission. This permission can be granted to users or other entities.
-public class EntityTypePermission:Codable{
+public struct EntityTypePermission:Codable{
     
     public var date:[String:JSONObject]? = nil
     public var description:String? = nil

@@ -8,7 +8,7 @@
 import Foundation
 
 public class AuditLogConfiguration:Codable{
-    public var delete:DeleteConfiguration? = nil
+    public var delete:DeleteConfiguration?  
 
 
     public init(delete: DeleteConfiguration? = nil) {

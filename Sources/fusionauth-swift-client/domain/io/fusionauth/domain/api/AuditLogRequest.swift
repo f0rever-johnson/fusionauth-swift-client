@@ -8,11 +8,27 @@
 
 import Foundation
 
-public struct AuditLogRequest:Codable {
-    public var  auditLog:AuditLog? = nil
+public class AuditLogRequest:BaseEventRequest {
+    public var  auditLog:AuditLog?
 
-    public init(auditLog: AuditLog? = nil) {
+    public required init(auditLog: AuditLog? = nil, eventInfo:EventInfo? = nil) {
         self.auditLog = auditLog
+        super.init(eventInfo: eventInfo)
     }
 
+    
+    required init(from decoder: Decoder) throws {
+        // Get our container for this subclass' coding keys
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        auditLog = try container.decode(AuditLog.self, forKey: .auditLog)
+        
+        // Get superDecoder for superclass and call super.init(from:) with it
+        let superDecoder = try container.superDecoder()
+        try super.init(from: superDecoder)
+    }
+    
+    private enum CodingKeys:CodingKey{
+        case auditLog
+    }
+    
 }

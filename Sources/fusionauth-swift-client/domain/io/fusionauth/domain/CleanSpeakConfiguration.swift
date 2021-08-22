@@ -12,11 +12,11 @@ import Foundation
  */
 
 public class CleanSpeakConfiguration:Codable, Enableable {
-    public var apiKey:String? = nil
-    public var applicationIds:[UUID]? = nil
-    public var url:URL? = nil
-    public var usernameModeration:UsernameModeration? = nil
-    public var enabled:Bool? = nil
+    public var apiKey:String?
+    public var applicationIds:[UUID]?
+    public var url:URL?
+    public var usernameModeration:UsernameModeration?
+    public var enabled:Bool?
 
     public init(apiKey: String? = nil, applicationIds: [UUID]? = nil, url: URL? = nil, usernameModeration: UsernameModeration? = nil, enabled: Bool? = nil) {
         self.apiKey = apiKey

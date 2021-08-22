@@ -10,14 +10,14 @@ import Foundation
 
 public class CORSConfiguration:Codable, Enableable{
    
-    public var allowCredentials:Bool? = nil
-    public var allowedHeaders:[String]? = nil
-    public var allowedMethods:[HTTPMethod]? = nil
-    public var allowedOrigins:[String]? = nil
-    public var debug:Bool? = nil
-    public var exposedHeaders:[String]? = nil
-    public var preflightMaxAgeInSeconds:Int? = nil
-    public var enabled: Bool? = nil
+    public var allowCredentials:Bool?
+    public var allowedHeaders:[String]?
+    public var allowedMethods:[HTTPMethod]?
+    public var allowedOrigins:[String]?
+    public var debug:Bool?
+    public var exposedHeaders:[String]?
+    public var preflightMaxAgeInSeconds:Int?
+    public var enabled: Bool? 
     
     public init(allowCredentials: Bool? = nil, allowedHeaders: [String]? = nil, allowedMethods: [HTTPMethod]? = nil, allowedOrigins: [String]? = nil, debug: Bool? = nil, exposedHeaders: [String]? = nil, preflightMaxAgeInSeconds: Int? = nil, enabled: Bool? = nil) {
         self.allowCredentials = allowCredentials

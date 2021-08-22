@@ -8,8 +8,8 @@
 import Foundation
 
 public enum CanonicalizationMethod:String, Codable {
-          case exclusive = "exclusive"
-          case exclusive_with_comments = "exclusive_with_comments"
-          case inclusive = "inclusive"
-          case inclusive_with_comments = "inclusive_with_comments"
+          case exclusive
+          case exclusiveWithComments = "exclusive_with_comments"
+          case inclusive
+          case inclusiveWithComments = "inclusive_with_comments"
 }

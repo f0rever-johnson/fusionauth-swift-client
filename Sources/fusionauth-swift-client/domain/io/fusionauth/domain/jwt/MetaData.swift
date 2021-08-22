@@ -12,8 +12,8 @@ import Foundation
  */
 
 public struct MetaData:Codable{
-    public var device:DeviceInfo? = nil
-    public var scopes:[String]? = nil
+    public var device:DeviceInfo?
+    public var scopes:[String]?
 
     public init(device: DeviceInfo? = nil, scopes: [String]? = nil) {
         self.device = device

@@ -9,9 +9,9 @@ import Foundation
 
 public class ApplicationUnverifiedConfiguration:Codable{
 
-    public var registration:UnverifiedBehavior? = nil
-    public var verificationStrategy:VerificationStrategy? = nil
-    public var whenGated:RegistrationUnverifiedOptions? = nil
+    public var registration:UnverifiedBehavior?
+    public var verificationStrategy:VerificationStrategy?
+    public var whenGated:RegistrationUnverifiedOptions?   
     
     public init(registration: UnverifiedBehavior? = nil, verificationStrategy: VerificationStrategy? = nil, whenGated: RegistrationUnverifiedOptions? = nil) {
         self.registration = registration

@@ -12,10 +12,10 @@ import Foundation
  */
 
 public class RawLogin:Codable {
-    public var applicationId:UUID? = nil
-    public var instant:Date? = nil
-    public var ipAddress:String? = nil
-    public var userId:UUID? = nil
+    public var applicationId:UUID?
+    public var instant:Date?
+    public var ipAddress:String?
+    public var userId:UUID? 
 
     public init(applicationId: UUID? = nil, instant: Date? = nil, ipAddress: String? = nil, userId: UUID? = nil) {
         self.applicationId = applicationId
@@ -25,3 +25,4 @@ public class RawLogin:Codable {
     }
 
 }
+    

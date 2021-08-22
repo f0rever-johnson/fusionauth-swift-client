@@ -9,14 +9,28 @@
 import Foundation
 
 
-public struct LoginRecordExportRequest:BaseExportRequest, Codable{
-    public var dateTimeSecondsFormat: String? = nil
-    public var zoneId: String? = nil
+public class LoginRecordExportRequest:BaseExportRequest{
+
     public var criteria:LoginRecordSearchCriteria? = nil
 
     public init(dateTimeSecondsFormat: String? = nil, zoneId: String? = nil, criteria: LoginRecordSearchCriteria? = nil) {
-        self.dateTimeSecondsFormat = dateTimeSecondsFormat
-        self.zoneId = zoneId
         self.criteria = criteria
+        super.init(dateTimeSecondsFormat: dateTimeSecondsFormat, zoneId: zoneId)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        
+        // Get our container for this subclass' coding keys
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.criteria = try container.decode(LoginRecordSearchCriteria.self, forKey: .criteria)
+        
+        // Get superDecoder for superclass and call super.init(from:) with it
+        let superDecoder = try container.superDecoder()
+        try super.init(from: superDecoder)
+        
+    }
+    
+    private enum CodingKeys:CodingKey{
+       case criteria
     }
 }

@@ -426,6 +426,27 @@ public class FusionAuthClient{
         })
     }
 
+    /// Creates an IP Access Control List. You can optionally specify an Id on this create request, if one is not provided one will be generated.
+    /// - Parameters:
+    ///   - accessControlListId: (Optional) The Id for the IP Access Control List. If not provided a secure random UUID will be generated.
+    ///   - request: (Optional) The Id for the IP Access Control List. If not provided a secure random UUID will be generated.</param>
+    /// <param name="request"> The request object that contains all of the information used to create the IP Access Control List.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func CreateIPAccessControlList(accessControlListId:UUID?, request:IPAccessControlListRequest, clientResponse:@escaping(ClientResponse<IPAccessControlListResponse>) -> ()){
+        let urlPath:String = "/api/ip-acl"
+        let urlSegment:[String] = [accessControlListId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<IPAccessControlListResponse>) in
+            clientResponse(response)
+        }
+    }
+
     /// Creates an identity provider. You can optionally specify an Id for the identity provider, if not provided one will be generated.
     /// - Parameters:
     ///   - identityProviderId: (Optional) The Id of the identity provider. If not provided a secure random UUID will be generated.
@@ -978,7 +999,25 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-    
+
+    /// Deletes the IP Access Control List for the given Id.
+    /// - Parameters:
+    ///   - ipAccessControlListId: The Id of the IP Access Control List to delete
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteIPAccessControlList(ipAccessControlListId:UUID?, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/ip-acl"
+        let urlSegment:[String] = [ipAccessControlListId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .DELETE
+
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+
     /// Deletes the identity provider for the given Id.
     /// - Parameters:
     ///   - identityProviderId: The Id of the identity provider to delete.
@@ -1079,7 +1118,28 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-    
+
+    /// Deletes the user registration for the given user and application along with the given JSON body that contains the event information.
+    /// - Parameters:
+    ///   - userId: The Id of the user whose registration is being deleted.
+    ///   - applicationId: The Id of the application to remove the registration for.
+    ///   - request: The request body that contains the event information.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteRegistrationWithRequest(userId:UUID, applicationId:UUID, request:RegistrationDeleteRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/user/registration"
+        let urlSegment:[String] = [userId.uuidString, applicationId.uuidString]
+        let data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .DELETE
+
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        })
+    }
+
     /// Deletes the tenant for the given Id.
     /// - Parameters:
     ///   - tenantId: The Id of the tenant to delete.
@@ -1109,6 +1169,27 @@ public class FusionAuthClient{
         let httpMethod:HTTPMethod = .DELETE
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        })
+    }
+
+    ///  Deletes the tenant based on the given request (sent to the API as JSON). This permanently deletes all information, metrics, reports and data associated
+    /// with the tenant and everything under the tenant (applications, users, etc).
+    /// - Parameters:
+    ///   - tenantId: The Id of the tenant to delete.
+    ///   - request: The request object that contains all of the information used to delete the user.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DeleteTenantWithRequest(tenantId:UUID, request:TenantDeleteRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/tenant"
+        let urlSegment:[String] = [tenantId.uuidString]
+        let data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .DELETE
+
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1163,6 +1244,17 @@ public class FusionAuthClient{
         let httpMethod:HTTPMethod = .DELETE
 
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters: urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        })
+    }
+
+    public func DeleteUserWithRequest(userId:UUID, request:UserDeleteSingleRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/user"
+        let urlSegment:[String] = [userId.uuidString]
+        let data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .DELETE
+
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1242,10 +1334,31 @@ public class FusionAuthClient{
     
     public func DisableTwoFactor(userId:UUID, methodId:String, code:String, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/two-factor"
-        let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "userId", value: userId.uuidString), URLQueryItem(name: "methodId", value: methodId), URLQueryItem(name: "code", value: code)]
+        let urlSegment:[String] = [userId.uuidString]
+        let urlParameter:[URLQueryItem] =   [URLQueryItem(name: "methodId", value: methodId), URLQueryItem(name: "code", value: code)]
         let httpMethod:HTTPMethod = .DELETE
 
-        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        })
+    }
+
+    /// Disable Two Factor authentication for a user using a JSON body rather than URL parameters.
+    /// - Parameters:
+    ///   - userId: The Id of the User for which you're disabling Two Factor authentication.
+    ///   - request:  The request information that contains the code and methodId along with any event information.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func DisableTwoFactorWithRequest(userId:UUID, request:TwoFactorDisableRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/user/two-factor"
+        let urlSegment:[String] = [userId.uuidString]
+        let data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .DELETE
+
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -1655,6 +1768,26 @@ public class FusionAuthClient{
         let httpMethod:HTTPMethod = .POST
 
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, urlParameters:urlParameter, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        })
+    }
+
+    /// The Logout API is intended to be used to remove the refresh token and access token cookies if they exist on the
+    /// client and revoke the refresh token stored. This API takes the refresh token in the JSON body.
+    /// This is an asynchronous method.
+    /// - Parameters:
+    ///   - request: The request object that contains all of the information used to logout the user
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func LogoutWithRequest(request:LogoutRequest, clientResponse: @escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/logout"
+        let data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<RESTVoid>) in
             clientResponse(response)
         })
     }
@@ -2746,6 +2879,25 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, fusionAuthClientResponse: { (response:ClientResponse<GroupResponse>) in
             clientResponse(response)
         })
+    }
+
+
+    /// Retrieves the IP Access Control List with the given Id.
+    /// - Parameters:
+    ///   - ipAccessControlListId: The Id of the IP Access Control List.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveIPAccessControlList(ipAccessControlListId:UUID?, clientResponse:@escaping(ClientResponse<IPAccessControlListResponse>) -> ()){
+        let urlPath:String = "/api/ip-acl"
+        let urlSegment:[String] = [ipAccessControlListId?.uuidString ?? ""]
+        let httpMethod:HTTPMethod = .GET
+
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<IPAccessControlListResponse>) in
+            clientResponse(response)
+        }
     }
 
     /// Retrieves the identity provider for the given id or all of the identity providers if the id is null.
@@ -3841,7 +3993,26 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
-    
+
+    /// Revokes refresh tokens using the information in the JSON body. The handling for this method is the same as the revokeRefreshToken method
+    /// and is based on the information you provide in the RefreshDeleteRequest object. See that method for additional information.
+    /// - Parameters:
+    ///   - request: The request information used to revoke the refresh tokens.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RevokeRefreshTokensWithRequest(request:RefreshTokenRevokeRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = "/api/jwt/refresh"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .DELETE
+
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+
     /// Revokes a single User consent by Id.
     /// - Parameters:
     ///   - userConsentId: The User Consent Id
@@ -3965,7 +4136,25 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-    
+
+    /// Searches the IP Access Control Lists with the specified criteria and pagination.
+    /// - Parameters:
+    ///   - request: The search criteria and pagination information.
+    ///   - clientResponse: See Returns
+    /// - Returns:  When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func SearchIPAccessControlLists(request:IPAccessControlListSearchRequest, clientResponse:@escaping(ClientResponse<IPAccessControlListSearchResponse>) -> ()){
+        let urlPath:String = "/api/ip-acl/search"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<IPAccessControlListSearchResponse>) in
+            clientResponse(response)
+        }
+    }
+
     /// Searches the login records with the specified criteria and pagination.
     /// - Parameters:
     ///   - request: The search criteria and pagination information.
@@ -4421,7 +4610,27 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
-    
+
+    /// Updates the IP Access Control List with the given Id.
+    /// - Parameters:
+    ///   - accessControlListId: The Id of the IP Access Control List to update.
+    ///   - request: The request that contains all of the new IP Access Control List information.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func UpdateIPAccessControlList(accessControlListId:UUID?, request:IPAccessControlListRequest, clientResponse:@escaping(ClientResponse<IPAccessControlListResponse>) -> ()){
+        let urlPath:String = "/api/ip-acl"
+        let urlSegment:[String] = [accessControlListId?.uuidString ?? ""]
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .PUT
+
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, data:data) { (response:ClientResponse<IPAccessControlListResponse>) in
+            clientResponse(response)
+        }
+    }
+
     /// Updates the identity provider with the given Id.
     /// - Parameters:
     ///   - identityProviderId: The Id of the identity provider to update.
@@ -4732,6 +4941,33 @@ public class FusionAuthClient{
         fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, authorization: authorization, fusionAuthClientResponse: { (response:ClientResponse<ValidateResponse>) in
             clientResponse(response)
         })
+    }
+
+
+    /// It's a JWT vending machine!
+    ///
+    /// Issue a new access token (JWT) with the provided claims in the request. This JWT is not scoped to a tenant or user, it is a free form
+    /// token that will contain what claims you provide.
+    /// <p>
+    /// The iat, exp and jti claims will be added by FusionAuth, all other claims must be provided by the caller.
+    ///
+    /// If a TTL is not provided in the request, the TTL will be retrieved from the default Tenant or the Tenant specified on the request either
+    /// by way of the X-FusionAuth-TenantId request header, or a tenant scoped API key.
+    /// - Parameters:
+    ///   - request: The request that contains all of the claims for this JWT.
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func VendJWT(request:JWTVendRequest, clientResponse:@escaping(ClientResponse<JWTVendResponse>) -> ()){
+        let urlPath:String = "/api/jwt/vend"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<JWTVendResponse>) in
+            clientResponse(response)
+        }
     }
     
     /// Confirms a email verification. The Id given is usually from an email sent to the user.

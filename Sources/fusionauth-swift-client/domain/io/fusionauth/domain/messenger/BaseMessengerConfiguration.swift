@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class BaseMessengerConfiguration:BaseMessengerConfigurationProtocol{
+public class BaseMessengerConfiguration:Codable{
    
     public var data:[String:JSONObject]? = nil
     public var debug:Bool? = nil

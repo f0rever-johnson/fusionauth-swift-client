@@ -9,7 +9,13 @@
 import Foundation
 
 
-public protocol BaseExportRequest:Codable{
-    var dateTimeSecondsFormat:String? { get set }
-    var zoneId:String? { get set }
+public class BaseExportRequest:Codable{
+
+    public var dateTimeSecondsFormat:String?
+    public var zoneId:String?
+    
+    public init(dateTimeSecondsFormat: String? = nil, zoneId: String? = nil) {
+        self.dateTimeSecondsFormat = dateTimeSecondsFormat
+        self.zoneId = zoneId
+    }
 }
