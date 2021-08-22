@@ -7,14 +7,28 @@
 
 import Foundation
 
-public class SystemLogsExportRequest:BaseExportRequest, Codable{
-    public var dateTimeSecondsFormat: String?
-    public var zoneId: String?
+public class SystemLogsExportRequest:BaseExportRequest{
     public var lastNBytes:Int?
     
     public init(dateTimeSecondsFormat: String? = nil, zoneId: String? = nil, lastNBytes: Int? = nil) {
-        self.dateTimeSecondsFormat = dateTimeSecondsFormat
-        self.zoneId = zoneId
         self.lastNBytes = lastNBytes
+        super.init(dateTimeSecondsFormat: dateTimeSecondsFormat, zoneId: zoneId)
+    }
+    
+    
+    required init(from decoder: Decoder) throws {
+        
+        // Get our container for this subclass' coding keys
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.lastNBytes = try container.decode(Int.self, forKey: .lastNBytes)
+        
+        // Get superDecoder for superclass and call super.init(from:) with it
+        let superDecoder = try container.superDecoder()
+        try super.init(from: superDecoder)
+        
+    }
+    
+    private enum CodingKeys:CodingKey{
+        case lastNBytes
     }
 }

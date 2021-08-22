@@ -8,7 +8,9 @@
 import Foundation
 
 public struct UserActionEvent:BaseEvent, Codable{
-    public var createInstant: Date? = nil
+
+    public var info: EventInfo?
+    public var type: EventType?
     public var id: UUID? = nil
     public var tenantId: UUID? = nil
     public var action:String? = nil
@@ -29,9 +31,10 @@ public struct UserActionEvent:BaseEvent, Codable{
     public var phase:UserActionPhase? = nil
     public var reason:String? = nil
     public var reasonCode:String? = nil
-
-    public init(createInstant: Date? = nil, id: UUID? = nil, tenantId: UUID? = nil, action: String? = nil, actionId: UUID? = nil, actioneeUserId: UUID? = nil, actionerUserId: UUID? = nil, applicationIds: [UUID]? = nil, comment: String? = nil, email: Email? = nil, emailedUser: Bool? = nil, expiry: Date? = nil, localizedAction: String? = nil, localizedDuration: String? = nil, localizedOption: String? = nil, localizedReason: String? = nil, notifyUser: Bool? = nil, option: String? = nil, phase: UserActionPhase? = nil, reason: String? = nil, reasonCode: String? = nil) {
-        self.createInstant = createInstant
+    
+    public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, action: String? = nil, actionId: UUID? = nil, actioneeUserId: UUID? = nil, actionerUserId: UUID? = nil, applicationIds: [UUID]? = nil, comment: String? = nil, email: Email? = nil, emailedUser: Bool? = nil, expiry: Date? = nil, localizedAction: String? = nil, localizedDuration: String? = nil, localizedOption: String? = nil, localizedReason: String? = nil, notifyUser: Bool? = nil, option: String? = nil, phase: UserActionPhase? = nil, reason: String? = nil, reasonCode: String? = nil) {
+        self.info = info
+        self.type = type
         self.id = id
         self.tenantId = tenantId
         self.action = action
@@ -53,6 +56,5 @@ public struct UserActionEvent:BaseEvent, Codable{
         self.reason = reason
         self.reasonCode = reasonCode
     }
-
 }
 

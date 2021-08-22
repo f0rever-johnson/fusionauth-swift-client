@@ -454,7 +454,7 @@ class FusionAuthClientTest: XCTestCase {
         }
         
         func UpdateRegistration(){
-            let userRegistration:UserRegistration = UserRegistration(applicationId: applicationId, cleanSpeakId: UUID(uuidString: "9af3fc1d-9236-4793-93df-aeac5f67f23e"), username: user?.username, usernameStatus: .ACTIVE)
+            let userRegistration:UserRegistration = UserRegistration(applicationId: applicationId, cleanSpeakId: UUID(uuidString: "9af3fc1d-9236-4793-93df-aeac5f67f23e"), username: user?.username, usernameStatus: .Active)
             let registrationRequest:RegistrationRequest = RegistrationRequest(registration:userRegistration)
             client?.UpdateRegistration(userId: (user?.id)!, request: registrationRequest, clientResponse: { updateRegistrationResponse in
                 XCTAssertEqual(self.user?.username, updateRegistrationResponse.successResponse?.registration?.username)

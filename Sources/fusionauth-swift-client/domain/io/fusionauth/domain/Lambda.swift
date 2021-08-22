@@ -7,11 +7,6 @@
 
 import Foundation
 
-/**
- * A JavaScript lambda function that is executed during certain events inside FusionAuth.
- *
- */
-
 public class Lambda:Codable{
     
     public var body:String? = nil

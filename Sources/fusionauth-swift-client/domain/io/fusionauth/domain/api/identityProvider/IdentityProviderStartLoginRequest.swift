@@ -7,28 +7,44 @@
 
 import Foundation
 
-public class IdentityProviderStartLoginRequest:BaseLoginRequest, Codable{
-    public var applicationId: UUID?
-    public var ipAddress: String?
-    public var metaData: MetaData?
-    public var noJWT: Bool?
+public class IdentityProviderStartLoginRequest:BaseLoginRequest{
+
     public var data:[String:String]?
     public var identityProviderId:UUID?
     public var loginId:String?
     public var state:[String:JSONObject]?
     
-    public init(applicationId: UUID? = nil, ipAddress: String? = nil, metaData: MetaData? = nil, noJWT: Bool? = nil, data: [String : String]? = nil, identityProviderId: UUID? = nil, loginId: String? = nil, state: [String : JSONObject]? = nil) {
-        self.applicationId = applicationId
-        self.ipAddress = ipAddress
-        self.metaData = metaData
-        self.noJWT = noJWT
+    public init(data: [String : String]? = nil, identityProviderId: UUID? = nil, loginId: String? = nil, state: [String : JSONObject]? = nil) {
         self.data = data
         self.identityProviderId = identityProviderId
         self.loginId = loginId
         self.state = state
+        super.init()
     }
     
+    required init(from decoder: Decoder) throws {
+        
+        // Get our container for this subclass' coding keys
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        data = try container.decode([String:String].self, forKey: .data)
+        identityProviderId = try container.decode(UUID.self, forKey: .identityProviderId)
+        loginId = try container.decode(String.self, forKey: .loginId)
+        state = try container.decode([String:JSONObject].self, forKey: .state)
+        
+        // Get superDecoder for superclass and call super.init(from:) with it
+        let superDecoder = try container.superDecoder()
+        try super.init(from: superDecoder)
+        
+    }
     
+    private enum CodingKeys:CodingKey{
+        case data
+        case identityProviderId
+        case loginId
+        case state
+    }
+    
+
     
     
     

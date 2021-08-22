@@ -13,17 +13,17 @@ import Foundation
  */
 
 public class Consent:Codable{
-    public var consentEmailTemplateId:UUID? = nil
-    public var countryMinimumAgeForSelfConsent:LocalizedIntegers? = nil
-    public var data:[String:JSONObject]? = nil
-    public var defaultMinimumAgeForSelfConsent:Int? = nil
-    public var emailPlus:EmailPlus? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var id:UUID? = nil
-    public var mutlipleValuesAllowed:Bool? = nil
-    public var name:String? = nil
-    public var values:[String]? = nil
+    public var consentEmailTemplateId:UUID?
+    public var countryMinimumAgeForSelfConsent:LocalizedIntegers?
+    public var data:[String:JSONObject]?
+    public var defaultMinimumAgeForSelfConsent:Int?
+    public var emailPlus:EmailPlus?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var id:UUID?
+    public var mutlipleValuesAllowed:Bool?
+    public var name:String?
+    public var values:[String]? 
     
     public init(consentEmailTemplateId: UUID? = nil, countryMinimumAgeForSelfConsent: LocalizedIntegers? = nil, data: [String : JSONObject]? = nil, defaultMinimumAgeForSelfConsent: Int? = nil, emailPlus: EmailPlus? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, id: UUID? = nil, mutlipleValuesAllowed: Bool? = nil, name: String? = nil, values: [String]? = nil) {
         self.consentEmailTemplateId = consentEmailTemplateId

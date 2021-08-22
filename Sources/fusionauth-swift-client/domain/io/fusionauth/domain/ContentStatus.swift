@@ -12,7 +12,7 @@ import Foundation
  */
 
 public enum ContentStatus:String,Codable{
-    case ACTIVE = "ACTIVE"
-    case PENDING = "PENDING"
-    case REJECTED = "REJECTED"
+    case Active = "ACTIVE"
+    case Pending = "PENDING"
+    case Rejected = "REJECTED"
 }

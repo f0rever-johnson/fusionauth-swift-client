@@ -9,11 +9,16 @@
 import Foundation
 
 public class EventRequest:BaseEvent, Codable {
-    public var createInstant: Date? = nil
-    public var id: UUID? = nil
-    public var tenantId: UUID? = nil
-
-    public init(createInstant: Date? = nil, id: UUID? = nil, tenantId: UUID? = nil) {
+    
+    public var info: EventInfo?
+    public var type: EventType?
+    public var createInstant: Date?
+    public var id: UUID?
+    public var tenantId: UUID?
+    
+    public init(info: EventInfo? = nil, type: EventType? = nil, createInstant: Date? = nil, id: UUID? = nil, tenantId: UUID? = nil) {
+        self.info = info
+        self.type = type
         self.createInstant = createInstant
         self.id = id
         self.tenantId = tenantId

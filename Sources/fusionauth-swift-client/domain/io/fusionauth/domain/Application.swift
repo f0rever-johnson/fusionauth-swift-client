@@ -12,37 +12,38 @@ import Foundation
  */
 
 public struct Application:Codable{
+
+    public var accessControlConfiguration:ApplicationAccessControlConfiguration?
+    public var active:Bool?
+    public var authenticationTokenConfiguration:AuthenticationTokenConfiguration?
+    public var cleanSpeakConfiguration:CleanSpeakConfiguration?
+    public var data:[String:JSONObject]?
+    public var emailConfiguration:ApplicationEmailConfiguration?
+    public var formConfiguration:ApplicationFormConfiguration?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var jwtConfiguration:JWTConfiguration?
+    public var lambdaConfiguration:LambdaConfiguration?
+    public var lastUpdateInstant:Date?
+    public var loginConfiguration:LoginConfiguration?
+    public var miltiFactorConfiguration:ApplicationMultiFactorConfiguration?
+    public var name:String? 
+    public var oauthConfiguration:OAuth2Configuration?
+    public var passwordlessConfiguration:PasswordlessConfiguration?
+    public var registrationConfiguration:RegistrationConfiguration?
+    public var registrationDeletePolicy:ApplicationRegistrationDeletePolicy?
+    public var roles:[ApplicationRole]?
+    public var samlv2Configuration:SAMLV2Configuration?
+    public var state:ObjectState?
+    public var tenantId:UUID?
+    public var themeId:UUID?
+    public var unverified:RegistrationUnverifiedOptions?
+    public var verificationEmailTemplateId:UUID?
+    public var verificationStrategy:VerificationStrategy?
+    public var verifyRegistration:Bool?
     
-    
-    public var active:Bool? = nil
-    public var authenticationTokenConfiguration:AuthenticationTokenConfiguration? = nil
-    public var cleanSpeakConfiguration:CleanSpeakConfiguration? = nil
-    public var data:[String:JSONObject]? = nil
-    public var emailConfiguration:ApplicationEmailConfiguration? = nil
-    public var formConfiguration:ApplicationFormConfiguration? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var jwtConfiguration:JWTConfiguration? = nil
-    public var lambdaConfiguration:LambdaConfiguration? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var loginConfiguration:LoginConfiguration? = nil
-    public var miltiFactorConfiguration:ApplicationMultiFactorConfiguration? = nil
-    public var name:String? = nil
-    public var oauthConfiguration:OAuth2Configuration? = nil
-    public var passwordlessConfiguration:PasswordlessConfiguration? = nil
-    public var registrationConfiguration:RegistrationConfiguration? = nil
-    public var registrationDeletePolicy:ApplicationRegistrationDeletePolicy? = nil
-    public var roles:[ApplicationRole]? = nil
-    public var samlv2Configuration:SAMLV2Configuration? = nil
-    public var state:ObjectState? = nil
-    public var tenantId:UUID? = nil
-    public var themeId:UUID? = nil
-    public var unverified:RegistrationUnverifiedOptions? = nil
-    public var verificationEmailTemplateId:UUID? = nil
-    public var verificationStrategy:VerificationStrategy? = nil
-    public var verifyRegistration:Bool? = nil
-    
-    public init(active: Bool? = nil, authenticationTokenConfiguration: AuthenticationTokenConfiguration? = nil, cleanSpeakConfiguration: CleanSpeakConfiguration? = nil, data: [String : JSONObject]? = nil, emailConfiguration: ApplicationEmailConfiguration? = nil, formConfiguration: ApplicationFormConfiguration? = nil, id: UUID? = nil, insertInstant: Date? = nil, jwtConfiguration: JWTConfiguration? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: LoginConfiguration? = nil, miltiFactorConfiguration: ApplicationMultiFactorConfiguration? = nil, name: String? = nil, oauthConfiguration: OAuth2Configuration? = nil, passwordlessConfiguration: PasswordlessConfiguration? = nil, registrationConfiguration: RegistrationConfiguration? = nil, registrationDeletePolicy: ApplicationRegistrationDeletePolicy? = nil, roles: [ApplicationRole]? = nil, samlv2Configuration: SAMLV2Configuration? = nil, state: ObjectState? = nil, tenantId: UUID? = nil, themeId: UUID? = nil, unverified: RegistrationUnverifiedOptions? = nil, verificationEmailTemplateId: UUID? = nil, verificationStrategy: VerificationStrategy? = nil, verifyRegistration: Bool? = nil) {
+    public init(accessControlConfiguration: ApplicationAccessControlConfiguration? = nil, active: Bool? = nil, authenticationTokenConfiguration: AuthenticationTokenConfiguration? = nil, cleanSpeakConfiguration: CleanSpeakConfiguration? = nil, data: [String : JSONObject]? = nil, emailConfiguration: ApplicationEmailConfiguration? = nil, formConfiguration: ApplicationFormConfiguration? = nil, id: UUID? = nil, insertInstant: Date? = nil, jwtConfiguration: JWTConfiguration? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: LoginConfiguration? = nil, miltiFactorConfiguration: ApplicationMultiFactorConfiguration? = nil, name: String? = nil, oauthConfiguration: OAuth2Configuration? = nil, passwordlessConfiguration: PasswordlessConfiguration? = nil, registrationConfiguration: RegistrationConfiguration? = nil, registrationDeletePolicy: ApplicationRegistrationDeletePolicy? = nil, roles: [ApplicationRole]? = nil, samlv2Configuration: SAMLV2Configuration? = nil, state: ObjectState? = nil, tenantId: UUID? = nil, themeId: UUID? = nil, unverified: RegistrationUnverifiedOptions? = nil, verificationEmailTemplateId: UUID? = nil, verificationStrategy: VerificationStrategy? = nil, verifyRegistration: Bool? = nil) {
+        self.accessControlConfiguration = accessControlConfiguration
         self.active = active
         self.authenticationTokenConfiguration = authenticationTokenConfiguration
         self.cleanSpeakConfiguration = cleanSpeakConfiguration

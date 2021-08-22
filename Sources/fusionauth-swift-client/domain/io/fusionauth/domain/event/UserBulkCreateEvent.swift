@@ -8,13 +8,16 @@
 import Foundation
 
 public struct UserBulkCreateEvent:BaseEvent, Codable {
-    public var createInstant: Date? = nil
-    public var id: UUID? = nil
-    public var tenantId: UUID? = nil
-    public var users:[User]? = nil
+    
+    public var info: EventInfo?
+    public var type: EventType?
+    public var id: UUID?
+    public var tenantId: UUID?
+    public var users:[User]?
 
-    public init(createInstant: Date? = nil, id: UUID? = nil, tenantId: UUID? = nil, users: [User]? = nil) {
-        self.createInstant = createInstant
+    public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, users: [User]? = nil) {
+        self.info = info
+        self.type = type
         self.id = id
         self.tenantId = tenantId
         self.users = users

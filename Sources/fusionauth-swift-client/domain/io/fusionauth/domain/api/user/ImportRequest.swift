@@ -8,17 +8,40 @@
 
 import Foundation
 
-public struct ImportRequest:Codable {
+public class ImportRequest:BaseEventRequest {
     public var encryptionScheme:String? = nil
     public var factor:Int? = nil
     public var users:[User]? = nil
     public var validateDbConstraints:Bool? = nil
 
-    public init(encryptionScheme: String? = nil, factor: Int? = nil, users: [User]? = nil, validateDbConstraints: Bool? = nil) {
+    public init(encryptionScheme: String? = nil, eventInfo: EventInfo? = nil, factor: Int? = nil, users: [User]? = nil, validateDbConstraints: Bool? = nil) {
         self.encryptionScheme = encryptionScheme
         self.factor = factor
         self.users = users
         self.validateDbConstraints = validateDbConstraints
+        super.init(eventInfo:eventInfo)
     }
 
+    
+    public required init(from decoder: Decoder) throws {
+        
+        // Get our container for this subclass' coding keys
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.encryptionScheme = try container.decode(String.self, forKey: .encryptionScheme )
+        self.factor = try container.decode(Int.self, forKey: .factor)
+        self.users = try container.decode([User].self, forKey: .users)
+        self.validateDbConstraints = try container.decode(Bool.self, forKey: .validateDbConstraints)
+        
+        // Get superDecoder for superclass and call super.init(from:) with it
+        let superDecoder = try container.superDecoder()
+        try super.init(from: superDecoder)
+        
+    }
+    
+    private enum CodingKeys:CodingKey{
+        case encryptionScheme
+        case factor
+        case users
+        case validateDbConstraints
+    }
 }

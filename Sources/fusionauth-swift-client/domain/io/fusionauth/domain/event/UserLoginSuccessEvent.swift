@@ -8,8 +8,9 @@
 import Foundation
 
 public class UserLoginSuccessEvent:BaseEvent, Codable{
-    
-    public var createInstant: Date? = nil
+
+    public var info: EventInfo?
+    public var type: EventType?
     public var id: UUID? = nil
     public var tenantId: UUID? = nil
     public var applicationId:UUID? = nil
@@ -19,8 +20,9 @@ public class UserLoginSuccessEvent:BaseEvent, Codable{
     public var ipAddress:String? = nil
     public var user:User? = nil
     
-    public init(createInstant: Date? = nil, id: UUID? = nil, tenantId: UUID? = nil, applicationId: UUID? = nil, authenticationType: String? = nil, identityProviderId: UUID? = nil, identityProviderName: String? = nil, ipAddress: String? = nil, user: User? = nil) {
-        self.createInstant = createInstant
+    public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, applicationId: UUID? = nil, authenticationType: String? = nil, identityProviderId: UUID? = nil, identityProviderName: String? = nil, ipAddress: String? = nil, user: User? = nil) {
+        self.info = info
+        self.type = type
         self.id = id
         self.tenantId = tenantId
         self.applicationId = applicationId

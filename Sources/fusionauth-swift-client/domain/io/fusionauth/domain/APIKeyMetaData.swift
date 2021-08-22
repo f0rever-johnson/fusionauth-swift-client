@@ -9,7 +9,7 @@ import Foundation
 
 public class APIKeyMetaData:Codable{
     
-    public var attributes:[String:String]? = nil
+    public var attributes:[String:String]?
     
     public init(attributes: [String : String]? = nil) {
         self.attributes = attributes

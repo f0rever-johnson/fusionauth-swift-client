@@ -7,10 +7,10 @@
 
 import Foundation
 
-public class ApplicationFormConfiguration:Codable{
+public struct ApplicationFormConfiguration:Codable{
  
     public var adminRegistrationFormId:UUID?
-    public var selfServiceFormId:UUID? = nil
+    public var selfServiceFormId:UUID? 
     
     public init(adminRegistrationFormId: UUID? = nil, selfServiceFormId: UUID? = nil) {
         self.adminRegistrationFormId = adminRegistrationFormId

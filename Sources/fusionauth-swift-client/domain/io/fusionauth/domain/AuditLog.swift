@@ -13,14 +13,14 @@ import Foundation
 
 public struct AuditLog:Codable {
 
-    public var data:[String:JSONObject]? = nil
-    public var id:Int? = nil
-    public var insertInstant:Date? = nil
-    public var insertUser:String? = nil
-    public var message:String? = nil
-    public var newValue:JSONObject? = nil
-    public var oldValue:JSONObject? = nil
-    public var reason:String? = nil
+    public var data:[String:JSONObject]?
+    public var id:Int?
+    public var insertInstant:Date?
+    public var insertUser:String?
+    public var message:String?
+    public var newValue:JSONObject?
+    public var oldValue:JSONObject?
+    public var reason:String?  
 
     public init(data: [String:JSONObject]? = nil, id: Int? = nil, insertInstant: Date? = nil, insertUser: String? = nil, message: String? = nil, newValue: JSONObject? = nil, oldValue: JSONObject? = nil, reason: String? = nil) {
         self.data = data

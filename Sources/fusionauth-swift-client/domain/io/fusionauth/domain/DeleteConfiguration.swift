@@ -9,8 +9,8 @@ import Foundation
 
 public class DeleteConfiguration:Codable, Enableable{
     
-    public var numberOfDaysToRetain:Int? = nil
-    public var enabled: Bool? = nil
+    public var numberOfDaysToRetain:Int?
+    public var enabled: Bool? 
 
     public init(numberOfDaysToRetain: Int? = nil, enabled: Bool? = nil) {
         self.numberOfDaysToRetain = numberOfDaysToRetain

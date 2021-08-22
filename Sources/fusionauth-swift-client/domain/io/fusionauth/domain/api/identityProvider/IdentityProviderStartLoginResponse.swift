@@ -8,21 +8,29 @@
 import Foundation
 
 
-public class IdentityProviderStartLoginResponse:BaseLoginRequest, Codable{
-    public var applicationId: UUID?
-    public var ipAddress: String?
-    public var metaData: MetaData?
-    public var noJWT: Bool?
+public class IdentityProviderStartLoginResponse:BaseLoginRequest{
+  
     public var code: String?
     
-    public init(applicationId: UUID? = nil, ipAddress: String? = nil, metaData: MetaData? = nil, noJWT: Bool? = nil, code: String? = nil) {
-        self.applicationId = applicationId
-        self.ipAddress = ipAddress
-        self.metaData = metaData
-        self.noJWT = noJWT
+    public init(code: String? = nil) {
         self.code = code
+        super.init()
     }
     
+    required init(from decoder: Decoder) throws {
+        
+        // Get our container for this subclass' coding keys
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        code = try container.decode(String.self, forKey: .code)
+        
+        // Get superDecoder for superclass and call super.init(from:) with it
+        let superDecoder = try container.superDecoder()
+        try super.init(from: superDecoder)
+        
+    }
     
+    private enum CodingKeys:CodingKey{
+        case code
+    }
     
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 ///Models an entity type that has a specific set of permissions. These are global objects and can be used across tenants.
-public class EntityType:Codable{
+public struct EntityType:Codable{
 
     public var data:[String:JSONObject]? = nil
     public var id:UUID? = nil

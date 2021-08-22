@@ -9,9 +9,9 @@ import Foundation
 
 public class AuthenticatorConfiguration:Codable{
  
-    public var algorithm:TOTPAlgorithm? = nil
-    public var codeLength:Int? = nil
-    public var timeStep:Int? = nil
+    public var algorithm:TOTPAlgorithm?  
+    public var codeLength:Int?
+    public var timeStep:Int?
     
     public init(algorithm: TOTPAlgorithm? = nil, codeLength: Int? = nil, timeStep: Int? = nil) {
         self.algorithm = algorithm

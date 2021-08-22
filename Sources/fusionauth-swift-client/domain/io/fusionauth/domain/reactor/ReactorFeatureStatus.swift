@@ -10,8 +10,9 @@ import Foundation
 
 
 public enum ReactorFeatureStatus:String, Codable {
-      case ACTIVE
-      case DISCONNECTED
-      case PENDING
-      case UNKNOWN
+    case active = "ACTIVE"
+    case disconnected = "DISCONNECTED"
+    case pending = "PENDING"
+    case disabled = "DISABLED"
+    case unknown = "UNKNOWN"
 }

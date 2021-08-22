@@ -13,11 +13,11 @@ import Network
  */
 
 public struct DeviceInfo:Codable{
-    public var description:String? = nil
-    public var lastAccessedAddress:String? = nil
-    public var lastAccessedInstant:Date? = nil
-    public var name:String? = nil
-    public var deviceType:DeviceType? = nil
+    public var description:String? 
+    public var lastAccessedAddress:String?
+    public var lastAccessedInstant:Date?
+    public var name:String?
+    public var deviceType:DeviceType?
 
     public init(description: String? = nil, lastAccessedAddress: String? = nil, lastAccessedInstant: Date? = nil, name: String? = nil, deviceType: DeviceType? = nil) {
         self.description = description

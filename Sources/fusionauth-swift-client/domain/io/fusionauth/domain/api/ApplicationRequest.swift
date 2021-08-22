@@ -8,15 +8,34 @@
 
 import Foundation
 
-public struct ApplicationRequest:Codable{
+public class ApplicationRequest:BaseEventRequest{
     public var application:Application? = nil
     public var webhookIds:[UUID]? = nil
     public var role:ApplicationRole? = nil
 
-    public init(application: Application? = nil, webhookIds: [UUID]? = nil, role: ApplicationRole? = nil) {
+    public init(application: Application? = nil, eventInfo:EventInfo? = nil, webhookIds: [UUID]? = nil, role: ApplicationRole? = nil) {
         self.application = application
         self.webhookIds = webhookIds
         self.role = role
+        super.init(eventInfo: eventInfo)
     }
-
+    
+    required init(from decoder: Decoder) throws {
+        // Get our container for this subclass' coding keys
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        application = try container.decode(Application.self, forKey: .application)
+        webhookIds = try container.decode([UUID].self, forKey: .webhookIds)
+        role = try container.decode(ApplicationRole.self, forKey: .role)
+        
+        // Get superDecoder for superclass and call super.init(from:) with it
+        let superDecoder = try container.superDecoder()
+        try super.init(from: superDecoder)
+    }
+    
+    public enum CodingKeys:CodingKey{
+        case application
+        case webhookIds
+        case role
+    }
+    
 }

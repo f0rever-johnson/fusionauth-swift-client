@@ -9,16 +9,19 @@
 import Foundation
 
 public struct JWTRefreshTokenRevokeEvent:BaseEvent, Codable {
-    public var createInstant: Date? = nil
-    public var id: UUID? = nil
-    public var tenantId: UUID? = nil
-    public var userId:UUID? = nil
-    public var user:User? = nil
-    public var applicationTimeToLiveInSeconds:[UUID:Int]? = nil
-    public var applicationId:UUID? = nil
 
-    public init(createInstant: Date? = nil, id: UUID? = nil, tenantId: UUID? = nil, userId: UUID? = nil, user: User? = nil, applicationTimeToLiveInSeconds: [UUID:Int]? = nil, applicationId: UUID? = nil) {
-        self.createInstant = createInstant
+    public var info: EventInfo?
+    public var type: EventType?
+    public var id: UUID?
+    public var tenantId: UUID?
+    public var userId:UUID?
+    public var user:User?
+    public var applicationTimeToLiveInSeconds:[UUID:Int]?
+    public var applicationId:UUID? 
+
+    public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, userId: UUID? = nil, user: User? = nil, applicationTimeToLiveInSeconds: [UUID : Int]? = nil, applicationId: UUID? = nil) {
+        self.info = info
+        self.type = type
         self.id = id
         self.tenantId = tenantId
         self.userId = userId

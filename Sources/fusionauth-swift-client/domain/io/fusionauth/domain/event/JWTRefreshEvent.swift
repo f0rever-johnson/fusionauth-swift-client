@@ -13,7 +13,9 @@ import Foundation
  */
 
 public class JWTRefreshEvent:BaseEvent, Codable{
-    public var createInstant: Date? = nil
+
+    public var info: EventInfo?
+    public var type: EventType?
     public var id: UUID? = nil
     public var tenantId: UUID? = nil
     public var applicationId:UUID? = nil
@@ -22,8 +24,9 @@ public class JWTRefreshEvent:BaseEvent, Codable{
     public var token:String? = nil
     public var userId:UUID?
     
-    public init(createInstant: Date? = nil, id: UUID? = nil, tenantId: UUID? = nil, applicationId: UUID? = nil, original: String? = nil, refreshToken: String? = nil, token: String? = nil, userId: UUID? = nil) {
-        self.createInstant = createInstant
+    public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, applicationId: UUID? = nil, original: String? = nil, refreshToken: String? = nil, token: String? = nil, userId: UUID? = nil) {
+        self.info = info
+        self.type = type
         self.id = id
         self.tenantId = tenantId
         self.applicationId = applicationId

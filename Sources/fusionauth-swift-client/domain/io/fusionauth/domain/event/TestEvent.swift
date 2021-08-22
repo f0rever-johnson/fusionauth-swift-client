@@ -9,13 +9,16 @@
 import Foundation
 
 public class TestEvent:BaseEvent, Codable{
-    public var createInstant: Date? = nil
-    public var id: UUID? = nil
-    public var tenantId: UUID? = nil
-    public var message:String? = nil
+    
+    public var info: EventInfo?
+    public var type: EventType?
+    public var id: UUID?
+    public var tenantId: UUID?
+    public var message:String?
 
-    public init(createInstant: Date? = nil, id: UUID? = nil, tenantId: UUID? = nil, message: String? = nil) {
-        self.createInstant = createInstant
+    public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, message: String? = nil) {
+        self.info = info
+        self.type = type
         self.id = id
         self.tenantId = tenantId
         self.message = message

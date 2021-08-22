@@ -9,16 +9,20 @@ import Foundation
 
 public class UserLoginFailedEvent:BaseEvent,Codable{
 
-    public var createInstant: Date? = nil
+    
+    public var info: EventInfo?
+    public var type: EventType?
     public var id: UUID? = nil
     public var tenantId: UUID? = nil
     public var applicationId:UUID? = nil
     public var authenticationType:String? = nil
     public var ipAddress:String? = nil
     public var user:User? = nil
-    
-    public init(createInstant: Date? = nil, id: UUID? = nil, tenantId: UUID? = nil, applicationId: UUID? = nil, authenticationType: String? = nil, ipAddress: String? = nil, user: User? = nil) {
-        self.createInstant = createInstant
+
+
+    public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, applicationId: UUID? = nil, authenticationType: String? = nil, ipAddress: String? = nil, user: User? = nil) {
+        self.info = info
+        self.type = type
         self.id = id
         self.tenantId = tenantId
         self.applicationId = applicationId
@@ -26,7 +30,6 @@ public class UserLoginFailedEvent:BaseEvent,Codable{
         self.ipAddress = ipAddress
         self.user = user
     }
-
 
 
 }

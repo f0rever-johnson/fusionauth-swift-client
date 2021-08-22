@@ -7,16 +7,8 @@
 
 import Foundation
 
-public class GenericMessengerConfiguration:BaseMessengerConfigurationProtocol{
+public class GenericMessengerConfiguration:BaseMessengerConfiguration{
     
-    public var data: [String : JSONObject]? = nil
-    public var debug: Bool? = nil
-    public var id: UUID? = nil
-    public var insertInstant: Date? = nil
-    public var lastUpdateInstant: Date? = nil
-    public var name: String? = nil
-    public var transport: String? = nil
-    public var type: MessengerType? = nil
     public var connectTimeout:Int? = nil
     public var headers:HTTPHeaders? = nil
     public var httpAuthenticationPassword:String? = nil
@@ -26,14 +18,6 @@ public class GenericMessengerConfiguration:BaseMessengerConfigurationProtocol{
     public var url:String? = nil
     
     public init(data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, transport: String? = nil, type: MessengerType? = nil, connectTimeout: Int? = nil, headers: HTTPHeaders? = nil, httpAuthenticationPassword: String? = nil, httpAuthenticationUsername: String? = nil, readTimeout: Int? = nil, sslCertificate: String? = nil, url: String? = nil) {
-        self.data = data
-        self.debug = debug
-        self.id = id
-        self.insertInstant = insertInstant
-        self.lastUpdateInstant = lastUpdateInstant
-        self.name = name
-        self.transport = transport
-        self.type = type
         self.connectTimeout = connectTimeout
         self.headers = headers
         self.httpAuthenticationPassword = httpAuthenticationPassword
@@ -41,7 +25,34 @@ public class GenericMessengerConfiguration:BaseMessengerConfigurationProtocol{
         self.readTimeout = readTimeout
         self.sslCertificate = sslCertificate
         self.url = url
+        super.init(data: data, debug: debug, id: id, insertInstant: insertInstant, lastUpdateInstant: lastUpdateInstant, name: name, transport: transport, type: type)
     }
 
 
+    required init(from decoder: Decoder) throws {
+        
+        // Get our container for this subclass' coding keys
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.connectTimeout = try container.decode(Int.self, forKey: .connectTimeout)
+        self.headers = try container.decode(HTTPHeaders.self, forKey: .headers)
+        self.httpAuthenticationPassword = try container.decode(String.self, forKey: .httpAuthenticationPassword)
+        self.readTimeout = try container.decode(Int.self, forKey: .readTimeout)
+        self.sslCertificate = try container.decode(String.self, forKey: .sslCerificate)
+        self.url = try container.decode(String.self, forKey: .url)
+        
+        // Get superDecoder for superclass and call super.init(from:) with it
+        let superDecoder = try container.superDecoder()
+        try super.init(from: superDecoder)
+        
+    }
+    
+    public enum CodingKeys:CodingKey{
+        case connectTimeout
+        case headers
+        case httpAuthenticationPassword
+        case httpAuthenticationUsername
+        case readTimeout
+        case sslCerificate
+        case url
+    }
 }

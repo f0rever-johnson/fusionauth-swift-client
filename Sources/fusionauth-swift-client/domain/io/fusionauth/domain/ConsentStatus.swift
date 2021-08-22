@@ -13,6 +13,6 @@ import Foundation
  */
 
 public enum ConsentStatus:String,Codable{
-    case ACTIVE = "ACTIVE"
-    case REVOKED = "REVOKED"
+    case active = "ACTIVE"
+    case revoked = "REVOKED"
 }
