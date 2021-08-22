@@ -10,7 +10,7 @@ import Foundation
 public class TenantFormConfiguration:Codable{
     public var adminuserFormId:UUID?
     
-    internal init(adminuserFormId: UUID? = nil) {
+    public init(adminuserFormId: UUID? = nil) {
         self.adminuserFormId = adminuserFormId
     }
 }

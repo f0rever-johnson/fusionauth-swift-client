@@ -46,6 +46,40 @@ public struct Tenant:Codable{
     public var userDeletePolicy:TenantUserDeletePolicy?
     public var usernameConfiguration:TenantUsernameConfiguration?
 
+    public init(accessControlConfiguration: TenantAccessControlConfiguration? = nil, captchaConfiguration: TenantCaptchaConfiguration? = nil, configured: Bool? = nil, connectorPolicies: [ConnectorPolicy]? = nil, data: [String : JSONObject]? = nil, emailConfiguration: EmailConfiguration? = nil, eventConfiguration: EventConfiguration? = nil, externalIdentifierConfiguration: ExternalIdentifierConfiguration? = nil, failedAuthenticationConfiguration: FailedAuthenticationConfiguration? = nil, familyConfiguration: FamilyConfiguration? = nil, formConfiguration: TenantFormConfiguration? = nil, httpSessionMaxInactiveInterval: Int? = nil, id: UUID? = nil, insertInstant: Date? = nil, issuer: String? = nil, jwtConfiguration: JWTConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: TenantLoginConfiguration? = nil, logoutURL: String? = nil, maximumPasswordAge: MaximumPasswordAge? = nil, minimumPasswordAge: MinimumPasswordAge? = nil, multiFactorConfiguration: TenantMultiFactorConfiguration? = nil, name: String? = nil, oauth2Configuration: TenantOauth2Configuration? = nil, passwordEncrytionConfiguration: PasswordEncryptionConfiguration? = nil, passwordValidationRules: PasswordValidationRules? = nil, rateLimitConfiguration: TenantRateLimitConfiguration? = nil, registrationConfiguration: TenantRegistrationConfiguration? = nil, state: ObjectState? = nil, themeId: UUID? = nil, userDeletePolicy: TenantUserDeletePolicy? = nil, usernameConfiguration: TenantUsernameConfiguration? = nil) {
+        self.accessControlConfiguration = accessControlConfiguration
+        self.captchaConfiguration = captchaConfiguration
+        self.configured = configured
+        self.connectorPolicies = connectorPolicies
+        self.data = data
+        self.emailConfiguration = emailConfiguration
+        self.eventConfiguration = eventConfiguration
+        self.externalIdentifierConfiguration = externalIdentifierConfiguration
+        self.failedAuthenticationConfiguration = failedAuthenticationConfiguration
+        self.familyConfiguration = familyConfiguration
+        self.formConfiguration = formConfiguration
+        self.httpSessionMaxInactiveInterval = httpSessionMaxInactiveInterval
+        self.id = id
+        self.insertInstant = insertInstant
+        self.issuer = issuer
+        self.jwtConfiguration = jwtConfiguration
+        self.lastUpdateInstant = lastUpdateInstant
+        self.loginConfiguration = loginConfiguration
+        self.logoutURL = logoutURL
+        self.maximumPasswordAge = maximumPasswordAge
+        self.minimumPasswordAge = minimumPasswordAge
+        self.multiFactorConfiguration = multiFactorConfiguration
+        self.name = name
+        self.oauth2Configuration = oauth2Configuration
+        self.passwordEncrytionConfiguration = passwordEncrytionConfiguration
+        self.passwordValidationRules = passwordValidationRules
+        self.rateLimitConfiguration = rateLimitConfiguration
+        self.registrationConfiguration = registrationConfiguration
+        self.state = state
+        self.themeId = themeId
+        self.userDeletePolicy = userDeletePolicy
+        self.usernameConfiguration = usernameConfiguration
+    }
     
 }
 
