@@ -3296,6 +3296,21 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+
+    /// Retrieves the FusionAuth Reactor metrics.
+    /// - Parameter clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveReactorMetrics(clientResponse:@escaping(ClientResponse<ReactorMetricsResponse>) -> ()){
+        let urlPath:String = "/api/reactor/metrics"
+        let httpMethod:HTTPMethod = .GET
+
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod) { (response:ClientResponse<ReactorMetricsResponse>) in
+            clientResponse(response)
+        }
+    }
     
     /// Retrieves the FusionAuth Reactor status.
     /// - Parameter clientResponse: See Returns

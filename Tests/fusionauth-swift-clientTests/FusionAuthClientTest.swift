@@ -944,4 +944,126 @@ class FusionAuthClientTest: XCTestCase {
         AssertSuccess(response: deleteTenantResponse)
         
     }
+
+    func testJWTOtherFields(){
+        if let path = Bundle.main.path(forResource: "JWTOtherFieldsTest", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let decoder = JSONDecoder()
+                let jwt = try decoder.decode(JWT.self, from: data)
+
+                
+                XCTAssertEqual(jwt.otherClaims!["0"], ["role 1"])
+                XCTAssertEqual(jwt.otherClaims!["1"], "Test")
+                XCTAssertEqual(jwt.otherClaims!["2"], 2)
+                XCTAssertEqual(jwt.otherClaims!["3"], ["a", "list", "odf", "roles"])
+
+            } catch {
+                print("error:\(error)")
+            }
+
+        }else{
+            debugPrint("Failed To Load JSON")
+        }
+    }
+
+    func testInstant(){
+        if let path = Bundle.main.path(forResource: "ConsentTest", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(Consent.self, from: data)
+
+                let expectedDateString = "2020-07-21 19:52:22.909"
+
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZ"
+
+                let date = dateFormatter.date(from: expectedDateString)
+
+                XCTAssertEqual(date, jsonData.insertInstant)
+
+            } catch {
+                print("error:\(error)")
+            }
+
+        }else{
+            debugPrint("Failed To Load JSON")
+        }
+    }
+
+    func testExp(){
+        if let path = Bundle.main.path(forResource: "JWTDateTimeTest", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(JWT.self, from: data)
+
+                let expectedDateString = "2020-07-21 19:52:22.909"
+
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZ"
+
+                let date = dateFormatter.date(from: expectedDateString)
+
+                XCTAssertEqual(jsonData.exp, date)
+
+            } catch {
+                print("error:\(error)")
+            }
+
+        }else{
+            debugPrint("Failed To Load JSON")
+        }
+    }
+
+    func testIat(){
+        if let path = Bundle.main.path(forResource: "JWTDateTimeTest", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(JWT.self, from: data)
+
+                let expectedDateString = "2020-07-21 19:52:22.909"
+
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZ"
+
+                let date = dateFormatter.date(from: expectedDateString)
+
+                XCTAssertEqual(jsonData.iat, date)
+
+            } catch {
+                print("error:\(error)")
+            }
+
+        }else{
+            debugPrint("Failed To Load JSON")
+        }
+    }
+
+    func testNbf(){
+        if let path = Bundle.main.path(forResource: "JWTDateTimeTest", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(JWT.self, from: data)
+
+                let expectedDateString = "2020-07-21 19:52:22.909"
+
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZ"
+
+                let date = dateFormatter.date(from: expectedDateString)
+
+                XCTAssertEqual(jsonData.nbf, date)
+
+            } catch {
+                print("error:\(error)")
+            }
+
+        }else{
+            debugPrint("Failed To Load JSON")
+        }
+    }
 }

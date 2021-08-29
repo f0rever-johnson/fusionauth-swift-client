@@ -9,11 +9,9 @@ import Foundation
 
 public class ReactorResponse:Codable{
     
-    public var metrics:ReactorMetrics? = nil
     public var status:ReactorStatus? = nil
     
-    public init(metrics: ReactorMetrics? = nil, status: ReactorStatus? = nil) {
-        self.metrics = metrics
+    public init(status: ReactorStatus? = nil) {
         self.status = status
     }
 }

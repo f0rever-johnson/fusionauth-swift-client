@@ -23,6 +23,12 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "fusionauth-swift-clientTests",
-            dependencies: ["fusionauth-swift-client"]),
+            dependencies: ["fusionauth-swift-client"],
+            resources: [
+                .process("TestFiles/ConsentTest.json"),
+                .process("TestFiles/JWTDateTimeTest.json"),
+                .process("TestFiles/JWTOTherFieldsTest.json"),
+            ]
+        ),
     ]
 )

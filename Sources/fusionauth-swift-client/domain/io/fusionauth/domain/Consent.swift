@@ -12,7 +12,7 @@ import Foundation
  *
  */
 
-public class Consent:Codable{
+public struct Consent:Codable{
     public var consentEmailTemplateId:UUID?
     public var countryMinimumAgeForSelfConsent:LocalizedIntegers?
     public var data:[String:JSONObject]?

@@ -12,7 +12,7 @@ import Foundation
  */
 public typealias JSONObject = JSONObjectConverter
 
-public enum JSONObjectConverter:Codable {
+public enum JSONObjectConverter:Equatable, Codable {
 
     case string(String)
     case int(Int)
