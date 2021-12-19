@@ -27,7 +27,7 @@ let package = Package(
             resources: [
                 .process("TestFiles/ConsentTest.json"),
                 .process("TestFiles/JWTDateTimeTest.json"),
-                .process("TestFiles/JWTOTherFieldsTest.json"),
+                .process("TestFiles/JWTOtherFieldsTest.json"),
             ]
         ),
     ]
