@@ -28,8 +28,9 @@ public class TwitterIdentityProvider:BaseIdentityProvider{
     public var lambdaConfiguration: LambdaConfiguration? = nil
     public var lastUpdateInstant: Date? = nil
     public var linkingStrategy: IdentityProviderLinkingStrategy?
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
 
-    public init(applicationConfiguration: [String : TwitterApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonText: String? = nil, consumerKey: String? = nil, consumerSecret: String? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil) {
+    public init(applicationConfiguration: [String : TwitterApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonText: String? = nil, consumerKey: String? = nil, consumerSecret: String? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil) {
         self.applicationConfiguration = applicationConfiguration
         self.data = data
         self.debug = debug
@@ -44,5 +45,7 @@ public class TwitterIdentityProvider:BaseIdentityProvider{
         self.lambdaConfiguration = lambdaConfiguration
         self.lastUpdateInstant = lastUpdateInstant
         self.linkingStrategy = linkingStrategy
+        self.tenantConfiguration = tenantConfiguration
     }
+
 }

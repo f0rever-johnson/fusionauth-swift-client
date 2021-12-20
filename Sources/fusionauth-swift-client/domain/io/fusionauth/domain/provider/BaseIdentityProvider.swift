@@ -21,6 +21,7 @@ public protocol BaseIdentityProvider:Enableable, IdentityProvider{
     var lastUpdateInstant:Date? { get set }
     var linkingStrategy:IdentityProviderLinkingStrategy? {get set}
     var name:String? { get set }
+    var tenantConfiguration:[UUID:IdentityProviderTenantConfiguration]? {get set}
     var type:IdentityProviderType? { get }
     
     

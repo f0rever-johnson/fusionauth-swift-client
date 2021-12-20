@@ -9,8 +9,6 @@ import Foundation
 
 public class SAMLv2IdentityProvider:BaseIdentityProvider{
     
-    
-    
     public typealias D = SAMLv2ApplicationConfiguration
    
     //BaseIdentityProvider protocol requirements
@@ -25,6 +23,7 @@ public class SAMLv2IdentityProvider:BaseIdentityProvider{
     public var name: String? = nil
     public var type: IdentityProviderType? = nil
     public var enabled: Bool? = nil
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
 
     public var buttonImageURL:String? = nil
     public var buttonText:String? = nil
@@ -40,8 +39,8 @@ public class SAMLv2IdentityProvider:BaseIdentityProvider{
     public var uniqueIdClaim:String? = nil
     public var useNameIdForEmail:Bool? = nil
     public var usernameClaim:String? = nil
-
-    public init(applicationConfiguration: [String : SAMLv2ApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonImageURL: String? = nil, buttonText: String? = nil, domains: [String]? = nil, emailClaim: String? = nil, idpEndpoint: String? = nil, issuer: String? = nil, keyId: UUID? = nil, nameIdFormat: String? = nil, postRequest: Bool? = nil, requestSigningKeyId: UUID? = nil, signRequest: Bool? = nil, uniqueIdClaim: String? = nil, useNameIdForEmail: Bool? = nil, usernameClaim: String? = nil) {
+    
+    public init(applicationConfiguration: [String : SAMLv2ApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil, buttonImageURL: String? = nil, buttonText: String? = nil, domains: [String]? = nil, emailClaim: String? = nil, idpEndpoint: String? = nil, issuer: String? = nil, keyId: UUID? = nil, nameIdFormat: String? = nil, postRequest: Bool? = nil, requestSigningKeyId: UUID? = nil, signRequest: Bool? = nil, uniqueIdClaim: String? = nil, useNameIdForEmail: Bool? = nil, usernameClaim: String? = nil) {
         self.applicationConfiguration = applicationConfiguration
         self.data = data
         self.debug = debug
@@ -53,6 +52,7 @@ public class SAMLv2IdentityProvider:BaseIdentityProvider{
         self.name = name
         self.type = type
         self.enabled = enabled
+        self.tenantConfiguration = tenantConfiguration
         self.buttonImageURL = buttonImageURL
         self.buttonText = buttonText
         self.domains = domains
@@ -68,5 +68,6 @@ public class SAMLv2IdentityProvider:BaseIdentityProvider{
         self.useNameIdForEmail = useNameIdForEmail
         self.usernameClaim = usernameClaim
     }
+   
 
 }

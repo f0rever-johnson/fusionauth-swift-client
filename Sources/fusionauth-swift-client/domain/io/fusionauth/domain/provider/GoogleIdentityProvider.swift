@@ -12,7 +12,7 @@ import Foundation
  */
 
 public class GoogleIdentityProvider:BaseIdentityProvider{
-    
+
     public typealias D = GoogleApplicationConfiguration
     
     public var insertinstant: Date?
@@ -31,6 +31,8 @@ public class GoogleIdentityProvider:BaseIdentityProvider{
     public var clientSecret:String? = nil
     public var loginMethod:IdentityProviderLoginMethod? = nil
     public var scope:String? = nil
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
+
 
     private enum CodingKeys:String, CodingKey{
         case buttonText
@@ -47,7 +49,7 @@ public class GoogleIdentityProvider:BaseIdentityProvider{
 
     }
 
-    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, applicationConfiguration: [String : GoogleApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonText: String? = nil, clientId: String? = nil, clientSecret: String? = nil, loginMethod: IdentityProviderLoginMethod? = nil, scope: String? = nil) {
+    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, applicationConfiguration: [String : GoogleApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonText: String? = nil, clientId: String? = nil, clientSecret: String? = nil, loginMethod: IdentityProviderLoginMethod? = nil, scope: String? = nil, tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil) {
         self.insertinstant = insertinstant
         self.lambdaConfiguration = lambdaConfiguration
         self.lastUpdateInstant = lastUpdateInstant
@@ -64,6 +66,7 @@ public class GoogleIdentityProvider:BaseIdentityProvider{
         self.clientSecret = clientSecret
         self.loginMethod = loginMethod
         self.scope = scope
+        self.tenantConfiguration = tenantConfiguration
     }
     
 }

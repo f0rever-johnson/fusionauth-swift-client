@@ -8,7 +8,7 @@
 import Foundation
 
 public class AppleIdentityProvider:BaseIdentityProvider, Codable{
-
+    
     public typealias D = AppleApplicationConfiguration
 
     public var insertinstant: Date?  = nil
@@ -27,8 +27,10 @@ public class AppleIdentityProvider:BaseIdentityProvider, Codable{
     public var scope:String? = nil
     public var servicesId:String? = nil
     public var teamId:String? = nil
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
+
     
-    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, applicationConfiguration: [String : AppleApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonText: String? = nil, keyId: UUID? = nil, scope: String? = nil, servicesId: String? = nil, teamId: String? = nil) {
+    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, applicationConfiguration: [String : AppleApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonText: String? = nil, keyId: UUID? = nil, scope: String? = nil, servicesId: String? = nil, teamId: String? = nil, tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil) {
         self.insertinstant = insertinstant
         self.lambdaConfiguration = lambdaConfiguration
         self.lastUpdateInstant = lastUpdateInstant
@@ -45,5 +47,7 @@ public class AppleIdentityProvider:BaseIdentityProvider, Codable{
         self.scope = scope
         self.servicesId = servicesId
         self.teamId = teamId
+        self.tenantConfiguration = tenantConfiguration
     }
+    
 }

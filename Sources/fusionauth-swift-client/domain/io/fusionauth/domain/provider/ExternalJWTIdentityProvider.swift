@@ -32,8 +32,9 @@ public class ExternalJWTIdentityProvider:BaseIdentityProvider, Codable{
     public var oauth2:IdentityProviderOAuth2Configuration? = nil
     public var uniqueIdentityClaim:String? = nil
     public var type:IdentityProviderType? = nil
-    
-    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, name: String? = nil, applicationConfiguration: [String : ExternalJWTApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, enabled: Bool? = nil, claimMap: [String : String]? = nil, domains: [String]? = nil, headerKeyParameter: String? = nil, keys: [String : String]? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil, uniqueIdentityClaim: String? = nil, type: IdentityProviderType? = nil) {
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
+
+    public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, name: String? = nil, applicationConfiguration: [String : ExternalJWTApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, enabled: Bool? = nil, claimMap: [String : String]? = nil, domains: [String]? = nil, headerKeyParameter: String? = nil, keys: [String : String]? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil, uniqueIdentityClaim: String? = nil, type: IdentityProviderType? = nil, tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil) {
         self.insertinstant = insertinstant
         self.lambdaConfiguration = lambdaConfiguration
         self.lastUpdateInstant = lastUpdateInstant
@@ -51,6 +52,6 @@ public class ExternalJWTIdentityProvider:BaseIdentityProvider, Codable{
         self.oauth2 = oauth2
         self.uniqueIdentityClaim = uniqueIdentityClaim
         self.type = type
+        self.tenantConfiguration = tenantConfiguration
     }
-
 }

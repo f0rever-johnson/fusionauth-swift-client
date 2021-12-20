@@ -22,6 +22,7 @@ public struct Errors: Codable{
 
         public struct errorDescription: Codable {
             public let message: String
+            public let data:[String:JSONObject]
             public let code: String
         }
 
@@ -47,8 +48,9 @@ public struct Errors: Codable{
     }
 
     public struct generalError: Codable {
-        public let message:String
         public let code:String
+        public let data:[String:JSONObject]
+        public let message:String
     }
 
 
@@ -58,7 +60,7 @@ public struct Errors: Codable{
     }
 
     /**
-     * @return the total count of all errors. All field errors and general errors
+     * Return the total count of all errors. All field errors and general errors
      */
 
     public func Size() -> Int{

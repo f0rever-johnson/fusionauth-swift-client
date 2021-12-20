@@ -11,13 +11,15 @@ import Foundation
  */
 
 public struct EmailConfiguration:Codable{
-    
+  
+    public var additionalHeaders:[EmailHeader]?
     public var defaultFromEmail:String?
     public var defaultFromName:String?
     public var emailupdateEmailTemplateId:UUID?
     public var emailVerifiedEmailTemplateId:UUID?
     public var forgotPasswordEmailTemplateId:UUID?
     public var host:String?
+    public var implicitEmailVerificationAllowed:Bool?
     public var loginIdInUseOnCreateEmailTemplateId:UUID?
     public var loginIdInUseOnUpdateEmailTemplateId:UUID?
     public var loginNewDeviceEmailTemplateId:UUID?
@@ -39,13 +41,15 @@ public struct EmailConfiguration:Codable{
     public var verifyEmail:Bool?
     public var verifyEmailWhenChanged:Bool?
     
-    public init(defaultFromEmail: String? = nil, defaultFromName: String? = nil, emailupdateEmailTemplateId: UUID? = nil, emailVerifiedEmailTemplateId: UUID? = nil, forgotPasswordEmailTemplateId: UUID? = nil, host: String? = nil, loginIdInUseOnCreateEmailTemplateId: UUID? = nil, loginIdInUseOnUpdateEmailTemplateId: UUID? = nil, loginNewDeviceEmailTemplateId: UUID? = nil, loginSuspiciousEmailTemplateId: UUID? = nil, password: String? = nil, passwordResetSuccessEmailTemplateId: UUID? = nil, passwordUpdateEmailTemplateId: UUID? = nil, passwordlessEmailTemplateId: UUID? = nil, port: Int? = nil, properties: String? = nil, security: EmailSecurityType? = nil, setPasswordEmailTemplateId: UUID? = nil, twoFactorMethodAddEmailTemplateId: UUID? = nil, twoFactorMethodRemoveEmailTemplateId: UUID? = nil, unverified: EmailUnverifiedOptions? = nil, username: String? = nil, verificationEmailTemplateId: UUID? = nil, verificationStrategy: VerificationStrategy? = nil, verifyEmail: Bool? = nil, verifyEmailWhenChanged: Bool? = nil) {
+    public init(additionalHeaders: [EmailHeader]? = nil, defaultFromEmail: String? = nil, defaultFromName: String? = nil, emailupdateEmailTemplateId: UUID? = nil, emailVerifiedEmailTemplateId: UUID? = nil, forgotPasswordEmailTemplateId: UUID? = nil, host: String? = nil, implicitEmailVerificationAllowed: Bool? = nil, loginIdInUseOnCreateEmailTemplateId: UUID? = nil, loginIdInUseOnUpdateEmailTemplateId: UUID? = nil, loginNewDeviceEmailTemplateId: UUID? = nil, loginSuspiciousEmailTemplateId: UUID? = nil, password: String? = nil, passwordResetSuccessEmailTemplateId: UUID? = nil, passwordUpdateEmailTemplateId: UUID? = nil, passwordlessEmailTemplateId: UUID? = nil, port: Int? = nil, properties: String? = nil, security: EmailSecurityType? = nil, setPasswordEmailTemplateId: UUID? = nil, twoFactorMethodAddEmailTemplateId: UUID? = nil, twoFactorMethodRemoveEmailTemplateId: UUID? = nil, unverified: EmailUnverifiedOptions? = nil, username: String? = nil, verificationEmailTemplateId: UUID? = nil, verificationStrategy: VerificationStrategy? = nil, verifyEmail: Bool? = nil, verifyEmailWhenChanged: Bool? = nil) {
+        self.additionalHeaders = additionalHeaders
         self.defaultFromEmail = defaultFromEmail
         self.defaultFromName = defaultFromName
         self.emailupdateEmailTemplateId = emailupdateEmailTemplateId
         self.emailVerifiedEmailTemplateId = emailVerifiedEmailTemplateId
         self.forgotPasswordEmailTemplateId = forgotPasswordEmailTemplateId
         self.host = host
+        self.implicitEmailVerificationAllowed = implicitEmailVerificationAllowed
         self.loginIdInUseOnCreateEmailTemplateId = loginIdInUseOnCreateEmailTemplateId
         self.loginIdInUseOnUpdateEmailTemplateId = loginIdInUseOnUpdateEmailTemplateId
         self.loginNewDeviceEmailTemplateId = loginNewDeviceEmailTemplateId
@@ -67,7 +71,6 @@ public struct EmailConfiguration:Codable{
         self.verifyEmail = verifyEmail
         self.verifyEmailWhenChanged = verifyEmailWhenChanged
     }
-    
 }
 
 
