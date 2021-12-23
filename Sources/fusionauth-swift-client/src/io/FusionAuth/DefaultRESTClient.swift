@@ -66,7 +66,8 @@ public class DefaultRESTClient{
         request.timeoutInterval = TimeInterval(timeout)
         request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
      
-        if authorization != nil || authorization != ""{
+        
+        if authorization != nil || ((authorization?.isEmpty) != nil){
             request.setValue(authorization, forHTTPHeaderField: "Authorization")
         }else if apiKey != nil || apiKey != ""{
             request.setValue(apiKey, forHTTPHeaderField: "Authorization")

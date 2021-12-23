@@ -17,7 +17,7 @@ class FusionAuthClientTest: XCTestCase {
     
     var apiKey:String? = "dRud1UxqjBGRok3Jk6oyg0jzZTel89ghN5Y31kkO3lo_Cak_ecWiuk9D"
     
-    let applicationId:UUID = UUID(uuidString: "7ae2647c-9445-4d4e-8378-365f065d5765")!
+    let applicationId:UUID = UUID(uuidString: "0bc7297c-3815-4ff3-b82c-516fb69987d0")!
     
     let emailAddress:String = "swiftclient@test.com"
     
@@ -76,6 +76,8 @@ class FusionAuthClientTest: XCTestCase {
     }
 
     func CreateUser(complete:@escaping(Bool) -> ()){
+        var completeVal:Bool = false
+        let expect = XCTestExpectation()
         client?.RetrieveUserByEmail(email: emailAddress, clientResponse: { (retrieveUserResponse) in
             if retrieveUserResponse.WasSuccessful{
                 guard let userId:UUID = retrieveUserResponse.successResponse?.user?.id else{return}
@@ -98,14 +100,21 @@ class FusionAuthClientTest: XCTestCase {
                 guard let userName:String = registerUserResponse.successResponse?.user?.username else{return}
                 XCTAssertEqual(newUser.username, userName)
                 self.user = registerUserResponse.successResponse?.user
-                complete(true)
+                completeVal = true
+                expect.fulfill()
             })
         }
+        wait(for: [expect], timeout: 30)
+        complete(completeVal)
+
     }
     
     func CreateUserAction(actionName:String, isTemporal:Bool, complete:@escaping(Bool) -> ()){
-       
+        let expect:XCTestExpectation = XCTestExpectation()
+        var completeVal:Bool = false
         client?.RetrieveUserActions(clientResponse: { (retrieveUserActionResponse) in
+            
+            
             print("retrieveUserActionResponse")
             self.AssertSuccess(response: retrieveUserActionResponse)
             if retrieveUserActionResponse.WasSuccessful{
@@ -114,12 +123,18 @@ class FusionAuthClientTest: XCTestCase {
                         if userAction.name == actionName{
                             guard let userActionId:UUID = userAction.id else{return}
                             self.client?.DeleteUserAction(userActionId: userActionId, clientResponse: { (deleteUserActionResponse) in
+                                
+                                
                                 self.AssertSuccess(response: deleteUserActionResponse)
+                                
+                                
+                                CreateUserAction()
                             })
                         }
                     }
+                }else{
+                    CreateUserAction()
                 }
-                CreateUserAction()
             }
         })
         
@@ -130,15 +145,20 @@ class FusionAuthClientTest: XCTestCase {
             self.client?.CreateUserAction(userActionId: nil, request: userActionRequest, clientResponse: { (createUserActionResponse) in
                 self.AssertSuccess(response: createUserActionResponse)
                 self.userAction = createUserActionResponse.successResponse?.userAction
-                //expect.fulfill()
-                complete(true)
+                completeVal = true
+                expect.fulfill()
             })
         }
+        
+        wait(for: [expect], timeout: 30)
+        complete(completeVal)
     }
     
     func ActionUser(complete:@escaping(Bool) -> ()){
+        let expect:XCTestExpectation = XCTestExpectation()
+        var completeVal:Bool = false
         let date:Date = Calendar.current.date(byAdding: .day, value: 2, to: Date())!
-        let expiry:Date = (userAction?.temporal)! ? date : Date()
+        let expiry:Date = ((userAction?.temporal) != nil) ? date : Date()
         let actionData:ActionData = ActionData(actioneeUserId: user?.id, actionerUserId: user?.id, expiry: expiry, userActionId: userAction?.id)
         
         let actionRequest:ActionRequest = ActionRequest(action: actionData, broadcast: false)
@@ -146,8 +166,12 @@ class FusionAuthClientTest: XCTestCase {
         client?.ActionUser(request: actionRequest, clientResponse: { actionUserResponse in
             self.AssertSuccess(response: actionUserResponse)
             self.userActionLog = actionUserResponse.successResponse?.action
-            complete(true)
+            completeVal = true
+            expect.fulfill()
         })
+        
+        wait(for: [expect], timeout: 30)
+        complete(completeVal)
     }
     
     func Login(complete:@escaping(Bool) -> ()){
@@ -170,14 +194,17 @@ class FusionAuthClientTest: XCTestCase {
     }
     
     func CreateApplication(complete:@escaping (Bool) ->() ){
+        var completeVal:Bool = false
+        let expect:XCTestExpectation = XCTestExpectation()
         client?.RetrieveApplication(applicationId: applicationId, clientResponse: { retrieveApplicationResponse in
             if retrieveApplicationResponse.WasSuccessful{
                 self.client?.DeleteApplication(applicationId: self.applicationId, clientResponse: { deleteApplicationResponse in
                     self.AssertSuccess(response: deleteApplicationResponse)
+                    print("1")
                     createApplication()
-                    
                 })
             }else{
+                print("adf")
                 createApplication()
             }
         })
@@ -186,14 +213,20 @@ class FusionAuthClientTest: XCTestCase {
             let application:Application = Application(name: "Swift Client Test")
             let applicationRequest:ApplicationRequest = ApplicationRequest(application: application)
             client?.CreateApplication(applicationId: applicationId, request: applicationRequest, clientResponse: { createApplicationResponse in
+
                 self.AssertSuccess(response: createApplicationResponse)
                 guard let name = createApplicationResponse.successResponse?.application?.name else{return}
                 XCTAssertEqual(application.name, name)
                 
                 self.application = createApplicationResponse.successResponse?.application
-                complete(true)
+                completeVal = true
+                expect.fulfill()
             })
+            
         }
+        wait(for: [expect], timeout: 30)
+        complete(completeVal)
+
     }
     
     func testPatchApplication(){
@@ -233,10 +266,17 @@ class FusionAuthClientTest: XCTestCase {
         apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         CreateApplication { caComplete in
+            
             self.CreateUserAction(actionName: "SwiftClientUserAction", isTemporal: true) { (cuaComplete) in
-                self.CreateUser { cuComplete in
+                                self.CreateUser { cuComplete in
+                    
+                    
+                    
                     self.ActionUser { auComplete in
+                        
+                        
                         cancelAction()
+                        
                     }
                 }
             }
@@ -288,8 +328,7 @@ class FusionAuthClientTest: XCTestCase {
     
     func testRetrieveApplication(){
         let expect:XCTestExpectation = XCTestExpectation()
-        //apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
-        apiKey = nil
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
         CreateApplication { complete in
             self.client?.RetrieveApplication(applicationId: self.application?.id, clientResponse: { retrieveApplicationResponse in
@@ -487,6 +526,7 @@ class FusionAuthClientTest: XCTestCase {
         let expect:XCTestExpectation = XCTestExpectation()
         apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
         setUp()
+                
         client?.RetrieveSystemConfiguration(clientResponse: { retrieveSystemConfigResponse in
             self.AssertSuccess(response: retrieveSystemConfigResponse)
             expect.fulfill()
@@ -546,6 +586,8 @@ class FusionAuthClientTest: XCTestCase {
             let tenant:Tenant = Tenant(name: "Swift Tenant")
             let tenantRequest:TenantRequest = TenantRequest(sourceTenantId: tenantId, tenant: tenant)
             client?.CreateTenant(tenantId: nil, request: tenantRequest, clientResponse: { ctResponse in
+                
+                
                 createTenantResponse = ctResponse
                 expect.fulfill()
             })
@@ -585,7 +627,7 @@ class FusionAuthClientTest: XCTestCase {
         AssertSuccess(response: retrieveResponse)
         
         // Use a tenantId
-        apiKey = "E9XCHRTDFwc0x_JcdcGmi78PEpcl2PdMcl0pines2DB4Df3jQHjG-Sm-"
+        apiKey = "dRud1UxqjBGRok3Jk6oyg0jzZTel89ghN5Y31kkO3lo_Cak_ecWiuk9D"
         setUp()
         func RetrieveTenants() -> ClientResponse<TenantResponse>{
             let expect = XCTestExpectation()
@@ -600,9 +642,11 @@ class FusionAuthClientTest: XCTestCase {
         
         let tenantResponse = RetrieveTenants()
         AssertSuccess(response: tenantResponse)
-        guard let tenantId = tenantResponse.successResponse?.tenants?[2].id else{return XCTFail()}
+        guard let tenantId = tenantResponse.successResponse?.tenants?[0].id else{return XCTFail()}
         let tenantClient = NewClientWithTenantId(tenantId: tenantId.uuidString)
         var tenantGroupRetrieveResponse = RetrieveGroup(fusionAuthClient: tenantClient, groupId: (createResponse.successResponse?.group?.id)!)
+        
+        
         AssertSuccess(response: tenantGroupRetrieveResponse)
         
         // 400, bad tenant Id
@@ -706,11 +750,13 @@ class FusionAuthClientTest: XCTestCase {
         let response = RetrieveIntegration()
         AssertSuccess(response: response)
         
-        XCTAssertNotNil(response.successResponse?.integrations?.cleanSpeak)
+        XCTAssertNotNil(response.successResponse?.integrations?.cleanspeak)
         XCTAssertNotNil(response.successResponse?.integrations?.kafka)
     }
     
     func testLogin(){
+        apiKey = "SRqqQ1LaBOjCSJxOIJBWxMBjmU1Xxy5gpaA1OVWiWdqNZzoMvwSgQkoQ"
+        setUp()
         func Login() -> ClientResponse<LoginResponse>{
             let expect = XCTestExpectation()
             var loginResponse:ClientResponse<LoginResponse> = ClientResponse()
@@ -722,12 +768,24 @@ class FusionAuthClientTest: XCTestCase {
             wait(for: [expect], timeout: 30)
             return loginResponse
         }
-        CreateApplication { _ in
-            self.CreateUser { _ in
-                let loginResponse = Login()
-                self.AssertSuccess(response: loginResponse)
+        
+        let expect = XCTestExpectation()
+
+        CreateApplication { createAppComplete in
+            
+            
+            if createAppComplete{
+                
+                self.CreateUser { createUsercomplete in
+                    
+                    
+                    let loginResponse = Login()
+                    self.AssertSuccess(response: loginResponse)
+                    expect.fulfill()
+                }
             }
         }
+        self.wait(for: [expect], timeout: 30)
     }
     
     func testTenant(){
