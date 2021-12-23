@@ -43,6 +43,19 @@ public class UserDeleteRequest:BaseEventRequest {
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+            
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(dryRun, forKey: .dryRun)
+        try container.encode(hardDelete, forKey: .hardDelete)
+        try container.encode(query, forKey: .query)
+        try container.encode(queryString, forKey: .queryString)
+        try container.encode(userIds, forKey: .userIds)
+                
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys:CodingKey{
         case dryRun
         case hardDelete

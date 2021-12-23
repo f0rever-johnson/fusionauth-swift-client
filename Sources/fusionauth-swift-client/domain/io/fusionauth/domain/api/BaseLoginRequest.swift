@@ -42,6 +42,20 @@ public class BaseLoginRequest:BaseEventRequest{
 
     }
     
+    override public func encode(to encoder: Encoder) throws {
+            
+        var container = encoder.container(keyedBy: CodingKeys.self)
+            
+        try container.encode(applicationId, forKey: .applicationId)
+        try container.encode(ipAddress, forKey: .ipAddress)
+        try container.encode(metaData, forKey: .metaData)
+        try container.encode(newDevice, forKey: .newDevice)
+        try container.encode(noJWT, forKey: .noJWT)
+        
+                
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys:CodingKey{
         case applicationId
         case ipAddress

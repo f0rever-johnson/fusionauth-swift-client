@@ -37,6 +37,18 @@ public class IdentityProviderStartLoginRequest:BaseLoginRequest{
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+            
+        var container = encoder.container(keyedBy: CodingKeys.self)
+            
+        try container.encode(data, forKey: .data)
+        try container.encode(identityProviderId, forKey: .identityProviderId)
+        try container.encode(loginId, forKey: .loginId)
+        try container.encode(state, forKey: .state)        
+                
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys:CodingKey{
         case data
         case identityProviderId

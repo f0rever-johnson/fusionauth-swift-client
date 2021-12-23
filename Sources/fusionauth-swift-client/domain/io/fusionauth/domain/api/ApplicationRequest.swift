@@ -32,6 +32,15 @@ public class ApplicationRequest:BaseEventRequest{
         try super.init(from: superDecoder)
     }
     
+    override public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(application, forKey: .application)
+        try container.encode(webhookIds, forKey: .webhookIds)
+        try container.encode(role, forKey: .role)
+        
+        try super.encode(to: encoder)
+    }
+    
     public enum CodingKeys:CodingKey{
         case application
         case webhookIds

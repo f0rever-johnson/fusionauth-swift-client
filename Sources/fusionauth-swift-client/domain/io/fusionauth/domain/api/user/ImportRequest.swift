@@ -27,6 +27,7 @@ public class ImportRequest:BaseEventRequest {
         
         // Get our container for this subclass' coding keys
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        
         self.encryptionScheme = try container.decode(String.self, forKey: .encryptionScheme )
         self.factor = try container.decode(Int.self, forKey: .factor)
         self.users = try container.decode([User].self, forKey: .users)
@@ -36,6 +37,18 @@ public class ImportRequest:BaseEventRequest {
         let superDecoder = try container.superDecoder()
         try super.init(from: superDecoder)
         
+    }
+    
+    override public func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(encryptionScheme, forKey: .encryptionScheme)
+        try container.encode(factor, forKey: .factor)
+        try container.encode(users, forKey: .users)
+        try container.encode(validateDbConstraints, forKey: .validateDbConstraints)
+            
+        try super.encode(to: encoder)
     }
     
     private enum CodingKeys:CodingKey{

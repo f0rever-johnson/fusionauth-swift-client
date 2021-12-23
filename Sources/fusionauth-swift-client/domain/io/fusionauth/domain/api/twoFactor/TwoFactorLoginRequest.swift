@@ -37,6 +37,18 @@ public class TwoFactorLoginRequest:BaseLoginRequest{
         try super.init(from: superDecoder)
         
     }
+    
+    override public func encode(to encoder: Encoder) throws {
+            
+        var container = encoder.container(keyedBy: CodingKeys.self)
+            
+        try container.encode(code, forKey: .code)
+        try container.encode(trustComputer, forKey: .trustComputer)
+        try container.encode(twoFactorId, forKey: .twoFactorId)
+        try container.encode(userId, forKey: .userId)        
+                
+        try super.encode(to: encoder)
+    }
 
     private enum CodingKeys:CodingKey{
         case code

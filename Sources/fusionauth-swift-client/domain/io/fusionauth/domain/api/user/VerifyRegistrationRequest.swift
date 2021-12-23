@@ -30,6 +30,15 @@ public class VerifyRegistrationRequest:BaseEventRequest{
         try super.init(from: superDecoder)
     }
     
+    override public func encode(to encoder: Encoder) throws {
+            
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(oneTimeCode, forKey: .oneTimeCode)
+        try container.encode(verificationId, forKey: .verificationId)
+                
+    }
+    
     private enum CodingKeys:CodingKey{
         case oneTimeCode
         case verificationId

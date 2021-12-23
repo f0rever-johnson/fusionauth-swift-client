@@ -42,6 +42,19 @@ public class UserRequest:BaseEventRequest{
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+            
+        var container = encoder.container(keyedBy: CodingKeys.self)
+            
+        try container.encode(applicationId, forKey: .applicationId)
+        try container.encode(disableDomainBlock, forKey: .disableDomainBlock)
+        try container.encode(sendSetPasswordEmail, forKey: .sendSetPasswordEmail)
+        try container.encode(skipVerification, forKey: .skipVerification)
+        try container.encode(user, forKey: .user)
+        
+        try super.encode(to: encoder)
+        }
+    
     private enum CodingKeys:CodingKey{
         case applicationId
         case disableDomainBlock

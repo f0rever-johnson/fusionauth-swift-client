@@ -32,6 +32,16 @@ public class RefreshRequest:BaseEventRequest{
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(refreshToken, forKey: .refreshToken)
+        try container.encode(token, forKey: .token)
+            
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys:CodingKey{
         case refreshToken
         case token

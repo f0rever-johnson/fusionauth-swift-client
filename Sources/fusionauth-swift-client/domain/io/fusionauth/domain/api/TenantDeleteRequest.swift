@@ -30,6 +30,15 @@ public class TenantDeleteRequest:BaseEventRequest{
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+            
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            
+            try container.encode(async, forKey: .async)
+                
+            try super.encode(to: encoder)
+        }
+    
     private enum CodingKeys:CodingKey{
         case async
     }

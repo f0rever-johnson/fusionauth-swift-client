@@ -37,6 +37,16 @@ public class ChangePasswordRequest:BaseEventRequest {
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(currentPassword, forKey: .currentPassword)
+        try container.encode(loginId, forKey: .loginId)
+        try container.encode(password, forKey: .password)
+        try container.encode(refreshToken, forKey: .refreshToken)
+        
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys:CodingKey{
         case currentPassword
         case loginId

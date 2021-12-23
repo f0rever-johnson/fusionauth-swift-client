@@ -43,6 +43,18 @@ public class ForgotPasswordRequest:BaseEventRequest {
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(changePasswordId, forKey: .changePasswordId)
+        try container.encode(email, forKey: .email)
+        try container.encode(loginId, forKey: .loginId)
+        try container.encode(sendForgotPasswordEmail, forKey: .sendForgotPasswordEmail)
+        try container.encode(state, forKey: .state)
+        try container.encode(username, forKey: .username)
+        
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys:CodingKey{
         case changePasswordId
         case email

@@ -10,22 +10,22 @@ import Foundation
 
 public struct LoginResponse:Codable {
     
-    public var actions:[LoginPreventedResponse]? = nil
-    public var changePasswordId:String? = nil
-    public var changePasswordReason:ChangePasswordReason? = nil
-    public var emailVerificationId:String? = nil
-    public var methods:[TwoFactorMethod]? = nil
-    public var pendingIdPLinkId:String? = nil
-    public var refreshToken:String? = nil
-    public var registrationVerificationId:String? = nil
-    public var state:[String:JSONObject]? = nil
-    public var threatsDetected:[AuthenticationThreats]
-    public var token:String? = nil
-    public var twoFactorId:String? = nil
-    public var twoFactorTrustId:String? = nil
-    public var user:User? = nil
+    public var actions:[LoginPreventedResponse]?
+    public var changePasswordId:String?
+    public var changePasswordReason:ChangePasswordReason?
+    public var emailVerificationId:String?
+    public var methods:[TwoFactorMethod]?
+    public var pendingIdPLinkId:String?
+    public var refreshToken:String?
+    public var registrationVerificationId:String?
+    public var state:[String:JSONObject]?
+    public var threatsDetected:[AuthenticationThreats]?
+    public var token:String?
+    public var twoFactorId:String?
+    public var twoFactorTrustId:String?
+    public var user:User?
     
-    public init(actions: [LoginPreventedResponse]? = nil, changePasswordId: String? = nil, changePasswordReason: ChangePasswordReason? = nil, emailVerificationId: String? = nil, methods: [TwoFactorMethod]? = nil, pendingIdPLinkId: String? = nil, refreshToken: String? = nil, registrationVerificationId: String? = nil, state: [String : JSONObject]? = nil, threatsDetected: [AuthenticationThreats], token: String? = nil, twoFactorId: String? = nil, twoFactorTrustId: String? = nil, user: User? = nil) {
+    public init(actions: [LoginPreventedResponse]? = nil, changePasswordId: String? = nil, changePasswordReason: ChangePasswordReason? = nil, emailVerificationId: String? = nil, methods: [TwoFactorMethod]? = nil, pendingIdPLinkId: String? = nil, refreshToken: String? = nil, registrationVerificationId: String? = nil, state: [String : JSONObject]? = nil, threatsDetected: [AuthenticationThreats]? = nil, token: String? = nil, twoFactorId: String? = nil, twoFactorTrustId: String? = nil, user: User? = nil) {
         self.actions = actions
         self.changePasswordId = changePasswordId
         self.changePasswordReason = changePasswordReason

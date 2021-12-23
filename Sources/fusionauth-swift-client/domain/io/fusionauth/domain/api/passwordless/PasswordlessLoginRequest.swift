@@ -32,6 +32,16 @@ public class PasswordlessLoginRequest:BaseLoginRequest{
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+            
+        var container = encoder.container(keyedBy: CodingKeys.self)
+            
+        try container.encode(code, forKey: .code)
+        try container.encode(twoFactorTrustId, forKey: .twoFactorTrustId)
+        
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys:CodingKey{
         case code
         case twoFactorTrustId

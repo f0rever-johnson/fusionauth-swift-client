@@ -32,6 +32,14 @@ public class ActionRequest:BaseEventRequest{
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(action, forKey: .action)
+        try container.encode(broadcast, forKey: .broadcast)
+        
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys:CodingKey{
         case action
         case broadcast

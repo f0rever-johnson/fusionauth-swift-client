@@ -11,7 +11,7 @@ import Foundation
  * Creates a new User Registration Object
  */
 
-public struct UserRegistration:Codable {
+public class UserRegistration:Codable {
 
     public var applicationId:UUID? = nil
     public var authenticationToken:String? = nil

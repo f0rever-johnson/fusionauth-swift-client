@@ -33,6 +33,17 @@ public class TwoFactorDisableRequest:BaseEventRequest{
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+            
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            
+            try container.encode(applicationId, forKey: .applicationId)
+            try container.encode(code, forKey: .code)
+            try container.encode(methodId, forKey: .methodId)
+                
+            try super.encode(to: encoder)
+        }
+    
     private enum CodingKeys:CodingKey{
         case applicationId
         case code

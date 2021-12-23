@@ -48,6 +48,22 @@ public class TwoFactorRequest:BaseEventRequest {
         
     }
     
+    override public func encode(to encoder: Encoder) throws {
+            
+        var container = encoder.container(keyedBy: CodingKeys.self)
+            
+        try container.encode(applicationId, forKey: .applicationId)
+        try container.encode(authenticatorId, forKey: .authenticatorId)
+        try container.encode(code, forKey: .code)
+        try container.encode(email, forKey: .email)
+        try container.encode(method, forKey: .method)
+        try container.encode(mobilePhone, forKey: .mobilePhone)
+        try container.encode(secret, forKey: .secret)
+        try container.encode(secretBase32Encoded, forKey: .secretBase32Encoded)
+                
+        try super.encode(to: encoder)
+    }
+    
     private enum CodingKeys:CodingKey{
         case applicationId
         case authenticatorId
