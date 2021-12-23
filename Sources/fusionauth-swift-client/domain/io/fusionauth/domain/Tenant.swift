@@ -12,6 +12,8 @@ import Foundation
  */
 
 public struct Tenant:Codable{
+   
+    
 
     public var accessControlConfiguration:TenantAccessControlConfiguration?
     public var captchaConfiguration:TenantCaptchaConfiguration?
@@ -41,12 +43,13 @@ public struct Tenant:Codable{
     public var passwordValidationRules:PasswordValidationRules?
     public var rateLimitConfiguration:TenantRateLimitConfiguration?
     public var registrationConfiguration:TenantRegistrationConfiguration?
+    public var ssoConfiguration:TenantSSOConfiguration?
     public var state:ObjectState?
     public var themeId:UUID?
     public var userDeletePolicy:TenantUserDeletePolicy?
     public var usernameConfiguration:TenantUsernameConfiguration?
 
-    public init(accessControlConfiguration: TenantAccessControlConfiguration? = nil, captchaConfiguration: TenantCaptchaConfiguration? = nil, configured: Bool? = nil, connectorPolicies: [ConnectorPolicy]? = nil, data: [String : JSONObject]? = nil, emailConfiguration: EmailConfiguration? = nil, eventConfiguration: EventConfiguration? = nil, externalIdentifierConfiguration: ExternalIdentifierConfiguration? = nil, failedAuthenticationConfiguration: FailedAuthenticationConfiguration? = nil, familyConfiguration: FamilyConfiguration? = nil, formConfiguration: TenantFormConfiguration? = nil, httpSessionMaxInactiveInterval: Int? = nil, id: UUID? = nil, insertInstant: Date? = nil, issuer: String? = nil, jwtConfiguration: JWTConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: TenantLoginConfiguration? = nil, logoutURL: String? = nil, maximumPasswordAge: MaximumPasswordAge? = nil, minimumPasswordAge: MinimumPasswordAge? = nil, multiFactorConfiguration: TenantMultiFactorConfiguration? = nil, name: String? = nil, oauth2Configuration: TenantOauth2Configuration? = nil, passwordEncrytionConfiguration: PasswordEncryptionConfiguration? = nil, passwordValidationRules: PasswordValidationRules? = nil, rateLimitConfiguration: TenantRateLimitConfiguration? = nil, registrationConfiguration: TenantRegistrationConfiguration? = nil, state: ObjectState? = nil, themeId: UUID? = nil, userDeletePolicy: TenantUserDeletePolicy? = nil, usernameConfiguration: TenantUsernameConfiguration? = nil) {
+   public init(accessControlConfiguration: TenantAccessControlConfiguration? = nil, captchaConfiguration: TenantCaptchaConfiguration? = nil, configured: Bool? = nil, connectorPolicies: [ConnectorPolicy]? = nil, data: [String : JSONObject]? = nil, emailConfiguration: EmailConfiguration? = nil, eventConfiguration: EventConfiguration? = nil, externalIdentifierConfiguration: ExternalIdentifierConfiguration? = nil, failedAuthenticationConfiguration: FailedAuthenticationConfiguration? = nil, familyConfiguration: FamilyConfiguration? = nil, formConfiguration: TenantFormConfiguration? = nil, httpSessionMaxInactiveInterval: Int? = nil, id: UUID? = nil, insertInstant: Date? = nil, issuer: String? = nil, jwtConfiguration: JWTConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: TenantLoginConfiguration? = nil, logoutURL: String? = nil, maximumPasswordAge: MaximumPasswordAge? = nil, minimumPasswordAge: MinimumPasswordAge? = nil, multiFactorConfiguration: TenantMultiFactorConfiguration? = nil, name: String? = nil, oauth2Configuration: TenantOauth2Configuration? = nil, passwordEncrytionConfiguration: PasswordEncryptionConfiguration? = nil, passwordValidationRules: PasswordValidationRules? = nil, rateLimitConfiguration: TenantRateLimitConfiguration? = nil, registrationConfiguration: TenantRegistrationConfiguration? = nil, ssoConfiguration: TenantSSOConfiguration? = nil, state: ObjectState? = nil, themeId: UUID? = nil, userDeletePolicy: TenantUserDeletePolicy? = nil, usernameConfiguration: TenantUsernameConfiguration? = nil) {
         self.accessControlConfiguration = accessControlConfiguration
         self.captchaConfiguration = captchaConfiguration
         self.configured = configured
@@ -75,6 +78,7 @@ public struct Tenant:Codable{
         self.passwordValidationRules = passwordValidationRules
         self.rateLimitConfiguration = rateLimitConfiguration
         self.registrationConfiguration = registrationConfiguration
+        self.ssoConfiguration = ssoConfiguration
         self.state = state
         self.themeId = themeId
         self.userDeletePolicy = userDeletePolicy
