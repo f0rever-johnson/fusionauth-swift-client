@@ -13,24 +13,24 @@ import Foundation
 
 public class UserAction:Codable {
     
-    public var active:Bool? = nil
-    public var cancelEmailTemplateId:UUID? = nil
-    public var endEmailTemplateId:UUID? = nil
-    public var id:UUID? = nil
-    public var includeEmailInEventJSON:Bool? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var localizedNames:LocalizedStrings? = nil
-    public var modifyEmailTemplateId:UUID? = nil
-    public var name:String? = nil
-    public var options:[UserActionOption]? = nil
-    public var preventLogin:Bool? = nil
-    public var sendEndEvent:Bool? = nil
-    public var startEmailTemplateId:UUID? = nil
-    public var temporal:Bool? = nil
-    public var transactionType:TransactionType? = nil
-    public var userEmailingEnabled:Bool? = nil
-    public var userNotificationsEnabled:Bool? = nil
+    public var active:Bool?
+    public var cancelEmailTemplateId:UUID?
+    public var endEmailTemplateId:UUID?
+    public var id:UUID?
+    public var includeEmailInEventJSON:Bool?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var localizedNames:LocalizedStrings?
+    public var modifyEmailTemplateId:UUID?
+    public var name:String?
+    public var options:[UserActionOption]?
+    public var preventLogin:Bool?
+    public var sendEndEvent:Bool?
+    public var startEmailTemplateId:UUID?
+    public var temporal:Bool?
+    public var transactionType:TransactionType?
+    public var userEmailingEnabled:Bool?
+    public var userNotificationsEnabled:Bool?
     
     public init(active: Bool? = nil, cancelEmailTemplateId: UUID? = nil, endEmailTemplateId: UUID? = nil, id: UUID? = nil, includeEmailInEventJSON: Bool? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, localizedNames: LocalizedStrings? = nil, modifyEmailTemplateId: UUID? = nil, name: String? = nil, options: [UserActionOption]? = nil, preventLogin: Bool? = nil, sendEndEvent: Bool? = nil, startEmailTemplateId: UUID? = nil, temporal: Bool? = nil, transactionType: TransactionType? = nil, userEmailingEnabled: Bool? = nil, userNotificationsEnabled: Bool? = nil) {
         self.active = active

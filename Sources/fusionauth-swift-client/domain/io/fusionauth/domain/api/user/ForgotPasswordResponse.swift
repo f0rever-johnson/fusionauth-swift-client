@@ -9,7 +9,7 @@
 import Foundation
 
 public struct ForgotPasswordResponse:Codable {
-    public var changePasswordId:String? = nil
+    public var changePasswordId:String?
 
     public init(changePasswordId: String? = nil) {
         self.changePasswordId = changePasswordId

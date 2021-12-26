@@ -9,8 +9,8 @@
 import Foundation
 
 public struct MonthlyActiveUserReportResponse:Codable {
-    public var monthlyActiveUsers:[Count]? = nil
-    public var total:UInt64? = nil
+    public var monthlyActiveUsers:[Count]?
+    public var total:UInt64?
 
     public init(monthlyActiveUsers: [Count]? = nil, total: UInt64? = nil) {
         self.monthlyActiveUsers = monthlyActiveUsers

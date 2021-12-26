@@ -9,11 +9,11 @@ import Foundation
 
 
 public class HYPRApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable{
-    public var createRegistration: Bool? = nil
-    public var data: [String : JSONObject]? = nil
-    public var enabled: Bool? = nil
-    public var relyingPartyApplicationId:String? = nil
-    public var relyingPartyURL:String? = nil
+    public var createRegistration: Bool?
+    public var data: [String : JSONObject]?
+    public var enabled: Bool?
+    public var relyingPartyApplicationId:String?
+    public var relyingPartyURL:String?
     
     public init(createRegistration: Bool? = nil, data: [String : JSONObject]? = nil, enabled: Bool? = nil, relyingPartyApplicationId: String? = nil, relyingPartyURL: String? = nil) {
         self.createRegistration = createRegistration

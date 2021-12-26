@@ -10,10 +10,10 @@ import Foundation
 
 public class EntityTypeSearchCriteria: BaseSearchCriteria {
     
-    public var numberOfResults: Int? = nil
-    public var orderBy: String? = nil
-    public var startRow: Int? = nil
-    public var name:String? = nil
+    public var numberOfResults: Int?
+    public var orderBy: String?
+    public var startRow: Int?
+    public var name:String?
     
     public init(numberOfResults: Int? = nil, orderBy: String? = nil, startRow: Int? = nil, name: String? = nil) {
         self.numberOfResults = numberOfResults

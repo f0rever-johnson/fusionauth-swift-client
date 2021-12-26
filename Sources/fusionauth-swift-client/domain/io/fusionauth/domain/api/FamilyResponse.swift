@@ -10,8 +10,8 @@ import Foundation
 
 
 public struct FamilyResponse:Codable{
-    public var families:[Family]? = nil
-    public var family:Family? = nil
+    public var families:[Family]?
+    public var family:Family?
 
     public init(families: [Family]? = nil, family: Family? = nil) {
         self.families = families

@@ -9,13 +9,13 @@ import Foundation
 
 public class Lambda:Codable{
     
-    public var body:String? = nil
-    public var debug:Bool? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var name:String? = nil
-    public var type:LambdaType? = nil
+    public var body:String?
+    public var debug:Bool?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var name:String?
+    public var type:LambdaType?
 
 
     public init(body: String? = nil, debug: Bool? = nil, id: UUID? = nil, insertInstant: Date? = nil, name: String? = nil, type: LambdaType? = nil) {

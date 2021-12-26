@@ -7,24 +7,24 @@
 import Foundation
 
 public class OpenIdConfiguration:Codable{
-    public var authorizationEndpoint:String? = nil
-    public var backChannelLogoutSupported:Bool? = nil
-    public var claimsSupported:[String]? = nil
-    public var deviceAuthorizationEndpoint:String? = nil
-    public var endSessionEndpoint:String? = nil
-    public var frontChannelLogoutSupported:Bool? = nil
-    public var grantTypesSupported:[String]? = nil
-    public var idTokenSigningalgValuesSupported:[String]? = nil
-    public var issuer:String? = nil
-    public var jwksUri:String? = nil
-    public var responseModesSupported:[String]? = nil
-    public var responseTypesSupported:[String]? = nil
-    public var scopesSupported:[String]? = nil
-    public var subjectTypesSupported:[String]? = nil
-    public var tokenEndpoint:String? = nil
-    public var tokenEndpointAuthMethodsSupported:[String]? = nil
-    public var userInfoEndpoint:String? = nil
-    public var userInfoSigningalgValuesSupported:[String]? = nil
+    public var authorizationEndpoint:String?
+    public var backChannelLogoutSupported:Bool?
+    public var claimsSupported:[String]?
+    public var deviceAuthorizationEndpoint:String?
+    public var endSessionEndpoint:String?
+    public var frontChannelLogoutSupported:Bool?
+    public var grantTypesSupported:[String]?
+    public var idTokenSigningalgValuesSupported:[String]?
+    public var issuer:String?
+    public var jwksUri:String?
+    public var responseModesSupported:[String]?
+    public var responseTypesSupported:[String]?
+    public var scopesSupported:[String]?
+    public var subjectTypesSupported:[String]?
+    public var tokenEndpoint:String?
+    public var tokenEndpointAuthMethodsSupported:[String]?
+    public var userInfoEndpoint:String?
+    public var userInfoSigningalgValuesSupported:[String]?
 
     public init(authorizationEndpoint: String? = nil, backChannelLogoutSupported: Bool? = nil, claimsSupported: [String]? = nil, deviceAuthorizationEndpoint: String? = nil, endSessionEndpoint: String? = nil, frontChannelLogoutSupported: Bool? = nil, grantTypesSupported: [String]? = nil, idTokenSigningalgValuesSupported: [String]? = nil, issuer: String? = nil, jwksUri: String? = nil, responseModesSupported: [String]? = nil, responseTypesSupported: [String]? = nil, scopesSupported: [String]? = nil, subjectTypesSupported: [String]? = nil, tokenEndpoint: String? = nil, tokenEndpointAuthMethodsSupported: [String]? = nil, userInfoEndpoint: String? = nil, userInfoSigningalgValuesSupported: [String]? = nil) {
         self.authorizationEndpoint = authorizationEndpoint

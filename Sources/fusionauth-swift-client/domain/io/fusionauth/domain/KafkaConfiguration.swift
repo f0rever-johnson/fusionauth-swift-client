@@ -12,9 +12,9 @@ import Foundation
  */
 
 public struct KafkaConfiguration:Enableable, Codable {
-    public var defaultTopic:String? = nil
-    public var enabled:Bool? = nil
-    public var producer:[String:String]? = nil
+    public var defaultTopic:String?
+    public var enabled:Bool?
+    public var producer:[String:String]?
 
     public init(defaultTopic: String? = nil, enabled: Bool? = nil, producer: [String:String]? = nil) {
         self.defaultTopic = defaultTopic

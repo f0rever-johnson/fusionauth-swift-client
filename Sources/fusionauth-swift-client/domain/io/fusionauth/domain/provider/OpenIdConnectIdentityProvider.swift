@@ -15,21 +15,21 @@ public class OpenIdConnectIdentityProvider:BaseIdentityProvider {
 
     public typealias D = OpenIdConnectApplicationConfiguration
     
-    public var applicationConfiguration: [String : OpenIdConnectApplicationConfiguration]? = nil
-    public var data: [String : JSONObject]? = nil
-    public var debug: Bool? = nil
-    public var id: UUID? = nil
-    public var name: String? = nil
-    public var type: IdentityProviderType? = nil
-    public var enabled: Bool? = nil
-    public var buttonImageURL:String? = nil
-    public var domains:[String]? = nil
-    public var lambdaConfiguration:LambdaConfiguration? = nil
-    public var oauth2:IdentityProviderOAuth2Configuration? = nil
-    public var insertinstant: Date? = nil
-    public var lastUpdateInstant: Date? = nil
-    public var linkingStrategy: IdentityProviderLinkingStrategy? = nil
-    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
+    public var applicationConfiguration: [String : OpenIdConnectApplicationConfiguration]?
+    public var data: [String : JSONObject]?
+    public var debug: Bool?
+    public var id: UUID?
+    public var name: String?
+    public var type: IdentityProviderType?
+    public var enabled: Bool?
+    public var buttonImageURL:String?
+    public var domains:[String]?
+    public var lambdaConfiguration:LambdaConfiguration?
+    public var oauth2:IdentityProviderOAuth2Configuration?
+    public var insertinstant: Date?
+    public var lastUpdateInstant: Date?
+    public var linkingStrategy: IdentityProviderLinkingStrategy?
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]?
 
     
     public init(applicationConfiguration: [String : OpenIdConnectApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonImageURL: String? = nil, domains: [String]? = nil, lambdaConfiguration: LambdaConfiguration? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil, insertinstant: Date? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil) {

@@ -9,12 +9,12 @@ import Foundation
 
 public class BreachedPasswordTenantMetric:Codable{
     
-    public var actionRequired:Int? = nil
-    public var matchedCommonPasswordCount:Int? = nil
-    public var matchedExactCount:Int? = nil
-    public var matchedPasswordCount:Int? = nil
-    public var matchedSubAddressCount:Int? = nil
-    public var passwordsCheckedCount:Int? = nil
+    public var actionRequired:Int?
+    public var matchedCommonPasswordCount:Int?
+    public var matchedExactCount:Int?
+    public var matchedPasswordCount:Int?
+    public var matchedSubAddressCount:Int?
+    public var passwordsCheckedCount:Int?
     
     public init(actionRequired: Int? = nil, matchedCommonPasswordCount: Int? = nil, matchedExactCount: Int? = nil, matchedPasswordCount: Int? = nil, matchedSubAddressCount: Int? = nil, passwordsCheckedCount: Int? = nil) {
         self.actionRequired = actionRequired

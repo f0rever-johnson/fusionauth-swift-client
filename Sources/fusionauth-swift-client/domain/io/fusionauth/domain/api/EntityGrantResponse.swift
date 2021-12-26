@@ -11,8 +11,8 @@ import Foundation
 public class EntityGrantResponse:Codable{
   
     
-    public var grant:EntityGrant? = nil
-    public var grants:[EntityGrant]? = nil
+    public var grant:EntityGrant?
+    public var grants:[EntityGrant]?
     
     public init(grant: EntityGrant? = nil, grants: [EntityGrant]? = nil) {
         self.grant = grant

@@ -9,8 +9,8 @@ import Foundation
 
 public class JWTRefreshResponse:Codable{
    
-    public var refreshToken:String? = nil
-    public var token:String? = nil
+    public var refreshToken:String?
+    public var token:String?
     
     public init(refreshToken: String? = nil, token: String? = nil) {
         self.refreshToken = refreshToken

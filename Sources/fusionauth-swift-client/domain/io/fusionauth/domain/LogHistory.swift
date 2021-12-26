@@ -13,7 +13,7 @@ import Foundation
  */
 
 public class LogHistory:Codable{
-    public var historyItems:[HistoryItem]? = nil
+    public var historyItems:[HistoryItem]?
 
     public init(historyItems: [HistoryItem]? = nil) {
         self.historyItems = historyItems

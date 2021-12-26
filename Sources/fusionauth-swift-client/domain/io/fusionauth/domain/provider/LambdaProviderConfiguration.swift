@@ -9,7 +9,7 @@ import Foundation
 
 
 public class LambdaProviderConfiguration:Codable{
-    public var reconciled:UUID? = nil
+    public var reconciled:UUID?
 
     public init(reconciled: UUID? = nil) {
         self.reconciled = reconciled

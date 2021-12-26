@@ -10,7 +10,7 @@ import Foundation
 
 
 public struct AuditLogSearchRequest:Codable {
-    public var search:AuditLogSearchCriteria? = nil
+    public var search:AuditLogSearchCriteria?
 
 
     public init(search: AuditLogSearchCriteria? = nil) {

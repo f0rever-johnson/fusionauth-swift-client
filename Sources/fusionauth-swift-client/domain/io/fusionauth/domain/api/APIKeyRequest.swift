@@ -9,8 +9,8 @@ import Foundation
 
 public class APIKeyRequest:Codable{
  
-    public var apiKey:APIKey? = nil
-    public var sourceKeyId:UUID? = nil
+    public var apiKey:APIKey?
+    public var sourceKeyId:UUID?
     
     public init(apiKey: APIKey? = nil, sourceKeyId: UUID? = nil) {
         self.apiKey = apiKey

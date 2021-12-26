@@ -9,9 +9,9 @@
 import Foundation
 
 public struct OAuthConfigurationResponse:Codable {
-    public var hhttpSessionMaxInactiveInterval:Int? = nil
-    public var logoutURL:URL? = nil
-    public var oauthConfiguration:OAuth2Configuration? = nil
+    public var hhttpSessionMaxInactiveInterval:Int?
+    public var logoutURL:URL?
+    public var oauthConfiguration:OAuth2Configuration?
 
     public init(hhttpSessionMaxInactiveInterval: Int? = nil, logoutURL: URL? = nil, oauthConfiguration: OAuth2Configuration? = nil) {
         self.hhttpSessionMaxInactiveInterval = hhttpSessionMaxInactiveInterval

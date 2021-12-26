@@ -13,22 +13,22 @@ public class SAMLv2IdPInitiatedIdentityProvider:BaseIdentityProvider, Codable{
 
     public typealias D = SAMLv2IdPInitiatedApplicationConfiguration
 
-    public var applicationConfiguration: [String : SAMLv2IdPInitiatedApplicationConfiguration]? = nil
-    public var data: [String : JSONObject]? = nil
-    public var debug: Bool? = nil
-    public var id: UUID? = nil
-    public var insertinstant: Date? = nil
-    public var lambdaConfiguration: LambdaConfiguration? = nil
-    public var lastUpdateInstant: Date? = nil
-    public var linkingStrategy: IdentityProviderLinkingStrategy? = nil
-    public var name: String? = nil
-    public var type: IdentityProviderType? = nil
-    public var enabled: Bool? = nil
-    public var emailClaim:String? = nil
-    public var issuer:String? = nil
-    public var keyId:UUID? = nil
-    public var useNameIdForEmail:Bool? = nil
-    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
+    public var applicationConfiguration: [String : SAMLv2IdPInitiatedApplicationConfiguration]?
+    public var data: [String : JSONObject]?
+    public var debug: Bool?
+    public var id: UUID?
+    public var insertinstant: Date?
+    public var lambdaConfiguration: LambdaConfiguration?
+    public var lastUpdateInstant: Date?
+    public var linkingStrategy: IdentityProviderLinkingStrategy?
+    public var name: String?
+    public var type: IdentityProviderType?
+    public var enabled: Bool?
+    public var emailClaim:String?
+    public var issuer:String?
+    public var keyId:UUID?
+    public var useNameIdForEmail:Bool?
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]?
     
     public init(applicationConfiguration: [String : SAMLv2IdPInitiatedApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, emailClaim: String? = nil, issuer: String? = nil, keyId: UUID? = nil, useNameIdForEmail: Bool? = nil, tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil) {
         self.applicationConfiguration = applicationConfiguration

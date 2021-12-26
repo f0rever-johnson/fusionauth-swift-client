@@ -12,12 +12,12 @@ import Foundation
  */
 
 public class TwitterApplicationConfiguration:BaseIdentityProviderApplicationConfiguration {
-    public var createRegistration: Bool? = nil
-    public var data: [String : JSONObject]? = nil
-    public var enabled: Bool? = nil
-    public var buttonText:String? = nil
-    public var consumerKey:String? = nil
-    public var consumerSecret:String? = nil
+    public var createRegistration: Bool?
+    public var data: [String : JSONObject]?
+    public var enabled: Bool?
+    public var buttonText:String?
+    public var consumerKey:String?
+    public var consumerSecret:String?
 
     public init(createRegistration: Bool? = nil, data: [String : JSONObject]? = nil, enabled: Bool? = nil, buttonText: String? = nil, consumerKey: String? = nil, consumerSecret: String? = nil) {
         self.createRegistration = createRegistration

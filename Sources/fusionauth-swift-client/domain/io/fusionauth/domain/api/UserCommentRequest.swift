@@ -9,7 +9,7 @@
 import Foundation
 
 public struct UserCommentRequest:Codable{
-    public var userComment:UserComment? = nil
+    public var userComment:UserComment?
 
     public init(userComment: UserComment? = nil) {
         self.userComment = userComment

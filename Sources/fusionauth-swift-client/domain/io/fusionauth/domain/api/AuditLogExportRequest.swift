@@ -11,7 +11,7 @@ import Foundation
 
 public class AuditLogExportRequest:BaseExportRequest{
 
-    public var criteria:AuditLogSearchCriteria? = nil
+    public var criteria:AuditLogSearchCriteria?
 
     public init(dateTimeSecondsFormat: String? = nil, zoneId: String? = nil, criteria: AuditLogSearchCriteria? = nil) {
         self.criteria = criteria

@@ -12,21 +12,21 @@ public class LinkedInIdentityProvider:BaseIdentityProvider, Codable{
     public typealias D = LinkedInApplicationConfiguration
     
     public var enabled: Bool?
-    public var applicationConfiguration: [String : LinkedInApplicationConfiguration]? = nil
-    public var data: [String : JSONObject]? = nil
-    public var name: String? = nil
-    public var debug: Bool? = nil
-    public var id: UUID? = nil
-    public var type: IdentityProviderType? = nil
-    public var buttonText:String? = nil
-    public var clientId:String? = nil
-    public var clientSecret:String? = nil
-    public var scope:String? = nil
-    public var insertinstant: Date? = nil
-    public var lambdaConfiguration: LambdaConfiguration? = nil
-    public var lastUpdateInstant: Date? = nil
-    public var linkingStrategy: IdentityProviderLinkingStrategy? = nil
-    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
+    public var applicationConfiguration: [String : LinkedInApplicationConfiguration]?
+    public var data: [String : JSONObject]?
+    public var name: String?
+    public var debug: Bool?
+    public var id: UUID?
+    public var type: IdentityProviderType?
+    public var buttonText:String?
+    public var clientId:String?
+    public var clientSecret:String?
+    public var scope:String?
+    public var insertinstant: Date?
+    public var lambdaConfiguration: LambdaConfiguration?
+    public var lastUpdateInstant: Date?
+    public var linkingStrategy: IdentityProviderLinkingStrategy?
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]?
 
 
     private enum CodingKeys:String, CodingKey{

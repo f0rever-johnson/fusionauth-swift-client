@@ -9,8 +9,8 @@ import Foundation
 
 public class PreviewMessageTemplateResponse:Codable{
  
-    public var errors:Errors? = nil
-    public var message:SMSMessage? = nil
+    public var errors:Errors?
+    public var message:SMSMessage?
     
     public init(errors: Errors? = nil, message: SMSMessage? = nil) {
         self.errors = errors

@@ -9,8 +9,8 @@ import Foundation
 
 public class IdentityProviderTenantConfiguration:Codable{
 
-    public var data:[String:JSONObject]? = nil
-    public var limitUserLinkCount:IdentityProviderLimitUserLinkingPolicy? = nil
+    public var data:[String:JSONObject]?
+    public var limitUserLinkCount:IdentityProviderLimitUserLinkingPolicy?
     
     public init(data: [String : JSONObject]? = nil, limitUserLinkCount: IdentityProviderLimitUserLinkingPolicy? = nil) {
         self.data = data

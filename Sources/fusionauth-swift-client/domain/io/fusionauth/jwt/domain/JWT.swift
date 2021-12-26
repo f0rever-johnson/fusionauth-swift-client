@@ -9,14 +9,14 @@ import Foundation
 
 
 public class JWT:Codable{
-    public var aud:String? = nil
-    public var exp:Date? = nil
-    public var iat:Date? = nil
-    public var iss:String? = nil
-    public var jti:String? = nil
-    public var nbf:Date? = nil
-    public var sub:String? = nil
-    public var otherClaims:[String:JSONObject]? = nil
+    public var aud:String?
+    public var exp:Date?
+    public var iat:Date?
+    public var iss:String?
+    public var jti:String?
+    public var nbf:Date?
+    public var sub:String?
+    public var otherClaims:[String:JSONObject]?
     
     private enum CodingKeys: String, CodingKey{
         case aud

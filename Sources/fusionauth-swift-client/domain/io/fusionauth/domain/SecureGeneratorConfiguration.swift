@@ -9,8 +9,8 @@ import Foundation
 
 
 public class SecureGeneratorConfiguration:Codable{
-    public var length:Int? = nil
-    public var type:SecureGeneratorType? = nil
+    public var length:Int?
+    public var type:SecureGeneratorType?
 
     public init(length: Int? = nil, type: SecureGeneratorType? = nil) {
         self.length = length

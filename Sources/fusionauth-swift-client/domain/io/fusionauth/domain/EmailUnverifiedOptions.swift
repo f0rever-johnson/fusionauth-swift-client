@@ -9,8 +9,8 @@ import Foundation
 
 public class EmailUnverifiedOptions:Codable{
 
-    public var allowEmailChangeWhenGated:Bool? = nil
-    public var behavior:UnverifiedBehavior? = nil
+    public var allowEmailChangeWhenGated:Bool?
+    public var behavior:UnverifiedBehavior?
     
     public init(allowEmailChangeWhenGated: Bool? = nil, behavior: UnverifiedBehavior? = nil) {
         self.allowEmailChangeWhenGated = allowEmailChangeWhenGated

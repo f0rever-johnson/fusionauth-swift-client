@@ -9,10 +9,10 @@
 import Foundation
 
 public class ImportRequest:BaseEventRequest {
-    public var encryptionScheme:String? = nil
-    public var factor:Int? = nil
-    public var users:[User]? = nil
-    public var validateDbConstraints:Bool? = nil
+    public var encryptionScheme:String?
+    public var factor:Int?
+    public var users:[User]?
+    public var validateDbConstraints:Bool?
 
     public init(encryptionScheme: String? = nil, eventInfo: EventInfo? = nil, factor: Int? = nil, users: [User]? = nil, validateDbConstraints: Bool? = nil) {
         self.encryptionScheme = encryptionScheme

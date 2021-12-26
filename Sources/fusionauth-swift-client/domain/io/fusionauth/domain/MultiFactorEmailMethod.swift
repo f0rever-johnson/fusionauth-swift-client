@@ -9,8 +9,8 @@ import Foundation
 
 public class MultiFactorEmailMethod:Enableable, Codable{
 
-    public var enabled: Bool? = nil
-    public var templateId:UUID? = nil
+    public var enabled: Bool?
+    public var templateId:UUID?
     
     public init(enabled: Bool? = nil, templateId: UUID? = nil) {
         self.enabled = enabled

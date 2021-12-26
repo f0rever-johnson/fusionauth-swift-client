@@ -11,12 +11,12 @@ import Foundation
  */
 
 public struct AccessToken:Codable {
-    public var accessToken:String? = nil
-    public var expiresIn:Int? = nil
-    public var idToken:String? = nil
-    public var refreshToken:String? = nil
-    public var tokenType:TokenType? = nil
-    public var userId:UUID? = nil
+    public var accessToken:String?
+    public var expiresIn:Int?
+    public var idToken:String?
+    public var refreshToken:String?
+    public var tokenType:TokenType?
+    public var userId:UUID?
 
     public init(accessToken: String? = nil, expiresIn: Int? = nil, idToken: String? = nil, refreshToken: String? = nil, tokenType: TokenType? = nil, userId: UUID? = nil) {
         self.accessToken = accessToken

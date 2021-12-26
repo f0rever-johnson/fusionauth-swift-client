@@ -9,7 +9,7 @@
 import Foundation
 
 public struct LambdaRequest:Codable{
-    public var lambda:Lambda? = nil
+    public var lambda:Lambda?
 
     public init(lambda: Lambda? = nil) {
         self.lambda = lambda

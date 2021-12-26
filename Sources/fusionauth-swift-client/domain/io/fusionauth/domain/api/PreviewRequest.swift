@@ -9,8 +9,8 @@
 import Foundation
 
 public struct PreviewRequest:Codable {
-    public var emailTemplate:EmailTemplate? = nil
-    public var locale:Locale? = nil
+    public var emailTemplate:EmailTemplate?
+    public var locale:Locale?
 
     public init(emailTemplate: EmailTemplate? = nil, locale: Locale? = nil) {
         self.emailTemplate = emailTemplate

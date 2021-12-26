@@ -12,12 +12,12 @@ import Foundation
  */
 
 public class OpenIdConnectApplicationConfiguration:BaseIdentityProviderApplicationConfiguration {
-    public var createRegistration: Bool? = nil
-    public var data: [String : JSONObject]? = nil
-    public var enabled: Bool? = nil
-    public var buttonImageURL:URL? = nil
-    public var buttonText:String? = nil
-    public var oauth2:IdentityProviderOAuth2Configuration? = nil
+    public var createRegistration: Bool?
+    public var data: [String : JSONObject]?
+    public var enabled: Bool?
+    public var buttonImageURL:URL?
+    public var buttonText:String?
+    public var oauth2:IdentityProviderOAuth2Configuration?
 
     public init(createRegistration: Bool? = nil, data: [String : JSONObject]? = nil, enabled: Bool? = nil, buttonImageURL: URL? = nil, buttonText: String? = nil, oauth2: IdentityProviderOAuth2Configuration? = nil) {
         self.createRegistration = createRegistration

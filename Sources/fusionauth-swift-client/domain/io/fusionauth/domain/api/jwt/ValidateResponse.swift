@@ -10,7 +10,7 @@ import Foundation
 
 
 public class ValidateResponse:Codable{
-    public var jwt:JWT? = nil
+    public var jwt:JWT?
 
     public init(jwt: JWT? = nil) {
         self.jwt = jwt

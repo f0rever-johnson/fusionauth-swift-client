@@ -8,13 +8,13 @@
 import Foundation
 
 public class Form:Codable{
-    public var data:[String:JSONObject]? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var name:String? = nil
-    public var steps:[FormStep]? = nil
-    public var type:FormType? = nil
+    public var data:[String:JSONObject]?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var name:String?
+    public var steps:[FormStep]?
+    public var type:FormType?
     
     public init(data: [String : JSONObject]? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, steps: [FormStep]? = nil, type: FormType? = nil) {
         self.data = data

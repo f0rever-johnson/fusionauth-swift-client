@@ -14,19 +14,19 @@ import Foundation
 
 public class OAuth2Configuration:Codable{
     
-    public var authorizedOriginURLs:[String]? = nil
-    public var authorizedRedirectURLs:[String]? = nil
-    public var clientAuthenticationPolicy:ClientAuthenticationPolicy? = nil
-    public var clientId:String? = nil
-    public var clientSecret:String? = nil
-    public var debug:Bool? = nil
-    public var deviceVerificationURL:String? = nil
-    public var enabledGrants:[GrantType]? = nil
-    public var generateRefreshTokens:Bool? = nil
-    public var logoutURL:URL? = nil
-    public var proofKeyForCodeExchangePolicy:ProofKeyForCodeExchangePolicy? = nil
-    public var requireClientAuthentication:Bool? = nil
-    public var requireRegistration:Bool? = nil
+    public var authorizedOriginURLs:[String]?
+    public var authorizedRedirectURLs:[String]?
+    public var clientAuthenticationPolicy:ClientAuthenticationPolicy?
+    public var clientId:String?
+    public var clientSecret:String?
+    public var debug:Bool?
+    public var deviceVerificationURL:String?
+    public var enabledGrants:[GrantType]?
+    public var generateRefreshTokens:Bool?
+    public var logoutURL:URL?
+    public var proofKeyForCodeExchangePolicy:ProofKeyForCodeExchangePolicy?
+    public var requireClientAuthentication:Bool?
+    public var requireRegistration:Bool?
     
     public init(authorizedOriginURLs: [String]? = nil, authorizedRedirectURLs: [String]? = nil, clientAuthenticationPolicy: ClientAuthenticationPolicy? = nil, clientId: String? = nil, clientSecret: String? = nil, debug: Bool? = nil, deviceVerificationURL: String? = nil, enabledGrants: [GrantType]? = nil, generateRefreshTokens: Bool? = nil, logoutURL: URL? = nil, proofKeyForCodeExchangePolicy: ProofKeyForCodeExchangePolicy? = nil, requireClientAuthentication: Bool? = nil, requireRegistration: Bool? = nil) {
         self.authorizedOriginURLs = authorizedOriginURLs

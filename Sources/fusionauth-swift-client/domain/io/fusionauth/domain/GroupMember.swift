@@ -12,11 +12,11 @@ import Foundation
  */
 
 public struct GroupMember:Codable {
-    public var data:[String:JSONObject]? = nil
-    public var groupId:UUID? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var userId:UUID? = nil
+    public var data:[String:JSONObject]?
+    public var groupId:UUID?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var userId:UUID?
 
     public init(data: [String:JSONObject]? = nil, groupId: UUID? = nil, id: UUID? = nil, insertInstant: Date? = nil, userId: UUID? = nil) {
         self.data = data

@@ -8,18 +8,18 @@
 import Foundation
 
 public class FormField:Codable{
-    public var confirm:Bool? = nil
-    public var consentId:UUID? = nil
-    public var control:FormControl? = nil
-    public var data:[String:JSONObject]? = nil
-    public var description:String? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var name:String? = nil
-    public var options:[String]? = nil
-    public var required:Bool? = nil
-    public var type:FormDataType? = nil
-    public var validator:FormFieldValidator? = nil
+    public var confirm:Bool?
+    public var consentId:UUID?
+    public var control:FormControl?
+    public var data:[String:JSONObject]?
+    public var description:String?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var name:String?
+    public var options:[String]?
+    public var required:Bool?
+    public var type:FormDataType?
+    public var validator:FormFieldValidator?
     
     public init(confirm: Bool? = nil, consentId: UUID? = nil, control: FormControl? = nil, data: [String : JSONObject]? = nil, description: String? = nil, id: UUID? = nil, insertInstant: Date? = nil, name: String? = nil, options: [String]? = nil, required: Bool? = nil, type: FormDataType? = nil, validator: FormFieldValidator? = nil) {
         self.confirm = confirm

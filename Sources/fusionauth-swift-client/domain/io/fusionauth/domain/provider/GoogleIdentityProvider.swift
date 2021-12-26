@@ -19,19 +19,19 @@ public class GoogleIdentityProvider:BaseIdentityProvider{
     public var lambdaConfiguration: LambdaConfiguration?
     public var lastUpdateInstant: Date?
     public var linkingStrategy: IdentityProviderLinkingStrategy?
-    public var applicationConfiguration: [String : GoogleApplicationConfiguration]? = nil
-    public var data: [String : JSONObject]? = nil
-    public var debug: Bool? = nil
-    public var id: UUID? = nil
-    public var name: String? = nil
-    public var type: IdentityProviderType? = nil
-    public var enabled: Bool? = nil
-    public var buttonText:String? = nil
-    public var clientId:String? = nil
-    public var clientSecret:String? = nil
-    public var loginMethod:IdentityProviderLoginMethod? = nil
-    public var scope:String? = nil
-    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
+    public var applicationConfiguration: [String : GoogleApplicationConfiguration]?
+    public var data: [String : JSONObject]?
+    public var debug: Bool?
+    public var id: UUID?
+    public var name: String?
+    public var type: IdentityProviderType?
+    public var enabled: Bool?
+    public var buttonText:String?
+    public var clientId:String?
+    public var clientSecret:String?
+    public var loginMethod:IdentityProviderLoginMethod?
+    public var scope:String?
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]?
 
 
     private enum CodingKeys:String, CodingKey{

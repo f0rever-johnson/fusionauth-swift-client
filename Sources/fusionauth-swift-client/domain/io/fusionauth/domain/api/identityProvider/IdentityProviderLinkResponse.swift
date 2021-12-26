@@ -9,8 +9,8 @@ import Foundation
 
 public struct IdentityProviderLinkResponse:Codable{
    
-    public var identityProviderlink:IdentityProviderLink? = nil
-    public var identityProdierLinks:[IdentityProviderLink]? = nil
+    public var identityProviderlink:IdentityProviderLink?
+    public var identityProdierLinks:[IdentityProviderLink]?
     
     public init(identityProviderlink: IdentityProviderLink? = nil, identityProdierLinks: [IdentityProviderLink]? = nil) {
         self.identityProviderlink = identityProviderlink

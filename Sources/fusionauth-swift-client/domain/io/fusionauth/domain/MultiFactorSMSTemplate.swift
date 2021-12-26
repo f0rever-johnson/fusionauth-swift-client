@@ -8,7 +8,7 @@
 import Foundation
 
 public class MultiFactorSMSTemplate:Codable{
-    public var templateId:UUID? = nil
+    public var templateId:UUID?
     
     public init(templateId: UUID? = nil) {
         self.templateId = templateId

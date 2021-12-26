@@ -9,7 +9,7 @@
 import Foundation
 
 public struct PasswordValidatonRulesResponse:Codable {
-    public var passwordValidationRules:PasswordValidationRules? = nil
+    public var passwordValidationRules:PasswordValidationRules?
 
     public init(passwordValidationRules: PasswordValidationRules? = nil) {
         self.passwordValidationRules = passwordValidationRules

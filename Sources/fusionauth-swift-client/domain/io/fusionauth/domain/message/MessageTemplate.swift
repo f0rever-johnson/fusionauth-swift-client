@@ -9,12 +9,12 @@ import Foundation
 
 public class MessageTemplate:Codable{
 
-    public var data:[String:JSONObject]? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var name:String? = nil
-    public var type:MessageType? = nil
+    public var data:[String:JSONObject]?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var name:String?
+    public var type:MessageType?
     
     public init(data: [String : JSONObject]? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, type: MessageType? = nil) {
         self.data = data

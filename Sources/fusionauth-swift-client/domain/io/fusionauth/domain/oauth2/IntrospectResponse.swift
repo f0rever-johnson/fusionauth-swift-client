@@ -8,7 +8,7 @@ import Foundation
 
 
 public class IntrospectResponse:Codable{
-    var IntrospectResponse:Dictionary<String,JSONObject>? = nil
+    var IntrospectResponse:Dictionary<String,JSONObject>?
 
     public init(IntrospectResponse: Dictionary<String,JSONObject>? = nil) {
         self.IntrospectResponse = IntrospectResponse

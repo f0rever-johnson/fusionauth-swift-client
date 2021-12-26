@@ -10,7 +10,7 @@ import Foundation
 
 
 public struct ConsentRequest:Codable{
-    public var consent:Consent? = nil
+    public var consent:Consent?
 
     public init(consent: Consent? = nil) {
         self.consent = consent

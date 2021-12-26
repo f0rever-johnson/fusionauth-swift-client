@@ -9,10 +9,10 @@ import Foundation
 
 public class MultiFactorAuthenticatorMethod:Enableable, Codable{
     
-    public var enabled: Bool? = nil
-    public var algoritm:TOTPAlgorithm? = nil
-    public var codelength:Int? = nil
-    public var timestep:Int? = nil
+    public var enabled: Bool?
+    public var algoritm:TOTPAlgorithm?
+    public var codelength:Int?
+    public var timestep:Int?
     
     public init(enabled: Bool? = nil, algoritm: TOTPAlgorithm? = nil, codelength: Int? = nil, timestep: Int? = nil) {
         self.enabled = enabled

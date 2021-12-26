@@ -9,12 +9,12 @@
 import Foundation
 
 public class ForgotPasswordRequest:BaseEventRequest {
-    public var changePasswordId:String? = nil
-    public var email:String? = nil
-    public var loginId:String? = nil
-    public var sendForgotPasswordEmail:Bool? = nil
-    public var state:[String:JSONObject]? = nil
-    public var username:String? = nil
+    public var changePasswordId:String?
+    public var email:String?
+    public var loginId:String?
+    public var sendForgotPasswordEmail:Bool?
+    public var state:[String:JSONObject]?
+    public var username:String?
 
     public init(changePasswordId: String? = nil, email: String? = nil, eventInfo: EventInfo? = nil, loginId: String? = nil, sendForgotPasswordEmail: Bool? = nil, state: [String:JSONObject]? = nil, username: String? = nil) {
         self.changePasswordId = changePasswordId

@@ -9,16 +9,16 @@ import Foundation
 
 public class RegistrationConfiguration:Enableable, Codable{
     public var enabled:Bool?
-    public var birthDate:Requirable? = nil
-    public var confirmPassword:Bool? = nil
-    public var firstName:Requirable? = nil
-    public var formId:UUID? = nil
-    public var fullName:Requirable? = nil
-    public var lastName:Requirable? = nil
-    public var loginIdType:LoginIdType? = nil
-    public var middleName:Requirable? = nil
-    public var mobilePhone:Requirable? = nil
-    public var type:RegistrationType? = nil
+    public var birthDate:Requirable?
+    public var confirmPassword:Bool?
+    public var firstName:Requirable?
+    public var formId:UUID?
+    public var fullName:Requirable?
+    public var lastName:Requirable?
+    public var loginIdType:LoginIdType?
+    public var middleName:Requirable?
+    public var mobilePhone:Requirable?
+    public var type:RegistrationType?
     
     public init(enabled: Bool? = nil, birthDate: Requirable? = nil, confirmPassword: Bool? = nil, firstName: Requirable? = nil, formId: UUID? = nil, fullName: Requirable? = nil, lastName: Requirable? = nil, loginIdType: LoginIdType? = nil, middleName: Requirable? = nil, mobilePhone: Requirable? = nil, type: RegistrationType? = nil) {
         self.enabled = enabled

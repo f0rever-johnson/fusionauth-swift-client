@@ -9,8 +9,8 @@
 import Foundation
 
 public struct DailyActiveUserReportResponse:Codable {
-    public var dailyActiveUsers:[Count]? = nil
-    public var total:UInt64? = nil
+    public var dailyActiveUsers:[Count]?
+    public var total:UInt64?
 
 
     public init(dailyActiveUsers: [Count]? = nil, total: UInt64? = nil) {

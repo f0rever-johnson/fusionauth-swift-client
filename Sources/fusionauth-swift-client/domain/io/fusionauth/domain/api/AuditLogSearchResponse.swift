@@ -9,8 +9,8 @@
 import Foundation
 
 public struct AuditLogSearchResponse:Codable {
-    public var auditLogs:[AuditLog]? = nil
-    public var total:UInt64? = nil
+    public var auditLogs:[AuditLog]?
+    public var total:UInt64?
 
 
     public init(auditLogs: [AuditLog]? = nil, total: UInt64? = nil) {

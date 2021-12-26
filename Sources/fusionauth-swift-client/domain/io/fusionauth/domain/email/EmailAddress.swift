@@ -8,8 +8,8 @@
 import Foundation
 
 public struct EmailAddress:Codable{
-    public var address:String? = nil
-    public var display:String? = nil
+    public var address:String?
+    public var display:String?
 
     public init(address: String? = nil, display: String? = nil) {
         self.address = address

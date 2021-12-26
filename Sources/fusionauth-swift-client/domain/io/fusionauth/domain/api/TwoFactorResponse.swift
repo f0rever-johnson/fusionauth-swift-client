@@ -9,7 +9,7 @@ import Foundation
 
 public class TwoFactorResponse:Codable{
     
-    public var recoveryCodes:[String]? = nil
+    public var recoveryCodes:[String]?
     
     public init(recoveryCodes: [String]? = nil) {
         self.recoveryCodes = recoveryCodes

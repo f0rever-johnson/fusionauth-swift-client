@@ -9,7 +9,7 @@
 import Foundation
 
 public struct IdentityProviderRequest:Codable {
-    public var identityProvider:IdentityProviderConverter? = nil
+    public var identityProvider:IdentityProviderConverter?
 
     public init(identityProvider: IdentityProviderConverter? = nil) {
         self.identityProvider = identityProvider

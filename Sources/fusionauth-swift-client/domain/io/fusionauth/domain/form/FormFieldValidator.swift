@@ -8,7 +8,7 @@
 import Foundation
 
 public class FormFieldValidator:Codable{
-    public var expression:String? = nil
+    public var expression:String?
     
     public init(expression: String? = nil) {
         self.expression = expression

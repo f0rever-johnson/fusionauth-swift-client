@@ -11,14 +11,14 @@ import Foundation
 
 public class EntityGrant:Codable{
 
-    public var data:[String:JSONObject]? = nil
-    public var entity:Entity? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var permissions:[String]? = nil
-    public var recipientEntityId:UUID? = nil
-    public var userId:UUID? = nil
+    public var data:[String:JSONObject]?
+    public var entity:Entity?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var permissions:[String]?
+    public var recipientEntityId:UUID?
+    public var userId:UUID?
     
     public init(data: [String : JSONObject]? = nil, entity: Entity? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, permissions: [String]? = nil, recipientEntityId: UUID? = nil, userId: UUID? = nil) {
         self.data = data

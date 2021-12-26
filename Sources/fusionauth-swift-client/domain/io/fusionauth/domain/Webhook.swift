@@ -14,21 +14,21 @@ import Foundation
 
 public struct Webhook:Codable {
     
-    public var applicationIds:[UUID]? = nil
-    public var connectTimeout:Int? = nil
-    public var data:[String:JSONObject]? = nil
-    public var description:String? = nil
-    public var eventsEnabled:[EventType:Bool]? = nil
-    public var global:Bool? = nil
-    public var headers:HTTPHeaders? = nil
-    public var httpAuthenticationPassword:String? = nil
-    public var httpAuthenticationUsername:String? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var readTimeout:Int? = nil
-    public var sslCertificate:String? = nil
-    public var url:String? = nil
+    public var applicationIds:[UUID]?
+    public var connectTimeout:Int?
+    public var data:[String:JSONObject]?
+    public var description:String?
+    public var eventsEnabled:[EventType:Bool]?
+    public var global:Bool?
+    public var headers:HTTPHeaders?
+    public var httpAuthenticationPassword:String?
+    public var httpAuthenticationUsername:String?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var readTimeout:Int?
+    public var sslCertificate:String?
+    public var url:String?
     
     public init(applicationIds: [UUID]? = nil, connectTimeout: Int? = nil, data: [String : JSONObject]? = nil, description: String? = nil, eventsEnabled: [EventType : Bool]? = nil, global: Bool? = nil, headers: HTTPHeaders? = nil, httpAuthenticationPassword: String? = nil, httpAuthenticationUsername: String? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, readTimeout: Int? = nil, sslCertificate: String? = nil, url: String? = nil) {
         self.applicationIds = applicationIds

@@ -8,7 +8,7 @@
 import Foundation
 
 public struct IPAccessControlListSearchRequest:Codable{
-    public var search:IPAccessControlListSearchCriteria? = nil
+    public var search:IPAccessControlListSearchCriteria?
     
     public init(search: IPAccessControlListSearchCriteria? = nil) {
         self.search = search

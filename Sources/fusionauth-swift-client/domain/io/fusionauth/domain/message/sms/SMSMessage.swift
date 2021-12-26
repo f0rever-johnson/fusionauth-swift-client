@@ -9,8 +9,8 @@ import Foundation
 
 public class SMSMessage:Codable{
     
-    public var phoneNumer:String? = nil
-    public var textMessage:String? = nil
+    public var phoneNumer:String?
+    public var textMessage:String?
     
     public init(phoneNumer: String? = nil, textMessage: String? = nil) {
         self.phoneNumer = phoneNumer

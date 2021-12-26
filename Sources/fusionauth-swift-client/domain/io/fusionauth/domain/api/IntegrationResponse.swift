@@ -9,7 +9,7 @@
 import Foundation
 
 public struct IntegrationResponse:Codable {
-    public var integrations:Integrations? = nil
+    public var integrations:Integrations?
 
     public init(intergrations: Integrations? = nil) {
         self.integrations = intergrations

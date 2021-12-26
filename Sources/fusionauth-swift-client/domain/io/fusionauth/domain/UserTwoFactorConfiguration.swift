@@ -9,8 +9,8 @@ import Foundation
 
 public class UserTwoFactorConfiguration:Codable{
  
-    public var methods:[TwoFactorMethod]? = nil
-    public var recoveryCodes:[String]? = nil
+    public var methods:[TwoFactorMethod]?
+    public var recoveryCodes:[String]?
     
     public init(methods: [TwoFactorMethod]? = nil, recoveryCodes: [String]? = nil) {
         self.methods = methods

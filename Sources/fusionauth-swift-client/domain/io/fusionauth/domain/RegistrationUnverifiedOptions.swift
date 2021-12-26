@@ -9,7 +9,7 @@ import Foundation
 
 public class RegistrationUnverifiedOptions:Codable{
 
-    public var behavior:UnverifiedBehavior? = nil
+    public var behavior:UnverifiedBehavior?
     
     public init(behavior: UnverifiedBehavior? = nil) {
         self.behavior = behavior

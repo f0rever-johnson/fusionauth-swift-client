@@ -10,13 +10,13 @@ import Foundation
 
 public class SendRequest:Codable{
     
-    public var applicationId:UUID? = nil
-    public var bccAddresses:[String]? = nil
-    public var ccAddresses:[String]? = nil
-    public var preferredLanguages:[String]? = nil
-    public var requestData:[String:JSONObject]? = nil
-    public var toAddresses:[EmailAddress]? = nil
-    public var userIds:[UUID]? = nil
+    public var applicationId:UUID?
+    public var bccAddresses:[String]?
+    public var ccAddresses:[String]?
+    public var preferredLanguages:[String]?
+    public var requestData:[String:JSONObject]?
+    public var toAddresses:[EmailAddress]?
+    public var userIds:[UUID]?
     
     public init(applicationId: UUID? = nil, bccAddresses: [String]? = nil, ccAddresses: [String]? = nil, preferredLanguages: [String]? = nil, requestData: [String : JSONObject]? = nil, toAddresses: [EmailAddress]? = nil, userIds: [UUID]? = nil) {
         self.applicationId = applicationId

@@ -9,7 +9,7 @@ import Foundation
 
 public class MessageTemplateRequest:Codable{
     
-    public var messageTemplate:MessageTemplate? = nil
+    public var messageTemplate:MessageTemplate?
     
     public init(messageTemplate: MessageTemplate? = nil) {
         self.messageTemplate = messageTemplate

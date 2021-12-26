@@ -9,13 +9,13 @@ import Foundation
 
 public class TwoFactorMethod:Codable{
     
-    public var autenticator:AuthenticatorConfiguration? = nil
-    public var email:String? = nil
-    public var id:String? = nil
-    public var lastUsed:Bool? = nil
-    public var method:String? = nil
-    public var mobilePhone:String? = nil
-    public var secret:String? = nil
+    public var autenticator:AuthenticatorConfiguration?
+    public var email:String?
+    public var id:String?
+    public var lastUsed:Bool?
+    public var method:String?
+    public var mobilePhone:String?
+    public var secret:String?
     
     public init(autenticator: AuthenticatorConfiguration? = nil, email: String? = nil, id: String? = nil, lastUsed: Bool? = nil, method: String? = nil, mobilePhone: String? = nil, secret: String? = nil) {
         self.autenticator = autenticator

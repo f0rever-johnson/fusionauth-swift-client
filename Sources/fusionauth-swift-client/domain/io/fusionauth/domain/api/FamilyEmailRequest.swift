@@ -9,7 +9,7 @@
 import Foundation
 
 public struct FamilyEmailRequest:Codable{
-    public var parentEmail:String? = nil
+    public var parentEmail:String?
 
     public init(parentEmail: String? = nil) {
         self.parentEmail = parentEmail

@@ -10,8 +10,8 @@ import Foundation
 
 
 public struct ConsentResponse:Codable{
-    public var consent:Consent? = nil
-    public var consents:[Consent]? = nil
+    public var consent:Consent?
+    public var consents:[Consent]?
 
     public init(consent: Consent? = nil, consents: [Consent]? = nil) {
         self.consent = consent

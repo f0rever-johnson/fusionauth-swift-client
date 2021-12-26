@@ -10,16 +10,16 @@ import Foundation
 
 public class UserConsent:Codable{
     
-    public var consent:Consent? = nil
-    public var consentId:UUID? = nil
-    public var data:[String:JSONObject]? = nil
-    public var giverUserId:UUID? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var status:ConsentStatus? = nil
-    public var userId:UUID? = nil
-    public var values:[String]? = nil
+    public var consent:Consent?
+    public var consentId:UUID?
+    public var data:[String:JSONObject]?
+    public var giverUserId:UUID?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var status:ConsentStatus?
+    public var userId:UUID?
+    public var values:[String]?
 
 
     public init(consent: Consent? = nil, consentId: UUID? = nil, data: [String:JSONObject]? = nil, giverUserId: UUID? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, status: ConsentStatus? = nil, userId: UUID? = nil, values: [String]? = nil) {

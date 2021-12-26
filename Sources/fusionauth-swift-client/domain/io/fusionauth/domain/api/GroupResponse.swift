@@ -9,8 +9,8 @@
 import Foundation
 
 public struct GroupResponse:Codable {
-    public var group:Group? = nil
-    public var groups:[Group]? = nil
+    public var group:Group?
+    public var groups:[Group]?
 
     public init(group: Group? = nil, groups: [Group]? = nil) {
         self.group = group

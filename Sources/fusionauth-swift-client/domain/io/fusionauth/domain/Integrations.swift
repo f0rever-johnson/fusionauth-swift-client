@@ -12,8 +12,8 @@ import Foundation
  */
 
 public struct Integrations:Codable {
-    public var cleanspeak:CleanSpeakConfiguration? = nil
-    public var kafka:KafkaConfiguration? = nil
+    public var cleanspeak:CleanSpeakConfiguration?
+    public var kafka:KafkaConfiguration?
 
     public init(cleanSpeak: CleanSpeakConfiguration? = nil, kafka: KafkaConfiguration? = nil) {
         self.cleanspeak = cleanSpeak

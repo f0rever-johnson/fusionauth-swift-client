@@ -9,15 +9,15 @@ import Foundation
 
 public class Email:Codable{
 
-    public var attachments:[Attachment]? = nil
-    public var bcc:[EmailAddress]? = nil
-    public var cc:[EmailAddress]? = nil
-    public var from:EmailAddress? = nil
-    public var html:String? = nil
-    public var replyTo:EmailAddress? = nil
-    public var subject:String? = nil
-    public var text:String? = nil
-    public var to:[EmailAddress]? = nil
+    public var attachments:[Attachment]?
+    public var bcc:[EmailAddress]?
+    public var cc:[EmailAddress]?
+    public var from:EmailAddress?
+    public var html:String?
+    public var replyTo:EmailAddress?
+    public var subject:String?
+    public var text:String?
+    public var to:[EmailAddress]?
 
     public init(attachments: [Attachment]? = nil, bcc: [EmailAddress]? = nil, cc: [EmailAddress]? = nil, from: EmailAddress? = nil, html: String? = nil, replyTo: EmailAddress? = nil, subject: String? = nil, text: String? = nil, to: [EmailAddress]? = nil) {
         self.attachments = attachments

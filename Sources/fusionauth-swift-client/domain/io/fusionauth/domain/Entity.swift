@@ -11,16 +11,16 @@ import Foundation
 
 public class Entity:Codable{
     
-    public var clientId:String? = nil
-    public var clientSecret:String? = nil
-    public var data:[String:JSONObject]? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var name:String? = nil
-    public var parentId:UUID? = nil
-    public var tenantId:UUID? = nil
-    public var type:EntityType? = nil
+    public var clientId:String?
+    public var clientSecret:String?
+    public var data:[String:JSONObject]?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var name:String?
+    public var parentId:UUID?
+    public var tenantId:UUID?
+    public var type:EntityType?
     
     public init(clientId: String? = nil, clientSecret: String? = nil, data: [String : JSONObject]? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, parentId: UUID? = nil, tenantId: UUID? = nil, type: EntityType? = nil) {
         self.clientId = clientId

@@ -9,8 +9,8 @@ import Foundation
 
 public class MessageTemplateResponse:Codable{
     
-    public var messageTemplate:MessageTemplate? = nil
-    public var messageTemplates:[MessageTemplate]? = nil
+    public var messageTemplate:MessageTemplate?
+    public var messageTemplates:[MessageTemplate]?
     
     public init(messageTemplate: MessageTemplate? = nil, messageTemplates: [MessageTemplate]? = nil) {
         self.messageTemplate = messageTemplate

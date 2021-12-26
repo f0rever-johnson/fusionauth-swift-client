@@ -12,12 +12,12 @@ public class UserLoginFailedEvent:BaseEvent,Codable{
     
     public var info: EventInfo?
     public var type: EventType?
-    public var id: UUID? = nil
-    public var tenantId: UUID? = nil
-    public var applicationId:UUID? = nil
-    public var authenticationType:String? = nil
-    public var ipAddress:String? = nil
-    public var user:User? = nil
+    public var id: UUID?
+    public var tenantId: UUID?
+    public var applicationId:UUID?
+    public var authenticationType:String?
+    public var ipAddress:String?
+    public var user:User?
 
 
     public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, applicationId: UUID? = nil, authenticationType: String? = nil, ipAddress: String? = nil, user: User? = nil) {

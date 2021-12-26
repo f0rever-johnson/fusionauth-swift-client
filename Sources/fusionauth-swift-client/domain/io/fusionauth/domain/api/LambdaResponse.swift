@@ -11,8 +11,8 @@ import Foundation
 
 
 public struct LambdaResponse:Codable{
-    public var lambda:Lambda? = nil
-    public var lambdas:[Lambda]? = nil
+    public var lambda:Lambda?
+    public var lambdas:[Lambda]?
 
     public init(lambda: Lambda? = nil, lambdas: [Lambda]? = nil) {
         self.lambda = lambda

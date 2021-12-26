@@ -9,8 +9,8 @@
 import Foundation
 
 public struct PublicKeyResponse:Codable {
-    public var publicKey:String? = nil
-    public var publicKeys:[String:String]? = nil
+    public var publicKey:String?
+    public var publicKeys:[String:String]?
 
     public init(publicKey: String? = nil, publicKeys: [String:String]? = nil) {
         self.publicKey = publicKey

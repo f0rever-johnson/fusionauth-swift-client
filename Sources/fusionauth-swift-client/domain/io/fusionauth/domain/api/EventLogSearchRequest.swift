@@ -9,7 +9,7 @@
 import Foundation
 
 public struct EventLogSearchRequest:Codable{
-    public var search:EventLogSearchCriteria? = nil
+    public var search:EventLogSearchCriteria?
 
     public init(search: EventLogSearchCriteria? = nil) {
         self.search = search

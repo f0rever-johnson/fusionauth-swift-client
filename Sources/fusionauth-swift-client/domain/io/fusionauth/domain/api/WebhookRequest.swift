@@ -9,7 +9,7 @@
 import Foundation
 
 public struct WebhookRequest:Codable {
-    public var webhook:Webhook? = nil
+    public var webhook:Webhook?
 
     public init(webhook: Webhook? = nil) {
         self.webhook = webhook

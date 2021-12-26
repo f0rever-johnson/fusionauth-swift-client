@@ -10,8 +10,8 @@ import Foundation
 
 public class TenantRequest:BaseEventRequest {
     
-    public var sourceTenantId:UUID? = nil
-    public var tenant:Tenant? = nil
+    public var sourceTenantId:UUID?
+    public var tenant:Tenant?
 
     public init(eventInfo: EventInfo? = nil, sourceTenantId: UUID? = nil, tenant: Tenant? = nil) {
         self.sourceTenantId = sourceTenantId

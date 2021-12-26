@@ -9,8 +9,8 @@
 import Foundation
 
 public class ActionRequest:BaseEventRequest{
-    public var action:ActionData? = nil
-    public var broadcast:Bool? = nil
+    public var action:ActionData?
+    public var broadcast:Bool?
 
     public init(action: ActionData? = nil, broadcast: Bool? = nil, eventInfo: EventInfo? = nil) {
         self.action = action

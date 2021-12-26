@@ -9,7 +9,7 @@ import Foundation
 
 
 public class EventLogConfiguration:Codable{
-    public var numberToRetain:Int? = nil
+    public var numberToRetain:Int?
 
     public init(numberToRetain: Int? = nil) {
         self.numberToRetain = numberToRetain

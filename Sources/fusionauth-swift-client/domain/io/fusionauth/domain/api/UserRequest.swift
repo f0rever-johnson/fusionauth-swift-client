@@ -12,9 +12,9 @@ public class UserRequest:BaseEventRequest{
 
     public var applicationId:UUID?
     public var disableDomainBlock:UUID?
-    public var sendSetPasswordEmail:Bool? = nil
-    public var skipVerification:Bool? = nil
-    public var user:User? = nil
+    public var sendSetPasswordEmail:Bool?
+    public var skipVerification:Bool?
+    public var user:User?
 
     public init(applicationId: UUID? = nil, eventInfo: EventInfo? = nil, disableDomainBlock: UUID? = nil, sendSetPasswordEmail: Bool? = nil, skipVerification: Bool? = nil, user: User? = nil) {
         self.applicationId = applicationId

@@ -11,8 +11,8 @@ import Foundation
 /// Search request for entities
 public class EntitySearchResponse:Codable{
    
-    public var entities:[Entity]? = nil
-    public var total:Int64? = nil
+    public var entities:[Entity]?
+    public var total:Int64?
     
     public init(entities: [Entity]? = nil, total: Int64? = nil) {
         self.entities = entities

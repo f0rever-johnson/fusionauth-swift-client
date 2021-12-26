@@ -11,23 +11,23 @@ public class AppleIdentityProvider:BaseIdentityProvider, Codable{
     
     public typealias D = AppleApplicationConfiguration
 
-    public var insertinstant: Date?  = nil
-    public var lambdaConfiguration: LambdaConfiguration?  = nil
-    public var lastUpdateInstant: Date?  = nil
+    public var insertinstant: Date? 
+    public var lambdaConfiguration: LambdaConfiguration? 
+    public var lastUpdateInstant: Date? 
     public var linkingStrategy: IdentityProviderLinkingStrategy?
-    public var applicationConfiguration: [String : AppleApplicationConfiguration]? = nil
-    public var data: [String : JSONObject]?  = nil
-    public var debug: Bool?  = nil
-    public var id: UUID? = nil
-    public var name: String? = nil
-    public var type: IdentityProviderType? = nil
-    public var enabled: Bool? = nil
-    public var buttonText:String? = nil
-    public var keyId:UUID? = nil
-    public var scope:String? = nil
-    public var servicesId:String? = nil
-    public var teamId:String? = nil
-    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
+    public var applicationConfiguration: [String : AppleApplicationConfiguration]?
+    public var data: [String : JSONObject]? 
+    public var debug: Bool? 
+    public var id: UUID?
+    public var name: String?
+    public var type: IdentityProviderType?
+    public var enabled: Bool?
+    public var buttonText:String?
+    public var keyId:UUID?
+    public var scope:String?
+    public var servicesId:String?
+    public var teamId:String?
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]?
 
     
     public init(insertinstant: Date? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, linkingStrategy: IdentityProviderLinkingStrategy? = nil, applicationConfiguration: [String : AppleApplicationConfiguration]? = nil, data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, name: String? = nil, type: IdentityProviderType? = nil, enabled: Bool? = nil, buttonText: String? = nil, keyId: UUID? = nil, scope: String? = nil, servicesId: String? = nil, teamId: String? = nil, tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil) {

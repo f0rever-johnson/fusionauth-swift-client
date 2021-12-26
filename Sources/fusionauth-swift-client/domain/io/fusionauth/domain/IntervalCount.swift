@@ -8,10 +8,10 @@
 import Foundation
 
 public class IntervalCount:Codable{
-    public var applicationId:UUID? = nil
-    public var count:Int? = nil
-    public var decrementedCount:Int? = nil
-    public var period:Int? = nil
+    public var applicationId:UUID?
+    public var count:Int?
+    public var decrementedCount:Int?
+    public var period:Int?
 
     public init(applicationId: UUID? = nil, count: Int? = nil, decrementedCount: Int? = nil, period: Int? = nil) {
         self.applicationId = applicationId

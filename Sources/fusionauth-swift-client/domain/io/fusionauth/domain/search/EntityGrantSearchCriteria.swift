@@ -9,12 +9,12 @@ import Foundation
 
 public class EntityGrantSearchCriteria:BaseSearchCriteria{
     
-    public var numberOfResults: Int? = nil
-    public var orderBy: String? = nil
-    public var startRow: Int? = nil
-    public var entityId:UUID? = nil
-    public var name:String? = nil
-    public var userId:UUID? = nil
+    public var numberOfResults: Int?
+    public var orderBy: String?
+    public var startRow: Int?
+    public var entityId:UUID?
+    public var name:String?
+    public var userId:UUID?
     
     public init(numberOfResults: Int? = nil, orderBy: String? = nil, startRow: Int? = nil, entityId: UUID? = nil, name: String? = nil, userId: UUID? = nil) {
         self.numberOfResults = numberOfResults

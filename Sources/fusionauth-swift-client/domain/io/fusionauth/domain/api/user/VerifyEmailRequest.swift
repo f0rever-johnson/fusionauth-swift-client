@@ -9,8 +9,8 @@ import Foundation
 
 public class VerifyEmailRequest:BaseEventRequest{
   
-    public var oneTimeCode:String? = nil
-    public var verificationId:String? = nil
+    public var oneTimeCode:String?
+    public var verificationId:String?
     
     public init(eventInfo: EventInfo? = nil, oneTimeCode: String? = nil, verificationId: String? = nil) {
         self.oneTimeCode = oneTimeCode

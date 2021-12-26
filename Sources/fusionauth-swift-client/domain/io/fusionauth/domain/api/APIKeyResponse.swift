@@ -9,7 +9,7 @@ import Foundation
 
 public class APIKeyResponse:Codable{
 
-    public var apiKey:APIKey? = nil
+    public var apiKey:APIKey?
     
     public init(apiKey: APIKey? = nil) {
         self.apiKey = apiKey

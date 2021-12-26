@@ -9,8 +9,8 @@
 import Foundation
 
 public struct UserConsentResponse:Codable{
-    public var userConsent:UserConsent? = nil
-    public var userConsents:[UserConsent]? = nil
+    public var userConsent:UserConsent?
+    public var userConsents:[UserConsent]?
 
     public init(userConsent: UserConsent? = nil, userConsents: [UserConsent]? = nil) {
         self.userConsent = userConsent

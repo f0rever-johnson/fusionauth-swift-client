@@ -10,11 +10,11 @@ import Foundation
 
 public struct UserResponse:Codable {
 
-    public var emailVerificationId:String? = nil
-    public var registrationVerificationIds:[String:String]? = nil
-    public var token:String? = nil
-    public var user:User? = nil
-    public var users:[User]? = nil
+    public var emailVerificationId:String?
+    public var registrationVerificationIds:[String:String]?
+    public var token:String?
+    public var user:User?
+    public var users:[User]?
     
     public init(emailVerificationId: String? = nil, registrationVerificationIds: [String : String]? = nil, token: String? = nil, user: User? = nil, users: [User]? = nil) {
         self.emailVerificationId = emailVerificationId

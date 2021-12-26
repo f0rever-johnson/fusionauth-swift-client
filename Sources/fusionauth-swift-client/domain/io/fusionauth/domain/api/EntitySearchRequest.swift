@@ -11,7 +11,7 @@ import Foundation
 ///Search request for entities
 public class EntitySearchRequest:Codable{
    
-    public var search:EntitySearchCriteria? = nil
+    public var search:EntitySearchCriteria?
     
     public init(search: EntitySearchCriteria? = nil) {
         self.search = search

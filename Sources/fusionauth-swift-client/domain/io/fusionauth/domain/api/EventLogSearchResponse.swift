@@ -9,8 +9,8 @@
 import Foundation
 
 public struct EventLogSearchResponse:Codable{
-    public var eventLogs:[EventLog]? = nil
-    public var total:UInt64? = nil
+    public var eventLogs:[EventLog]?
+    public var total:UInt64?
 
     public init(eventLogs: [EventLog]? = nil, total: UInt64? = nil) {
         self.eventLogs = eventLogs

@@ -9,10 +9,10 @@ import Foundation
 
 public class EmailPlus:Codable, Enableable{
    
-    public var emailTemplateId:UUID? = nil
-    public var maximumTimeToSendEmailInHours:Int? = nil
-    public var minimumTimeToSendEmailInHours:Int? = nil
-    public var enabled: Bool? = nil
+    public var emailTemplateId:UUID?
+    public var maximumTimeToSendEmailInHours:Int?
+    public var minimumTimeToSendEmailInHours:Int?
+    public var enabled: Bool?
 
     public init(emailTemplateId: UUID? = nil, maximumTimeToSendEmailInHours: Int? = nil, minimumTimeToSendEmailInHours: Int? = nil, enabled: Bool? = nil) {
         self.emailTemplateId = emailTemplateId

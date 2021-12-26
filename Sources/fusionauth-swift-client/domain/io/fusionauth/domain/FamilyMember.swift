@@ -13,12 +13,12 @@ import Foundation
  */
 
 public class FamilyMember:Codable{
-    public var data:[String:JSONObject]? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var owner:Bool? = nil
-    public var role:FamilyRole? = nil
-    public var userId:UUID? = nil
+    public var data:[String:JSONObject]?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var owner:Bool?
+    public var role:FamilyRole?
+    public var userId:UUID?
 
     public init(data: [String : JSONObject]? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, owner: Bool? = nil, role: FamilyRole? = nil, userId: UUID? = nil) {
         self.data = data

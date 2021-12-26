@@ -12,9 +12,9 @@ import Foundation
  */
 
 public class PasswordEncryptionConfiguration:Codable {
-    public var encryptionScheme:String? = nil
-    public var encryptionSchemeFactor:Int? = nil
-    public var modifyEncryptionSchemeOnLogin:Bool? = nil
+    public var encryptionScheme:String?
+    public var encryptionSchemeFactor:Int?
+    public var modifyEncryptionSchemeOnLogin:Bool?
 
 
     public init(encryptionScheme: String? = nil, encryptionSchemeFactor: Int? = nil, modifyEncryptionSchemeOnLogin: Bool? = nil) {

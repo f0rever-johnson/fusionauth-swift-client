@@ -8,11 +8,11 @@
 import Foundation
 
 public class SAMLv2ApplicationConfiguration:BaseIdentityProviderApplicationConfiguration{
-    public var createRegistration: Bool? = nil
-    public var data: [String : JSONObject]? = nil
-    public var enabled: Bool? = nil
-    public var buttonImageURL:String? = nil
-    public var buttonText:String? = nil
+    public var createRegistration: Bool?
+    public var data: [String : JSONObject]?
+    public var enabled: Bool?
+    public var buttonImageURL:String?
+    public var buttonText:String?
 
     public init(createRegistration: Bool? = nil, data: [String : JSONObject]? = nil, enabled: Bool? = nil, buttonImageURL: String? = nil, buttonText: String? = nil) {
         self.createRegistration = createRegistration

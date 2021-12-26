@@ -10,8 +10,8 @@ import Foundation
 
 
 public struct ThemeRequest:Codable{
-    public var sourceThemeIOd:UUID? = nil
-    public var theme:Theme? = nil
+    public var sourceThemeIOd:UUID?
+    public var theme:Theme?
 
     public init(sourceThemeIOd: UUID? = nil, theme: Theme? = nil) {
         self.sourceThemeIOd = sourceThemeIOd

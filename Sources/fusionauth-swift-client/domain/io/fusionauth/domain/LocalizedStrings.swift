@@ -16,7 +16,7 @@ import Foundation
 
 public class LocalizedStrings:Codable{
     
-    var localizedString:Dictionary<String,String>? = nil
+    var localizedString:Dictionary<String,String>?
 
     public init(localizedString: Dictionary<String,String>? = nil) {
         self.localizedString = localizedString

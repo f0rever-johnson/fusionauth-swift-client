@@ -9,11 +9,11 @@ import Foundation
 
 public struct IdentityProviderLinkRequest:Codable{
 
-    public var displayName:String? = nil
-    public var identityProviderId:UUID? = nil
-    public var identityProviderUserId:UUID? = nil
-    public var pendingIdPLinkId:String? = nil
-    public var userId:UUID? = nil
+    public var displayName:String?
+    public var identityProviderId:UUID?
+    public var identityProviderUserId:UUID?
+    public var pendingIdPLinkId:String?
+    public var userId:UUID?
     
     public init(displayName: String? = nil, identityProviderId: UUID? = nil, identityProviderUserId: UUID? = nil, pendingIdPLinkId: String? = nil, userId: UUID? = nil) {
         self.displayName = displayName

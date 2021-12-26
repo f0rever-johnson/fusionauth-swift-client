@@ -8,7 +8,7 @@
 import Foundation
 
 public class MessengerRequest:Codable{
-    public var messenger:BaseMessengerConfiguration? = nil
+    public var messenger:BaseMessengerConfiguration?
     
     public init(messenger:BaseMessengerConfiguration? = nil){
         self.messenger = messenger

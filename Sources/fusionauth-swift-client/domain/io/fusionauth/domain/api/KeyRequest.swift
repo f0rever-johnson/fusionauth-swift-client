@@ -10,7 +10,7 @@ import Foundation
 
 
 public class KeyRequest:Codable{
-    public var key:Key? = nil
+    public var key:Key?
 
     public init(key: Key? = nil) {
         self.key = key

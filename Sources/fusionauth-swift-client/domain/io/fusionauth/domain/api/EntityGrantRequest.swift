@@ -10,7 +10,7 @@ import Foundation
 ///  Entity grant API request object.
 public class EntityGrantRequest:Codable{
    
-    public var grant:EntityGrant? = nil
+    public var grant:EntityGrant?
     
     public init(grant: EntityGrant? = nil) {
         self.grant = grant

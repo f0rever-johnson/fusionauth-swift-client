@@ -9,9 +9,9 @@ import Foundation
 
 
 public class ExternalJWTApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable {
-    public var enabled: Bool? = nil
-    public var createRegistration: Bool? = nil
-    public var data: [String:JSONObject]? = nil
+    public var enabled: Bool?
+    public var createRegistration: Bool?
+    public var data: [String:JSONObject]?
 
     public init(enabled: Bool? = nil, createRegistration: Bool? = nil, data: [String:JSONObject]? = nil) {
         self.enabled = enabled

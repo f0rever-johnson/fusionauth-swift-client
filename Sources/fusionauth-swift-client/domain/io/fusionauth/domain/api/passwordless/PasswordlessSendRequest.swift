@@ -9,10 +9,10 @@
 import Foundation
 
 public struct PasswordlessSendRequest:Codable{
-    public var applicationId:UUID? = nil
-    public var code:String? = nil
-    public var loginId:String? = nil
-    public var state:[String:JSONObject]? = nil
+    public var applicationId:UUID?
+    public var code:String?
+    public var loginId:String?
+    public var state:[String:JSONObject]?
 
     public init(applicationId: UUID? = nil, code: String? = nil, loginId: String? = nil, state: [String:JSONObject]? = nil) {
         self.applicationId = applicationId

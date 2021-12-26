@@ -9,16 +9,16 @@
 import Foundation
 
 public class ActionData:Codable{
-    public var actioneeUserId:UUID? = nil
-    public var actionerUserId:UUID? = nil
-    public var applicationIds:[UUID]? = nil
-    public var comment:String? = nil
-    public var emailUser:Bool? = nil
-    public var expiry:Date? = nil
-    public var notifyUser:Bool? = nil
-    public var option:String? = nil
-    public var reasonId:UUID? = nil
-    public var userActionId:UUID? = nil
+    public var actioneeUserId:UUID?
+    public var actionerUserId:UUID?
+    public var applicationIds:[UUID]?
+    public var comment:String?
+    public var emailUser:Bool?
+    public var expiry:Date?
+    public var notifyUser:Bool?
+    public var option:String?
+    public var reasonId:UUID?
+    public var userActionId:UUID?
 
 
     public init(actioneeUserId: UUID? = nil, actionerUserId: UUID? = nil, applicationIds: [UUID]? = nil, comment: String? = nil, emailUser: Bool? = nil, expiry: Date? = nil, notifyUser: Bool? = nil, option: String? = nil, reasonId: UUID? = nil, userActionId: UUID? = nil) {

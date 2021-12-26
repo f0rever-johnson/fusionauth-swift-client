@@ -10,8 +10,8 @@ import Foundation
 
 
 public class KeyResponse:Codable{
-    public var key:Key? = nil
-    public var keys:[Key]? = nil
+    public var key:Key?
+    public var keys:[Key]?
 
     public init(key: Key? = nil, keys: [Key]? = nil) {
         self.key = key

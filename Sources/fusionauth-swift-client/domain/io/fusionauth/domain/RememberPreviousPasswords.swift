@@ -12,8 +12,8 @@ import Foundation
  */
 
 public struct RememberPreviousPasswords:Enableable, Codable {
-    public var enabled:Bool? = nil
-    public var count:Int? = nil
+    public var enabled:Bool?
+    public var count:Int?
 
     public init(enabled: Bool? = nil, count: Int? = nil) {
         self.enabled = enabled

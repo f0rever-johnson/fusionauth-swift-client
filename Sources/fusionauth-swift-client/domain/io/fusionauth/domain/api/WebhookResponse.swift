@@ -9,8 +9,8 @@
 import Foundation
 
 public struct WebhookResponse:Codable {
-    public var webhook:Webhook? = nil
-    public var webhooks:[Webhook]? = nil
+    public var webhook:Webhook?
+    public var webhooks:[Webhook]?
 
     public init(webhook: Webhook? = nil, webhooks: [Webhook]? = nil) {
         self.webhook = webhook

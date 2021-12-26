@@ -12,11 +12,11 @@ import Foundation
  */
 
 public struct FailedAuthenticationConfiguration:Codable{
-    public var actionDuration:UInt64? = nil
-    public var actionDurationUnit:ExpiryUnit? = nil
-    public var resetCountInSeconds:Int? = nil
-    public var tooManyAttempts:Int? = nil
-    public var userActionId:UUID? = nil
+    public var actionDuration:UInt64?
+    public var actionDurationUnit:ExpiryUnit?
+    public var resetCountInSeconds:Int?
+    public var tooManyAttempts:Int?
+    public var userActionId:UUID?
 
     public init(actionDuration: UInt64? = nil, actionDurationUnit: ExpiryUnit? = nil, resetCountInSeconds: Int? = nil, tooManyAttempts: Int? = nil, userActionId: UUID? = nil) {
         self.actionDuration = actionDuration

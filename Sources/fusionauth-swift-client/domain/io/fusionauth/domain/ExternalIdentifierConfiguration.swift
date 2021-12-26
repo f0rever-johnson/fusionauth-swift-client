@@ -13,29 +13,29 @@ import Foundation
 
 public class ExternalIdentifierConfiguration:Codable {
     
-    public var authorizationGrantIdTimeToLiveInSeconds:Int? = nil
-    public var changePasswordIdGenerator:SecureGeneratorConfiguration? = nil
-    public var changePasswordIdTimeToLiveInSeconds:Int? = nil
-    public var deviceCodeTimeToLiveInSeconds:Int? = nil
-    public var deviceUserCodeIdGenerator:SecureGeneratorConfiguration? = nil
-    public var emailVerificationIdGenerator:SecureGeneratorConfiguration? = nil
-    public var emailVerificationIdTimeToLiveInSeconds:Int? = nil
-    public var emailVerificationOneTimeCodeGenerator:SecureGeneratorConfiguration? = nil
-    public var externalAuthenticationIdTimeToLiveInSeconds:Int? = nil
-    public var oneTimePasswordTimeToLiveInSeconds:Int? = nil
-    public var passwordlessLoginGenerator:SecureGeneratorConfiguration? = nil
-    public var passwordlessLoginTimeToLiveInSeconds:Int? = nil
-    public var pendingAccountLinkTimeToLiveInSeconds:Int? = nil
-    public var registrationVerificationIdGenerator:SecureGeneratorConfiguration? = nil
-    public var registrationVerificationIdTimeToLiveInSeconds:Int? = nil
-    public var registrationVerificationOneTimeCodeGenerator:SecureGeneratorConfiguration? = nil
-    public var samlv2AuthNRequestIdTimeToLiveInSeconds:Int? = nil
-    public var setupPasswordIdGenerator:SecureGeneratorConfiguration? = nil
-    public var setupPasswordIdTimeToLiveInSeconds:Int? = nil
-    public var twoFactorIdTimeToLiveInSeconds:Int? = nil
-    public var twoFactorOneTimeCodeIdGenerator:SecureGeneratorConfiguration? = nil
-    public var twoFactorOneTimeCodeIdTimeToLiveInSeconds:Int? = nil
-    public var twoFactorTrustIdTimeToLiveInSeconds:Int? = nil
+    public var authorizationGrantIdTimeToLiveInSeconds:Int?
+    public var changePasswordIdGenerator:SecureGeneratorConfiguration?
+    public var changePasswordIdTimeToLiveInSeconds:Int?
+    public var deviceCodeTimeToLiveInSeconds:Int?
+    public var deviceUserCodeIdGenerator:SecureGeneratorConfiguration?
+    public var emailVerificationIdGenerator:SecureGeneratorConfiguration?
+    public var emailVerificationIdTimeToLiveInSeconds:Int?
+    public var emailVerificationOneTimeCodeGenerator:SecureGeneratorConfiguration?
+    public var externalAuthenticationIdTimeToLiveInSeconds:Int?
+    public var oneTimePasswordTimeToLiveInSeconds:Int?
+    public var passwordlessLoginGenerator:SecureGeneratorConfiguration?
+    public var passwordlessLoginTimeToLiveInSeconds:Int?
+    public var pendingAccountLinkTimeToLiveInSeconds:Int?
+    public var registrationVerificationIdGenerator:SecureGeneratorConfiguration?
+    public var registrationVerificationIdTimeToLiveInSeconds:Int?
+    public var registrationVerificationOneTimeCodeGenerator:SecureGeneratorConfiguration?
+    public var samlv2AuthNRequestIdTimeToLiveInSeconds:Int?
+    public var setupPasswordIdGenerator:SecureGeneratorConfiguration?
+    public var setupPasswordIdTimeToLiveInSeconds:Int?
+    public var twoFactorIdTimeToLiveInSeconds:Int?
+    public var twoFactorOneTimeCodeIdGenerator:SecureGeneratorConfiguration?
+    public var twoFactorOneTimeCodeIdTimeToLiveInSeconds:Int?
+    public var twoFactorTrustIdTimeToLiveInSeconds:Int?
     
     public init(authorizationGrantIdTimeToLiveInSeconds: Int? = nil, changePasswordIdGenerator: SecureGeneratorConfiguration? = nil, changePasswordIdTimeToLiveInSeconds: Int? = nil, deviceCodeTimeToLiveInSeconds: Int? = nil, deviceUserCodeIdGenerator: SecureGeneratorConfiguration? = nil, emailVerificationIdGenerator: SecureGeneratorConfiguration? = nil, emailVerificationIdTimeToLiveInSeconds: Int? = nil, emailVerificationOneTimeCodeGenerator: SecureGeneratorConfiguration? = nil, externalAuthenticationIdTimeToLiveInSeconds: Int? = nil, oneTimePasswordTimeToLiveInSeconds: Int? = nil, passwordlessLoginGenerator: SecureGeneratorConfiguration? = nil, passwordlessLoginTimeToLiveInSeconds: Int? = nil, pendingAccountLinkTimeToLiveInSeconds: Int? = nil, registrationVerificationIdGenerator: SecureGeneratorConfiguration? = nil, registrationVerificationIdTimeToLiveInSeconds: Int? = nil, registrationVerificationOneTimeCodeGenerator: SecureGeneratorConfiguration? = nil, samlv2AuthNRequestIdTimeToLiveInSeconds: Int? = nil, setupPasswordIdGenerator: SecureGeneratorConfiguration? = nil, setupPasswordIdTimeToLiveInSeconds: Int? = nil, twoFactorIdTimeToLiveInSeconds: Int? = nil, twoFactorOneTimeCodeIdGenerator: SecureGeneratorConfiguration? = nil, twoFactorOneTimeCodeIdTimeToLiveInSeconds: Int? = nil, twoFactorTrustIdTimeToLiveInSeconds: Int? = nil) {
         self.authorizationGrantIdTimeToLiveInSeconds = authorizationGrantIdTimeToLiveInSeconds

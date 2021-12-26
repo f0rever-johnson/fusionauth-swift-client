@@ -9,7 +9,7 @@
 import Foundation
 
 public class PasswordlessStartResponse:Codable{
-    public var code:String? = nil
+    public var code:String?
 
 
     public init(code: String? = nil) {

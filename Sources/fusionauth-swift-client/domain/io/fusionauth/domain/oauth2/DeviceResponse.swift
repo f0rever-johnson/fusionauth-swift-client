@@ -10,12 +10,12 @@ import Foundation
 
 public class DeviceResponse:Codable{
     
-    public var deviceCode:String? = nil
-    public var expiresIn:Int? = nil
-    public var interval:Int? = nil
-    public var userCode:String? = nil
-    public var verificationURI:String? = nil
-    public var verificationURIComplete:String? = nil
+    public var deviceCode:String?
+    public var expiresIn:Int?
+    public var interval:Int?
+    public var userCode:String?
+    public var verificationURI:String?
+    public var verificationURIComplete:String?
 
     public init(deviceCode: String? = nil, expiresIn: Int? = nil, interval: Int? = nil, userCode: String? = nil, verificationURI: String? = nil, verificationURIComplete: String? = nil) {
         self.deviceCode = deviceCode

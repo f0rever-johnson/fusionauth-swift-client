@@ -10,7 +10,7 @@ import Foundation
 
 
 public struct RecentLoginResponse:Codable{
-    public var logins:[DisplayableRawLogin]? = nil
+    public var logins:[DisplayableRawLogin]?
 
     public init(logins: [DisplayableRawLogin]? = nil) {
         self.logins = logins

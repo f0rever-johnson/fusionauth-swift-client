@@ -9,7 +9,7 @@ import Foundation
 
 
 public class UserInfoResponse:Codable{
-    public var UserInfoResponse:[String:JSONObject]? = nil
+    public var UserInfoResponse:[String:JSONObject]?
 
     public init(UserInfoResponse: [String:JSONObject]? = nil) {
         self.UserInfoResponse = UserInfoResponse

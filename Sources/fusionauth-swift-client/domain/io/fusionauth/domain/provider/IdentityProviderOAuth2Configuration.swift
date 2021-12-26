@@ -13,17 +13,17 @@ import Foundation
 
 public class IdentityProviderOAuth2Configuration:Codable {
  
-    public var authorizationEndpoint:String? = nil
-    public var clientAuthenticationMethod:ClientAuthenticationMethod? = nil
-    public var clientId:String? = nil
-    public var clientSecret:String? = nil
-    public var emailClaim:String? = nil
-    public var issuer:String? = nil
-    public var scope:String? = nil
-    public var tokenEndpoint:String? = nil
-    public var uniqueIdClaim:String? = nil
-    public var userinfoEndpoint:String? = nil
-    public var usernameClaim:String? = nil
+    public var authorizationEndpoint:String?
+    public var clientAuthenticationMethod:ClientAuthenticationMethod?
+    public var clientId:String?
+    public var clientSecret:String?
+    public var emailClaim:String?
+    public var issuer:String?
+    public var scope:String?
+    public var tokenEndpoint:String?
+    public var uniqueIdClaim:String?
+    public var userinfoEndpoint:String?
+    public var usernameClaim:String?
   
 
     private enum CodingKeys:String, CodingKey{

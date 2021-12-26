@@ -9,9 +9,9 @@ import Foundation
 
 public class TenantMultiFactorConfiguration:Codable{
 
-    public var authenticator:MultiFactorAuthenticatorMethod? = nil
-    public var email:MultiFactorEmailMethod? = nil
-    public var sms:MultiFactorSMSMethod? = nil
+    public var authenticator:MultiFactorAuthenticatorMethod?
+    public var email:MultiFactorEmailMethod?
+    public var sms:MultiFactorSMSMethod?
     
     public init(authenticator: MultiFactorAuthenticatorMethod? = nil, email: MultiFactorEmailMethod? = nil, sms: MultiFactorSMSMethod? = nil) {
         self.authenticator = authenticator

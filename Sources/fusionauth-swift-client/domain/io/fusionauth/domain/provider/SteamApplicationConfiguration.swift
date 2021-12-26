@@ -14,10 +14,10 @@ public struct SteamApplicationConfiguration:Codable, BaseIdentityProviderApplica
     public var data: [String : JSONObject]?
     public var enabled: Bool?
     
-    public var buttonText:String? = nil
-    public var clientId:String? = nil
-    public var scope:String? = nil
-    public var webAPIKey:String? = nil
+    public var buttonText:String?
+    public var clientId:String?
+    public var scope:String?
+    public var webAPIKey:String?
     
     public init(createRegistration: Bool? = nil, data: [String : JSONObject]? = nil, enabled: Bool? = nil, buttonText: String? = nil, clientId: String? = nil, scope: String? = nil, webAPIKey: String? = nil) {
         self.createRegistration = createRegistration

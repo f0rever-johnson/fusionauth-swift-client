@@ -10,7 +10,7 @@ import Foundation
 
 
 public class ReloadRequest:Codable{
-    public var names:[String]? = nil
+    public var names:[String]?
 
     public init(names: [String]? = nil) {
         self.names = names

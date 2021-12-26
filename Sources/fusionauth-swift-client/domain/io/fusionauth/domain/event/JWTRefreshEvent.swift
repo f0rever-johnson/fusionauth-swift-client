@@ -16,12 +16,12 @@ public class JWTRefreshEvent:BaseEvent, Codable{
 
     public var info: EventInfo?
     public var type: EventType?
-    public var id: UUID? = nil
-    public var tenantId: UUID? = nil
-    public var applicationId:UUID? = nil
-    public var original:String? = nil
-    public var refreshToken:String? = nil
-    public var token:String? = nil
+    public var id: UUID?
+    public var tenantId: UUID?
+    public var applicationId:UUID?
+    public var original:String?
+    public var refreshToken:String?
+    public var token:String?
     public var userId:UUID?
     
     public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, applicationId: UUID? = nil, original: String? = nil, refreshToken: String? = nil, token: String? = nil, userId: UUID? = nil) {

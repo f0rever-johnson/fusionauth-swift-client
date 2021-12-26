@@ -9,16 +9,16 @@ import Foundation
 
 public struct PendingIdPLink:Codable{
 
-    public var displayName:String? = nil
-    public var email:String? = nil
-    public var identityProviderId:UUID? = nil
-    public var identityProviderLinks:[IdentityProviderLink]? = nil
-    public var identityProviderName:String? = nil
-    public var identityProviderTenantConfiguration:[IdentityProviderTenantConfiguration]? = nil
-    public var identityProviderType:IdentityProviderType? = nil
-    public var identityProviderUserId:String? = nil
-    public var user:User? = nil
-    public var username:String? = nil
+    public var displayName:String?
+    public var email:String?
+    public var identityProviderId:UUID?
+    public var identityProviderLinks:[IdentityProviderLink]?
+    public var identityProviderName:String?
+    public var identityProviderTenantConfiguration:[IdentityProviderTenantConfiguration]?
+    public var identityProviderType:IdentityProviderType?
+    public var identityProviderUserId:String?
+    public var user:User?
+    public var username:String?
     
     public init(displayName: String? = nil, email: String? = nil, identityProviderId: UUID? = nil, identityProviderLinks: [IdentityProviderLink]? = nil, identityProviderName: String? = nil, identityProviderTenantConfiguration: [IdentityProviderTenantConfiguration]? = nil, identityProviderType: IdentityProviderType? = nil, identityProviderUserId: String? = nil, user: User? = nil, username: String? = nil) {
         self.displayName = displayName

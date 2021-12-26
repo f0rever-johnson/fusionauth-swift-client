@@ -10,10 +10,10 @@ import Foundation
 
 public class TwoFactorLoginRequest:BaseLoginRequest{
  
-    public var code:String? = nil
-    public var trustComputer:Bool? = nil
-    public var twoFactorId:String? = nil
-    public var userId:UUID? = nil
+    public var code:String?
+    public var trustComputer:Bool?
+    public var twoFactorId:String?
+    public var userId:UUID?
     
     public init(code: String? = nil, trustComputer: Bool? = nil, twoFactorId: String? = nil, userId: UUID? = nil) {
         self.code = code

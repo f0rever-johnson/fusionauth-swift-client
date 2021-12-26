@@ -11,9 +11,9 @@ import Foundation
 public class LoginRequest:BaseLoginRequest{
  
     
-    public var loginId:String? = nil
-    public var password:String? = nil
-    public var twoFactorTrustId:String? = nil
+    public var loginId:String?
+    public var password:String?
+    public var twoFactorTrustId:String?
 
     public init(applicationId:UUID?, eventInfo:EventInfo? = nil, ipAddress:String? = nil,  loginId: String? = nil, metaData: MetaData? = nil, newDevice: Bool? = nil, noJWT: Bool? = nil, password: String? = nil, twoFactorTrustId: String? = nil) {
         self.loginId = loginId

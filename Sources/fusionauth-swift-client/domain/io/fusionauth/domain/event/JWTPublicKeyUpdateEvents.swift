@@ -12,10 +12,10 @@ public struct JWTPublicKeyUpdateEvent:BaseEvent, Codable{
 
     public var info: EventInfo?
     public var type: EventType?
-    public var id: UUID? = nil
-    public var createInstant: Date? = nil
-    public var tenantId: UUID? = nil
-    public var applicationIds:[UUID]? = nil
+    public var id: UUID?
+    public var createInstant: Date?
+    public var tenantId: UUID?
+    public var applicationIds:[UUID]?
 
     public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, createInstant: Date? = nil, tenantId: UUID? = nil, applicationIds: [UUID]? = nil) {
         self.info = info

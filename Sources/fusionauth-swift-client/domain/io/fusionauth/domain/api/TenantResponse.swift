@@ -9,8 +9,8 @@
 import Foundation
 
 public struct TenantResponse:Codable {
-    public var tenant:Tenant? = nil
-    public var tenants:[Tenant]? = nil
+    public var tenant:Tenant?
+    public var tenants:[Tenant]?
 
     public init(tenant: Tenant? = nil, tenants: [Tenant]? = nil) {
         self.tenant = tenant

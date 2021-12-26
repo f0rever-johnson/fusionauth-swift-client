@@ -9,8 +9,8 @@
 import Foundation
 
 public struct EmailTemplateResponse:Codable {
-    public var emailTemplate:EmailTemplate? = nil
-    public var emailTemplates:[EmailTemplate]? = nil
+    public var emailTemplate:EmailTemplate?
+    public var emailTemplates:[EmailTemplate]?
 
 
     public init(emailTemplate: EmailTemplate? = nil, emailTemplates: [EmailTemplate]? = nil) {

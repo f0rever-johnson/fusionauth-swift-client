@@ -9,8 +9,8 @@ import Foundation
 
 public class TenantUnverifiedConfiguration:Codable{
 
-    public var email:UnverifiedBehavior? = nil
-    public var whenGated:RegistrationUnverifiedOptions? = nil
+    public var email:UnverifiedBehavior?
+    public var whenGated:RegistrationUnverifiedOptions?
     
     public init(email: UnverifiedBehavior? = nil, whenGated: RegistrationUnverifiedOptions? = nil) {
         self.email = email

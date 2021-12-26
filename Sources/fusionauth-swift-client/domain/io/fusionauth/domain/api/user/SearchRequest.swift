@@ -9,7 +9,7 @@
 import Foundation
 
 public struct SearchRequest:Codable {
-    public var search:UserSearchCriteria? = nil
+    public var search:UserSearchCriteria?
 
     public init(search: UserSearchCriteria? = nil) {
         self.search = search

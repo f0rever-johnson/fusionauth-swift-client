@@ -13,12 +13,12 @@ import Foundation
 
 public class UserActionReason:Codable {
 
-    public var code:String? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var localizedTexts:LocalizedStrings? = nil
-    public var text:String? = nil
+    public var code:String?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var lastUpdateInstant:Date?
+    public var localizedTexts:LocalizedStrings?
+    public var text:String?
 
     public init(code: String? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, localizedTexts: LocalizedStrings? = nil, text: String? = nil) {
         self.code = code

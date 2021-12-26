@@ -9,10 +9,10 @@ import Foundation
 
 public class SAMLv2SingleLogout:Codable, Enableable{
 
-    public var enabled: Bool? = nil
-    public var keyId:UUID? = nil
-    public var url:String? = nil
-    public var xmlSignatureC14nMethod:CanonicalizationMethod? = nil
+    public var enabled: Bool?
+    public var keyId:UUID?
+    public var url:String?
+    public var xmlSignatureC14nMethod:CanonicalizationMethod?
     
     public init(enabled: Bool? = nil, keyId: UUID? = nil, url: String? = nil, xmlSignatureC14nMethod: CanonicalizationMethod? = nil) {
         self.enabled = enabled

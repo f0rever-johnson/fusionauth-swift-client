@@ -8,8 +8,8 @@
 import Foundation
 
 public class FormFieldResponse:Codable{
-    public var field:FormField? = nil
-    public var fields:[FormField]? = nil
+    public var field:FormField?
+    public var fields:[FormField]?
     
     public init(field: FormField? = nil, fields: [FormField]? = nil) {
         self.field = field

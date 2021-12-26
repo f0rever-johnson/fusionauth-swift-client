@@ -13,14 +13,14 @@ import Foundation
 
 public class GoogleApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable {
 
-    public var createRegistration: Bool? = nil
-    public var enabled: Bool? = nil
-    public var data: [String : JSONObject]? = nil
-    public var buttonText:String? = nil
-    public var clientId:String? = nil
-    public var clientSecret:String? = nil
-    public var loginMethod:IdentityProviderLoginMethod? = nil
-    public var scope:String? = nil
+    public var createRegistration: Bool?
+    public var enabled: Bool?
+    public var data: [String : JSONObject]?
+    public var buttonText:String?
+    public var clientId:String?
+    public var clientSecret:String?
+    public var loginMethod:IdentityProviderLoginMethod?
+    public var scope:String?
 
     private enum CodingKeys:String, CodingKey{
         case createRegistration

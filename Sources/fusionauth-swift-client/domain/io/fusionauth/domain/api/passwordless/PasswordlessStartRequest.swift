@@ -10,9 +10,9 @@ import Foundation
 
 
 public class PasswordlessStartRequest:Codable{
-    public var applicationId:UUID? = nil
-    public var loginId:String? = nil
-    public var state:[String:JSONObject]? = nil
+    public var applicationId:UUID?
+    public var loginId:String?
+    public var state:[String:JSONObject]?
 
     public init(applicationId: UUID? = nil, loginId: String? = nil, state: [String:JSONObject]? = nil) {
         self.applicationId = applicationId

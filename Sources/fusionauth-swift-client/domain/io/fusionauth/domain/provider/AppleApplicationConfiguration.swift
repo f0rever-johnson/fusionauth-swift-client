@@ -8,14 +8,14 @@
 import Foundation
 
 public class AppleApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable{
-    public var createRegistration: Bool? = nil
-    public var data: [String : JSONObject]? = nil
-    public var enabled: Bool? = nil
-    public var buttonText:String? = nil
-    public var keyId:UUID? = nil
-    public var scope:String? = nil
-    public var servicesId:String? = nil
-    public var teamId:String? = nil
+    public var createRegistration: Bool?
+    public var data: [String : JSONObject]?
+    public var enabled: Bool?
+    public var buttonText:String?
+    public var keyId:UUID?
+    public var scope:String?
+    public var servicesId:String?
+    public var teamId:String?
     
     public init(createRegistration: Bool? = nil, data: [String : JSONObject]? = nil, enabled: Bool? = nil, buttonText: String? = nil, keyId: UUID? = nil, scope: String? = nil, servicesId: String? = nil, teamId: String? = nil) {
         self.createRegistration = createRegistration

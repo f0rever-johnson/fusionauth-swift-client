@@ -10,8 +10,8 @@ import Foundation
 
 public class PasswordlessLoginRequest:BaseLoginRequest{
   
-    public var code:String? = nil
-    public var twoFactorTrustId:String? = nil
+    public var code:String?
+    public var twoFactorTrustId:String?
 
     public init(code: String? = nil, twoFactorTrustId: String? = nil) {
         self.code = code

@@ -9,7 +9,7 @@
 import Foundation
 
 public struct MemberRequest:Codable {
-    public var members:[UUID:[GroupMember]]? = nil
+    public var members:[UUID:[GroupMember]]?
 
     public init(members: [UUID:[GroupMember]]? = nil) {
         self.members = members

@@ -9,9 +9,9 @@
 import Foundation
 
 public struct ApplicationResponse:Codable {
-    public var application:Application? = nil
-    public var applications:[Application]? = nil
-    public var role:ApplicationRole? = nil
+    public var application:Application?
+    public var applications:[Application]?
+    public var role:ApplicationRole?
 
 
     public init(application: Application? = nil, applications: [Application]? = nil, role: ApplicationRole? = nil) {

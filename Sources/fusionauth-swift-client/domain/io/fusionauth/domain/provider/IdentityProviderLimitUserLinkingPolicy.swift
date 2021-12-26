@@ -9,9 +9,9 @@ import Foundation
 
 public class IdentityProviderLimitUserLinkingPolicy:Codable, Enableable{
 
-    public var enabled: Bool? = nil
+    public var enabled: Bool?
     
-    public var maximumLinks:Int? = nil
+    public var maximumLinks:Int?
     
     public init(enabled: Bool? = nil, maximumLinks: Int? = nil) {
         self.enabled = enabled

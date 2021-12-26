@@ -11,9 +11,9 @@ import Foundation
 
 public class EntityJWTConfiguration:Enableable, Codable{
 
-    public var enabled:Bool? = nil
-    public var accessTokenKeyid:UUID? = nil
-    public var timeToLiveInSeconds:Int? = nil
+    public var enabled:Bool?
+    public var accessTokenKeyid:UUID?
+    public var timeToLiveInSeconds:Int?
     
     public init(enabled: Bool? = nil, accessTokenKeyid: UUID? = nil, timeToLiveInSeconds: Int? = nil) {
         self.enabled = enabled

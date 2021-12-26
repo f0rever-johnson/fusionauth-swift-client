@@ -8,8 +8,8 @@
 import Foundation
 
 public class FormRequest:Codable{
-    public var form:Form? = nil
-    public var forms:[Form]? = nil
+    public var form:Form?
+    public var forms:[Form]?
     
     public init(form: Form? = nil, forms: [Form]? = nil) {
         self.form = form

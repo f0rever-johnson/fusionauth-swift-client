@@ -9,13 +9,13 @@ import Foundation
 
 
 public class LoginRecordSearchCriteria:BaseSearchCriteria,Codable{
-    public var numberOfResults: Int? = nil
-    public var orderBy: String? = nil
-    public var startRow: Int? = nil
-    public var applicationId:UUID? = nil
-    public var end:Date? = nil
-    public var start:Date? = nil
-    public var userId:UUID? = nil
+    public var numberOfResults: Int?
+    public var orderBy: String?
+    public var startRow: Int?
+    public var applicationId:UUID?
+    public var end:Date?
+    public var start:Date?
+    public var userId:UUID?
 
     public init(numberOfResults: Int? = nil, orderBy: String? = nil, startRow: Int? = nil, applicationId: UUID? = nil, end: Date? = nil, start: Date? = nil, userId: UUID? = nil) {
         self.numberOfResults = numberOfResults

@@ -8,9 +8,9 @@
 import Foundation
 
 public class LoginConfiguration:Codable{
-    public var allowTokenRefresh:Bool? = nil
-    public var generateRefreshTokens:Bool? = nil
-    public var requireAuthentication:Bool? = nil
+    public var allowTokenRefresh:Bool?
+    public var generateRefreshTokens:Bool?
+    public var requireAuthentication:Bool?
 
     public init(allowTokenRefresh: Bool? = nil, generateRefreshTokens: Bool? = nil, requireAuthentication: Bool? = nil) {
         self.allowTokenRefresh = allowTokenRefresh

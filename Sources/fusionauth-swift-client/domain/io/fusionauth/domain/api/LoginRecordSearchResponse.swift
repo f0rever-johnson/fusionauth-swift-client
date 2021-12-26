@@ -10,8 +10,8 @@ import Foundation
 
 
 public struct LoginRecordSearchResponse:Codable{
-    public var logins:[DisplayableRawLogin]? = nil
-    public var total:UInt64? = nil
+    public var logins:[DisplayableRawLogin]?
+    public var total:UInt64?
 
     public init(logins: [DisplayableRawLogin]? = nil, total: UInt64? = nil) {
         self.logins = logins

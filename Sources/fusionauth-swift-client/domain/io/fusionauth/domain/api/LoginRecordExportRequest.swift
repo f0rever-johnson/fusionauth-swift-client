@@ -11,7 +11,7 @@ import Foundation
 
 public class LoginRecordExportRequest:BaseExportRequest{
 
-    public var criteria:LoginRecordSearchCriteria? = nil
+    public var criteria:LoginRecordSearchCriteria?
 
     public init(dateTimeSecondsFormat: String? = nil, zoneId: String? = nil, criteria: LoginRecordSearchCriteria? = nil) {
         self.criteria = criteria

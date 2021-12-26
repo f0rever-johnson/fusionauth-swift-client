@@ -11,7 +11,7 @@ import Foundation
 
 public class EntityResponse:Codable{
   
-    public var entity:Entity? = nil
+    public var entity:Entity?
     
     public init(entity: Entity? = nil) {
         self.entity = entity

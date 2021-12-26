@@ -9,8 +9,8 @@
 import Foundation
 
 public class IdentityProviderResponse:Codable {
-    public var identityProvider:IdentityProviderConverter? = nil
-    public var identityProviders:[IdentityProviderConverter]? = nil
+    public var identityProvider:IdentityProviderConverter?
+    public var identityProviders:[IdentityProviderConverter]?
 
     public init(identityProvider: IdentityProviderConverter? = nil, identityProviders: [IdentityProviderConverter]? = nil) {
         self.identityProvider = identityProvider

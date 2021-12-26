@@ -9,7 +9,7 @@ import Foundation
 
 public class TenantUsernameConfiguration:Codable{
     
-    public var unique:UniqueUsernameConfiguration? = nil
+    public var unique:UniqueUsernameConfiguration?
     
     public init(unique: UniqueUsernameConfiguration? = nil) {
         self.unique = unique

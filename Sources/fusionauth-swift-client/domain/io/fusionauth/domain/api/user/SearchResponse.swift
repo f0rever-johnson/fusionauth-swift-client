@@ -9,8 +9,8 @@
 import Foundation
 
 public struct SearchResponse:Codable {
-    public var total:UInt64? = nil
-    public var users:[User]? = nil
+    public var total:UInt64?
+    public var users:[User]?
 
 
     public init(total: UInt64? = nil, users: [User]? = nil) {

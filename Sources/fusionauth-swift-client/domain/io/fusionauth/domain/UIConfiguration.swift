@@ -12,9 +12,9 @@ import Foundation
  */
 
 public struct UIConfiguration:Codable{
-    public var headerColor:String? = nil
-    public var logoURL:String? = nil
-    public var menuFontColor:String? = nil
+    public var headerColor:String?
+    public var logoURL:String?
+    public var menuFontColor:String?
 
     public init(headerColor: String? = nil, logoURL: String? = nil, menuFontColor: String? = nil) {
         self.headerColor = headerColor

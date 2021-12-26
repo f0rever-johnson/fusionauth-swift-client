@@ -8,8 +8,8 @@ import Foundation
 
 
 public class UsernameModeration:Codable, Enableable{
-    public var enabled: Bool? = nil
-    public var applicationId:UUID? = nil
+    public var enabled: Bool?
+    public var applicationId:UUID?
 
     public init(enabled: Bool? = nil, applicationId: UUID? = nil) {
         self.enabled = enabled

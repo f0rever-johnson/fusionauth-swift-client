@@ -11,9 +11,9 @@ import Foundation
 
 public class EntityTypeResponse:Codable{
  
-    public var entityType:EntityType? = nil
-    public var entityTypes:[EntityType]? = nil
-    public var permission:EntityTypePermission? = nil
+    public var entityType:EntityType?
+    public var entityTypes:[EntityType]?
+    public var permission:EntityTypePermission?
     
     public init(entityType: EntityType? = nil, entityTypes: [EntityType]? = nil, permission: EntityTypePermission? = nil) {
         self.entityType = entityType

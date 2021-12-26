@@ -14,14 +14,14 @@ import Foundation
 public class FacebookApplicationConfiguration:BaseIdentityProviderApplicationConfiguration, Codable{
  
     public var createRegistration: Bool?
-    public var data:[String:JSONObject]? = nil
-    public var enabled: Bool? = nil
-    public var appId:String? = nil
-    public var buttonText:String? = nil
-    public var clientSecret:String? = nil
-    public var fields:String? = nil
-    public var loginMethods:IdentityProviderLoginMethod? = nil
-    public var permissions:String? = nil
+    public var data:[String:JSONObject]?
+    public var enabled: Bool?
+    public var appId:String?
+    public var buttonText:String?
+    public var clientSecret:String?
+    public var fields:String?
+    public var loginMethods:IdentityProviderLoginMethod?
+    public var permissions:String?
     
     private enum CodingKeys:String, CodingKey{
         case createRegistration

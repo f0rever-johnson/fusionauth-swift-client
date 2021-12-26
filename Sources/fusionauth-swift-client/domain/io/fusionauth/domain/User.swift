@@ -13,48 +13,48 @@ import Foundation
 
 public class User:SecureIdentity{
     
-    public var active:Bool? = nil
-    public var birthDate:String? = nil
-    public var cleanSpeakId:UUID? = nil
-    public var data:[String:JSONObject]? = nil
-    public var email:String? = nil
-    public var expiry:Date? = nil
-    public var firstName:String? = nil
-    public var fullName:String? = nil
-    public var imageUrl:String? = nil
-    public var insertInstant:Date? = nil
-    public var lastName:String? = nil
-    public var lastUpdateInstant:Date? = nil
-    public var memberships:[GroupMember]? = nil
-    public var middleName:String? = nil
-    public var mobilePhone:String? = nil
-    public var parentEmail:String? = nil
-    public var preferredLanguages:[String]? = nil
-    public var registrations:[UserRegistration]? = nil
-    public var tenantId:UUID? = nil
-    public var timezone:String? = nil
-    public var twoFactor:UserTwoFactorConfiguration? = nil
+    public var active:Bool?
+    public var birthDate:String?
+    public var cleanSpeakId:UUID?
+    public var data:[String:JSONObject]?
+    public var email:String?
+    public var expiry:Date?
+    public var firstName:String?
+    public var fullName:String?
+    public var imageUrl:String?
+    public var insertInstant:Date?
+    public var lastName:String?
+    public var lastUpdateInstant:Date?
+    public var memberships:[GroupMember]?
+    public var middleName:String?
+    public var mobilePhone:String?
+    public var parentEmail:String?
+    public var preferredLanguages:[String]?
+    public var registrations:[UserRegistration]?
+    public var tenantId:UUID?
+    public var timezone:String?
+    public var twoFactor:UserTwoFactorConfiguration?
     
     
     //Required by SecureIdentity Protocol
-    public var breachedPasswordLastCheckedInstant:Date? = nil
-    public var breachedPasswordStatus:BreachedPasswordStatus? = nil
-    public var connectorId:UUID? = nil
-    public var encryptionScheme:String? = nil
-    public var factor:Int? = nil
-    public var id:UUID? = nil
-    public var lastLoginInstant:Date? = nil
-    public var password:String? = nil
-    public var passwordChangeReason:ChangePasswordReason? = nil
-    public var passwordChangedRequired:Bool? = nil
-    public var passwordLastUpdateInstant:Date? = nil
-    public var salt:String? = nil
+    public var breachedPasswordLastCheckedInstant:Date?
+    public var breachedPasswordStatus:BreachedPasswordStatus?
+    public var connectorId:UUID?
+    public var encryptionScheme:String?
+    public var factor:Int?
+    public var id:UUID?
+    public var lastLoginInstant:Date?
+    public var password:String?
+    public var passwordChangeReason:ChangePasswordReason?
+    public var passwordChangedRequired:Bool?
+    public var passwordLastUpdateInstant:Date?
+    public var salt:String?
     public var uniqueUsername: String?
-    public var twoFactorEnabled:Bool? = nil
-    public var twoFactorSecret:String? = nil
-    public var username:String? = nil
-    public var usernameStatus:ContentStatus? = nil
-    public var verified:Bool? = nil
+    public var twoFactorEnabled:Bool?
+    public var twoFactorSecret:String?
+    public var username:String?
+    public var usernameStatus:ContentStatus?
+    public var verified:Bool?
 
     public init(active: Bool? = nil, birthDate: String? = nil, cleanSpeakId: UUID? = nil, data: [String : JSONObject]? = nil, email: String? = nil, expiry: Date? = nil, firstName: String? = nil, fullName: String? = nil, imageUrl: String? = nil, insertInstant: Date? = nil, lastName: String? = nil, lastUpdateInstant: Date? = nil, memberships: [GroupMember]? = nil, middleName: String? = nil, mobilePhone: String? = nil, parentEmail: String? = nil, preferredLanguages: [String]? = nil, registrations: [UserRegistration]? = nil, tenantId: UUID? = nil, timezone: String? = nil, twoFactor: UserTwoFactorConfiguration? = nil, breachedPasswordLastCheckedInstant: Date? = nil, breachedPasswordStatus: BreachedPasswordStatus? = nil, connectorId: UUID? = nil, encryptionScheme: String? = nil, factor: Int? = nil, id: UUID? = nil, lastLoginInstant: Date? = nil, password: String? = nil, passwordChangeReason: ChangePasswordReason? = nil, passwordChangedRequired: Bool? = nil, passwordLastUpdateInstant: Date? = nil, salt: String? = nil, uniqueUsername: String? = nil, twoFactorEnabled: Bool? = nil, twoFactorSecret: String? = nil, username: String? = nil, usernameStatus: ContentStatus? = nil, verified: Bool? = nil) {
         self.active = active

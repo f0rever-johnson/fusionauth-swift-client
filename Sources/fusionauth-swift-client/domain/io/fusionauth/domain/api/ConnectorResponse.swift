@@ -9,8 +9,8 @@ import Foundation
 
 public class ConnectorResponse:Codable{
 
-    public var connector:BaseConnectorConfiguration? = nil
-    public var connectors:[BaseConnectorConfiguration]? = nil
+    public var connector:BaseConnectorConfiguration?
+    public var connectors:[BaseConnectorConfiguration]?
     
     public init(connector: BaseConnectorConfiguration? = nil, connectors: [BaseConnectorConfiguration]? = nil) {
         self.connector = connector

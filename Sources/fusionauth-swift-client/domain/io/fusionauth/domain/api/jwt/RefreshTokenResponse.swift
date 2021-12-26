@@ -9,8 +9,8 @@ import Foundation
 
 public class RefreshTokenResponse:Codable{
     
-    public var refreshToken:RefreshToken? = nil
-    public var refreshTokens:[RefreshToken]? = nil
+    public var refreshToken:RefreshToken?
+    public var refreshTokens:[RefreshToken]?
     
     public init(refreshToken: RefreshToken? = nil, refreshTokens: [RefreshToken]? = nil) {
         self.refreshToken = refreshToken

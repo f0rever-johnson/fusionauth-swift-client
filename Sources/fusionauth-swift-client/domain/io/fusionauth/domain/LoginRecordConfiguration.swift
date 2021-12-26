@@ -9,7 +9,7 @@ import Foundation
 
 
 public class LoginRecordConfiguration:Codable{
-    public var delete:DeleteConfiguration? = nil
+    public var delete:DeleteConfiguration?
 
     public init(delete: DeleteConfiguration? = nil) {
         self.delete = delete

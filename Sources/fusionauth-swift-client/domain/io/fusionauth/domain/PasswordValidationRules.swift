@@ -13,13 +13,13 @@ import Foundation
 
 public class PasswordValidationRules:Codable{
    
-    public var maxLength:Int? = nil
-    public var minLength:Int? = nil
-    public var rememberPreviousPasswords:RememberPreviousPasswords? = nil
-    public var requireMixedCase:Bool? = nil
-    public var requireNonAlpha:Bool? = nil
-    public var requireNumber:Bool? = nil
-    public var validateOnLogin:Bool? = nil
+    public var maxLength:Int?
+    public var minLength:Int?
+    public var rememberPreviousPasswords:RememberPreviousPasswords?
+    public var requireMixedCase:Bool?
+    public var requireNonAlpha:Bool?
+    public var requireNumber:Bool?
+    public var validateOnLogin:Bool?
     
     internal init(maxLength: Int? = nil, minLength: Int? = nil, rememberPreviousPasswords: RememberPreviousPasswords? = nil, requireMixedCase: Bool? = nil, requireNonAlpha: Bool? = nil, requireNumber: Bool? = nil, validateOnLogin: Bool? = nil) {
         self.maxLength = maxLength

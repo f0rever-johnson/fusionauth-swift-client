@@ -10,11 +10,11 @@ import Foundation
 
 public struct TwoFactorSendRequest:Codable {
 
-    public var email:String? = nil
-    public var method:String? = nil
-    public var methodId:String? = nil
-    public var mobilePhone:String? = nil
-    public var userId:UUID? = nil
+    public var email:String?
+    public var method:String?
+    public var methodId:String?
+    public var mobilePhone:String?
+    public var userId:UUID?
     
     public init(email: String? = nil, method: String? = nil, methodId: String? = nil, mobilePhone: String? = nil, userId: UUID? = nil) {
         self.email = email

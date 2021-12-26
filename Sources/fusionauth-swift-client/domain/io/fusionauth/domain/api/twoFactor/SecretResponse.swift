@@ -9,8 +9,8 @@
 import Foundation
 
 public struct SecretResponse:Codable {
-    public var secret:String? = nil
-    public var secretBase32Encoded:String? = nil
+    public var secret:String?
+    public var secretBase32Encoded:String?
 
 
     public init(secret: String? = nil, secretBase32Encoded: String? = nil) {

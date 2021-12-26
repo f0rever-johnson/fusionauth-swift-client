@@ -9,8 +9,8 @@
 import Foundation
 
 public struct GroupRequest:Codable {
-    public var group:Group? = nil
-    public var roleIds:[UUID]? = nil
+    public var group:Group?
+    public var roleIds:[UUID]?
 
     public init(group: Group? = nil, roleIds: [UUID]? = nil) {
         self.group = group

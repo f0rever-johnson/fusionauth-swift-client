@@ -15,7 +15,7 @@ import Foundation
 
 public class LocalizedIntegers:Codable{
     
-    var localizedIntegers:Dictionary<String,Int>? = nil
+    var localizedIntegers:Dictionary<String,Int>?
 
 
     public init(localizedIntegers: Dictionary<String,Int>? = nil) {

@@ -9,7 +9,7 @@ import Foundation
 
 public class ReactorMetrics:Codable{
 
-    public var breachedPasswordMetrics:[String:BreachedPasswordTenantMetric]? = nil
+    public var breachedPasswordMetrics:[String:BreachedPasswordTenantMetric]?
     
     public init(breachedPasswordMetrics: [String : BreachedPasswordTenantMetric]? = nil) {
         self.breachedPasswordMetrics = breachedPasswordMetrics

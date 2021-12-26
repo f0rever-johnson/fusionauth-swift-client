@@ -12,26 +12,26 @@ import Foundation
  */
 
 public struct UserActionLog:Codable {
-    public var actioneeUserId:UUID? = nil
-    public var actionerUserId:UUID? = nil
-    public var applicationIds:[UUID]? = nil
-    public var comment:String? = nil
-    public var createInstant:Date? = nil
-    public var emailUserOnEnd:Bool? = nil
-    public var endEventSent:Bool? = nil
-    public var expiry:Date? = nil
-    public var history:LogHistory? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var localizedName:String? = nil
-    public var localizedOption:String? = nil
-    public var localizedReason:String? = nil
-    public var name:String? = nil
-    public var notifyUserOnEnd:Bool? = nil
-    public var option:String? = nil
-    public var reason:String? = nil
-    public var reasonCode:String? = nil
-    public var userActionId:UUID? = nil
+    public var actioneeUserId:UUID?
+    public var actionerUserId:UUID?
+    public var applicationIds:[UUID]?
+    public var comment:String?
+    public var createInstant:Date?
+    public var emailUserOnEnd:Bool?
+    public var endEventSent:Bool?
+    public var expiry:Date?
+    public var history:LogHistory?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var localizedName:String?
+    public var localizedOption:String?
+    public var localizedReason:String?
+    public var name:String?
+    public var notifyUserOnEnd:Bool?
+    public var option:String?
+    public var reason:String?
+    public var reasonCode:String?
+    public var userActionId:UUID?
     
     public init(actioneeUserId: UUID? = nil, actionerUserId: UUID? = nil, applicationIds: [UUID]? = nil, comment: String? = nil, createInstant: Date? = nil, emailUserOnEnd: Bool? = nil, endEventSent: Bool? = nil, expiry: Date? = nil, history: LogHistory? = nil, id: UUID? = nil, insertInstant: Date? = nil, localizedName: String? = nil, localizedOption: String? = nil, localizedReason: String? = nil, name: String? = nil, notifyUserOnEnd: Bool? = nil, option: String? = nil, reason: String? = nil, reasonCode: String? = nil, userActionId: UUID? = nil) {
         self.actioneeUserId = actioneeUserId

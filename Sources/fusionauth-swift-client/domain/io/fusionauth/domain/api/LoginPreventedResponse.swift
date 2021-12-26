@@ -9,16 +9,16 @@
 import Foundation
 
 public struct LoginPreventedResponse:Codable{
-    public var actionid:UUID? = nil
-    public var actionerUserId:UUID? = nil
-    public var expiry:Date? = nil
-    public var localizedName:String? = nil
-    public var localizedOption:String? = nil
-    public var localizedReason:String? = nil
-    public var name:String? = nil
-    public var option:String? = nil
-    public var reason:String? = nil
-    public var reasonCode:String? = nil
+    public var actionid:UUID?
+    public var actionerUserId:UUID?
+    public var expiry:Date?
+    public var localizedName:String?
+    public var localizedOption:String?
+    public var localizedReason:String?
+    public var name:String?
+    public var option:String?
+    public var reason:String?
+    public var reasonCode:String?
 
     public init(actionid: UUID? = nil, actionerUserId: UUID? = nil, expiry: Date? = nil, localizedName: String? = nil, localizedOption: String? = nil, localizedReason: String? = nil, name: String? = nil, option: String? = nil, reason: String? = nil, reasonCode: String? = nil) {
         self.actionid = actionid

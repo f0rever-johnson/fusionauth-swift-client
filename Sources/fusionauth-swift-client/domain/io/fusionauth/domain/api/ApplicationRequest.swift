@@ -9,9 +9,9 @@
 import Foundation
 
 public class ApplicationRequest:BaseEventRequest{
-    public var application:Application? = nil
-    public var webhookIds:[UUID]? = nil
-    public var role:ApplicationRole? = nil
+    public var application:Application?
+    public var webhookIds:[UUID]?
+    public var role:ApplicationRole?
 
     public init(application: Application? = nil, eventInfo:EventInfo? = nil, webhookIds: [UUID]? = nil, role: ApplicationRole? = nil) {
         self.application = application

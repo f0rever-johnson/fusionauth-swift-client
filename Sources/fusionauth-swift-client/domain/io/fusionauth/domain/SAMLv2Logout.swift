@@ -9,11 +9,11 @@ import Foundation
 
 public class SAMLv2Logout:Codable{
     
-    public var behavior:SAMLLogoutBehavior? = nil
-    public var defaultVerificationKeyId:UUID? = nil
-    public var requireSignedRequests:Bool? = nil
-    public var singleLogout:SAMLv2SingleLogout? = nil
-    public var xmlSignatureC14nMethod:CanonicalizationMethod? = nil
+    public var behavior:SAMLLogoutBehavior?
+    public var defaultVerificationKeyId:UUID?
+    public var requireSignedRequests:Bool?
+    public var singleLogout:SAMLv2SingleLogout?
+    public var xmlSignatureC14nMethod:CanonicalizationMethod?
     
     public init(behavior: SAMLLogoutBehavior? = nil, defaultVerificationKeyId: UUID? = nil, requireSignedRequests: Bool? = nil, singleLogout:SAMLv2SingleLogout? = nil, xmlSignatureC14nMethod: CanonicalizationMethod? = nil) {
         self.behavior = behavior

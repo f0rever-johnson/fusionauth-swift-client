@@ -8,16 +8,16 @@
 import Foundation
 
 public class LinkedInApplicationConfiguration:BaseIdentityProviderApplicationConfiguration{
-    public var createRegistration: Bool? = nil
-    public var data: [String : JSONObject]? = nil
-    public var enabled: Bool? = nil
-    public var buttonText:String? = nil
-    public var clientId:String? = nil
-    public var clientSecret:String? = nil
-    public var scope:String? = nil
-    public var insertinstant: Date? = nil
-    public var lambdaConfiguration: LambdaConfiguration? = nil
-    public var lastUpdateInstant: Date? = nil
+    public var createRegistration: Bool?
+    public var data: [String : JSONObject]?
+    public var enabled: Bool?
+    public var buttonText:String?
+    public var clientId:String?
+    public var clientSecret:String?
+    public var scope:String?
+    public var insertinstant: Date?
+    public var lambdaConfiguration: LambdaConfiguration?
+    public var lastUpdateInstant: Date?
     
     public init(createRegistration: Bool? = nil, data: [String : JSONObject]? = nil, enabled: Bool? = nil, buttonText: String? = nil, clientId: String? = nil, clientSecret: String? = nil, scope: String? = nil) {
         self.createRegistration = createRegistration

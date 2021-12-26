@@ -14,10 +14,10 @@ public struct TwitchApplicationConfiguration:Codable, BaseIdentityProviderApplic
     public var data: [String : JSONObject]?
     public var enabled: Bool?
     
-    public var buttonText:String? = nil
-    public var clientId:String? = nil
-    public var clientSecret:String? = nil
-    public var scope:String? = nil
+    public var buttonText:String?
+    public var clientId:String?
+    public var clientSecret:String?
+    public var scope:String?
     
     public init(createRegistration: Bool? = nil, data: [String : JSONObject]? = nil, enabled: Bool? = nil, buttonText: String? = nil, clientId: String? = nil, clientSecret: String? = nil, scope: String? = nil) {
         self.createRegistration = createRegistration

@@ -10,8 +10,8 @@ import Foundation
 
 
 public class LoginRecordSearchRequest:Codable{
-    public var retrieveTotal:Bool? = nil
-    public var search:LoginRecordSearchCriteria? = nil
+    public var retrieveTotal:Bool?
+    public var search:LoginRecordSearchCriteria?
 
     public init(retrieveTotale: Bool? = nil, search: LoginRecordSearchCriteria? = nil) {
         self.retrieveTotal = retrieveTotale

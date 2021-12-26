@@ -12,8 +12,8 @@ import Foundation
  */
 
 public struct Errors: Codable{
-    public var fieldErrors: fieldError? = nil
-    public var generalErrors: [generalError]? = nil
+    public var fieldErrors: fieldError?
+    public var generalErrors: [generalError]?
 
 
     public struct fieldError: Codable {

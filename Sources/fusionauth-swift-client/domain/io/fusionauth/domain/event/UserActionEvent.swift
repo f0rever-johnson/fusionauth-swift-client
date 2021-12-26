@@ -11,26 +11,26 @@ public struct UserActionEvent:BaseEvent, Codable{
 
     public var info: EventInfo?
     public var type: EventType?
-    public var id: UUID? = nil
-    public var tenantId: UUID? = nil
-    public var action:String? = nil
-    public var actionId:UUID? = nil
-    public var actioneeUserId:UUID? = nil
-    public var actionerUserId:UUID? = nil
-    public var applicationIds:[UUID]? = nil
-    public var comment:String? = nil
-    public var email:Email? = nil
-    public var emailedUser:Bool? = nil
-    public var expiry:Date? = nil
-    public var localizedAction:String? = nil
-    public var localizedDuration:String? = nil
-    public var localizedOption:String? = nil
-    public var localizedReason:String? = nil
-    public var notifyUser:Bool? = nil
-    public var option:String? = nil
-    public var phase:UserActionPhase? = nil
-    public var reason:String? = nil
-    public var reasonCode:String? = nil
+    public var id: UUID?
+    public var tenantId: UUID?
+    public var action:String?
+    public var actionId:UUID?
+    public var actioneeUserId:UUID?
+    public var actionerUserId:UUID?
+    public var applicationIds:[UUID]?
+    public var comment:String?
+    public var email:Email?
+    public var emailedUser:Bool?
+    public var expiry:Date?
+    public var localizedAction:String?
+    public var localizedDuration:String?
+    public var localizedOption:String?
+    public var localizedReason:String?
+    public var notifyUser:Bool?
+    public var option:String?
+    public var phase:UserActionPhase?
+    public var reason:String?
+    public var reasonCode:String?
     
     public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, action: String? = nil, actionId: UUID? = nil, actioneeUserId: UUID? = nil, actionerUserId: UUID? = nil, applicationIds: [UUID]? = nil, comment: String? = nil, email: Email? = nil, emailedUser: Bool? = nil, expiry: Date? = nil, localizedAction: String? = nil, localizedDuration: String? = nil, localizedOption: String? = nil, localizedReason: String? = nil, notifyUser: Bool? = nil, option: String? = nil, phase: UserActionPhase? = nil, reason: String? = nil, reasonCode: String? = nil) {
         self.info = info

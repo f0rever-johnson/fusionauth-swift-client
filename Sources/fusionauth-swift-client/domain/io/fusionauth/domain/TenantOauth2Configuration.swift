@@ -9,7 +9,7 @@ import Foundation
 
 public class TenantOauth2Configuration:Codable{
 
-    public var clientCredentialsAccessTokenPopulateLambdaId:UUID? = nil
+    public var clientCredentialsAccessTokenPopulateLambdaId:UUID?
     
     public init(clientCredentialsAccessTokenPopulateLambdaId: UUID? = nil) {
         self.clientCredentialsAccessTokenPopulateLambdaId = clientCredentialsAccessTokenPopulateLambdaId

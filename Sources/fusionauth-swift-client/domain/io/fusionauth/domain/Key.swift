@@ -14,21 +14,21 @@ import Foundation
 
 public class Key:Codable{
     public var algorithm:KeyAlgorithm?
-    public var certificate:String? = nil
-    public var certificateInformation:CertificateInformation? = nil
-    public var expirationInstant:Date? = nil
+    public var certificate:String?
+    public var certificateInformation:CertificateInformation?
+    public var expirationInstant:Date?
     public var hasPrivateKey:Bool?
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var issuer:String? = nil
-    public var kid:String? = nil
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var issuer:String?
+    public var kid:String?
     public var lastUpdateInstant:Date?
-    public var length:Int? = nil
-    public var name:String? = nil
-    public var privateKey:String? = nil
-    public var publicKey:String? = nil
-    public var secret:String? = nil
-    public var type:KeyType? = nil
+    public var length:Int?
+    public var name:String?
+    public var privateKey:String?
+    public var publicKey:String?
+    public var secret:String?
+    public var type:KeyType?
     
     public init(algorithm: KeyAlgorithm? = nil, certificate: String? = nil, certificateInformation: CertificateInformation? = nil, expirationInstant: Date? = nil, hasPrivateKey: Bool? = nil, id: UUID? = nil, insertInstant: Date? = nil, issuer: String? = nil, kid: String? = nil, lastUpdateInstant: Date? = nil, length: Int? = nil, name: String? = nil, privateKey: String? = nil, publicKey: String? = nil, secret: String? = nil, type: KeyType? = nil) {
         self.algorithm = algorithm

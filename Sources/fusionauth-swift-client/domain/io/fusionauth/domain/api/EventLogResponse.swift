@@ -9,7 +9,7 @@
 import Foundation
 
 public struct EventLogResponse:Codable{
-    public var eventLog:EventLog? = nil
+    public var eventLog:EventLog?
 
     public init(eventLog: EventLog? = nil) {
         self.eventLog = eventLog

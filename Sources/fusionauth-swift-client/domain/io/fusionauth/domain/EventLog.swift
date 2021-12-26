@@ -13,10 +13,10 @@ import Foundation
  */
 
 public class EventLog:Codable{
-    public var id:UInt64? = nil
-    public var insertInstant:Date? = nil
-    public var message:String? = nil
-    public var type:EventLogType? = nil
+    public var id:UInt64?
+    public var insertInstant:Date?
+    public var message:String?
+    public var type:EventLogType?
 
 
     public init(id: UInt64? = nil, insertInstant: Date? = nil, message: String? = nil, type: EventLogType? = nil) {

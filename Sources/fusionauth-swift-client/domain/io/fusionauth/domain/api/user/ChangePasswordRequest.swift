@@ -9,10 +9,10 @@
 import Foundation
 
 public class ChangePasswordRequest:BaseEventRequest {
-    public var currentPassword:String? = nil
-    public var loginId:String? = nil
-    public var password:String? = nil
-    public var refreshToken:String? = nil
+    public var currentPassword:String?
+    public var loginId:String?
+    public var password:String?
+    public var refreshToken:String?
 
     public init(currentPassword: String? = nil, eventInfo: EventInfo? = nil, loginId: String? = nil, password: String? = nil, refreshToken: String? = nil) {
         self.currentPassword = currentPassword

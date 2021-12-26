@@ -9,8 +9,8 @@
 import Foundation
 
 public struct Count:Codable{
-    public var count:Int? = nil
-    public var interval:Int? = nil
+    public var count:Int?
+    public var interval:Int?
 
     public init(count: Int? = nil, interval: Int? = nil) {
         self.count = count

@@ -9,8 +9,8 @@
 import Foundation
 
 public struct MemberDeleteRequest:Codable {
-    public var memberIds:[UUID]? = nil
-    public var members:[UUID:[UUID]]? = nil
+    public var memberIds:[UUID]?
+    public var members:[UUID:[UUID]]?
 
     public init(memberIds: [UUID]? = nil, members: [UUID:[UUID]]? = nil) {
         self.memberIds = memberIds

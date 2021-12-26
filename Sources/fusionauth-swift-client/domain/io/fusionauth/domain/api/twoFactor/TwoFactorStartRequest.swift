@@ -9,10 +9,10 @@ import Foundation
 
 public class TwoFactorStartRequest:Codable{
     
-    public var appliationId:UUID? = nil
-    public var code:String? = nil
-    public var loginId:String? = nil
-    public var state:[String:JSONObject]? = nil
+    public var appliationId:UUID?
+    public var code:String?
+    public var loginId:String?
+    public var state:[String:JSONObject]?
     
     public init(appliationId: UUID? = nil, code: String? = nil, loginId: String? = nil, state: [String : JSONObject]? = nil) {
         self.appliationId = appliationId

@@ -9,8 +9,8 @@
 import Foundation
 
 public struct UserCommentResponse:Codable {
-    public var userComment:UserComment? = nil
-    public var userComments:[UserComment]? = nil
+    public var userComment:UserComment?
+    public var userComments:[UserComment]?
 
     public init(userComment: UserComment? = nil, userComments: [UserComment]? = nil) {
         self.userComment = userComment

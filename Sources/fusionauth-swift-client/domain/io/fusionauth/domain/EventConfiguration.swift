@@ -12,7 +12,7 @@ import Foundation
  */
 
 public struct EventConfiguration:Codable {
-    public var events:[String:EventConfigurationData]? = nil
+    public var events:[String:EventConfigurationData]?
 
     public init(events: [String:EventConfigurationData]? = nil) {
         self.events = events

@@ -14,7 +14,7 @@ import Foundation
  */
 
 public struct FamilyRequest:Codable{
-    public var familyMember:FamilyMember? = nil
+    public var familyMember:FamilyMember?
 
     public init(familyMember: FamilyMember? = nil) {
         self.familyMember = familyMember

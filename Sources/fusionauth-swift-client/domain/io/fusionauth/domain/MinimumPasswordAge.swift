@@ -12,8 +12,8 @@ import Foundation
  */
 
 public struct MinimumPasswordAge:Enableable, Codable {
-    public var enabled:Bool? = nil
-    public var seconds:Int? = nil
+    public var enabled:Bool?
+    public var seconds:Int?
 
     public init(enabled: Bool? = nil, seconds: Int? = nil) {
         self.enabled = enabled

@@ -9,7 +9,7 @@ import Foundation
 
 public struct ReindexRequest:Codable{
 
-    public var index:String? = nil
+    public var index:String?
     
     public init(index: String? = nil) {
         self.index = index

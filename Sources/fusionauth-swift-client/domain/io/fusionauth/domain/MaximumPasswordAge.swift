@@ -12,8 +12,8 @@ import Foundation
  */
 
 public struct MaximumPasswordAge:Enableable, Codable {
-    public var enabled:Bool? = nil
-    public var days:Int? = nil
+    public var enabled:Bool?
+    public var days:Int?
 
     public init(enabled: Bool? = nil, days: Int? = nil) {
         self.enabled = enabled

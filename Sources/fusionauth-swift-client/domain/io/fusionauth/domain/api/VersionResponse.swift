@@ -9,7 +9,7 @@ import Foundation
 
 public class VersionResponse:Codable{
 
-    public var version:String? = nil
+    public var version:String?
     
     public init(version: String? = nil) {
         self.version = version

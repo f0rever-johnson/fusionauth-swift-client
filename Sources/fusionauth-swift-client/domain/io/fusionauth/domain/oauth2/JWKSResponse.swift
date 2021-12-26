@@ -9,7 +9,7 @@ import Foundation
 
 
 public class JWKSResponse:Codable{
-    public var keys:[JSONObject]? = nil
+    public var keys:[JSONObject]?
 
     public init(keys: [JSONObject]? = nil) {
         self.keys = keys

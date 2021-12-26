@@ -15,24 +15,24 @@ public class FacebookIdentityProvider:BaseIdentityProvider, Codable{
 
     public typealias D = FacebookApplicationConfiguration
     
-    public var insertinstant: Date? = nil
-    public var lambdaConfiguration: LambdaConfiguration? = nil
-    public var lastUpdateInstant: Date? = nil
+    public var insertinstant: Date?
+    public var lambdaConfiguration: LambdaConfiguration?
+    public var lastUpdateInstant: Date?
     public var linkingStrategy: IdentityProviderLinkingStrategy?
-    public var applicationConfiguration: [String :D]? = nil
-    public var data: [String : JSONObject]? = nil
-    public var debug: Bool? = nil
-    public var id: UUID? = nil
-    public var type: IdentityProviderType? = nil
-    public var enabled: Bool? = nil
-    public var appId:String? = nil
-    public var buttonText:String? = nil
-    public var clientSecret:String? = nil
-    public var fields:String? = nil
-    public var loginMethod:IdentityProviderLoginMethod? = nil
-    public var name:String? = nil
-    public var permissions:String? = nil
-    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]? = nil
+    public var applicationConfiguration: [String :D]?
+    public var data: [String : JSONObject]?
+    public var debug: Bool?
+    public var id: UUID?
+    public var type: IdentityProviderType?
+    public var enabled: Bool?
+    public var appId:String?
+    public var buttonText:String?
+    public var clientSecret:String?
+    public var fields:String?
+    public var loginMethod:IdentityProviderLoginMethod?
+    public var name:String?
+    public var permissions:String?
+    public var tenantConfiguration: [UUID : IdentityProviderTenantConfiguration]?
 
     
     private enum CodingKeys:String, CodingKey{

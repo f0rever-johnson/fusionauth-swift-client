@@ -9,8 +9,8 @@
 import Foundation
 
 public struct UserActionReasonResponse:Codable {
-    public var userActionReason:UserActionReason? = nil
-    public var userActionReasons:[UserActionReason]? = nil
+    public var userActionReason:UserActionReason?
+    public var userActionReasons:[UserActionReason]?
 
 
     public init(userActionReason: UserActionReason? = nil, userActionReasons: [UserActionReason]? = nil) {

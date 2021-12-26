@@ -9,8 +9,8 @@
 import Foundation
 
 public struct RegistrationReportResponse:Codable {
-    public var hourlyCounts:[Count]? = nil
-    public var total:UInt64? = nil
+    public var hourlyCounts:[Count]?
+    public var total:UInt64?
 
     public init(hourlyCounts: [Count]? = nil, total: UInt64? = nil) {
         self.hourlyCounts = hourlyCounts

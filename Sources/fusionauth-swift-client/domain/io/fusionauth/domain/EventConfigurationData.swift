@@ -12,8 +12,8 @@ import Foundation
 */
 
 public class EventConfigurationData:Codable, Enableable{
-    public var enabled: Bool? = nil
-    public var transactionType:TransactionType? = nil
+    public var enabled: Bool?
+    public var transactionType:TransactionType?
 
     public init(enabled: Bool? = nil, transactionType: TransactionType? = nil) {
         self.enabled = enabled

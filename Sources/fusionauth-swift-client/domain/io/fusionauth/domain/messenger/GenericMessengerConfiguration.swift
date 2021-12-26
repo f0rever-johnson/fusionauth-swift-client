@@ -9,13 +9,13 @@ import Foundation
 
 public class GenericMessengerConfiguration:BaseMessengerConfiguration{
     
-    public var connectTimeout:Int? = nil
-    public var headers:HTTPHeaders? = nil
-    public var httpAuthenticationPassword:String? = nil
-    public var httpAuthenticationUsername:String? = nil
-    public var readTimeout:Int? = nil
-    public var sslCertificate:String? = nil
-    public var url:String? = nil
+    public var connectTimeout:Int?
+    public var headers:HTTPHeaders?
+    public var httpAuthenticationPassword:String?
+    public var httpAuthenticationUsername:String?
+    public var readTimeout:Int?
+    public var sslCertificate:String?
+    public var url:String?
     
     public init(data: [String : JSONObject]? = nil, debug: Bool? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, name: String? = nil, transport: String? = nil, type: MessengerType? = nil, connectTimeout: Int? = nil, headers: HTTPHeaders? = nil, httpAuthenticationPassword: String? = nil, httpAuthenticationUsername: String? = nil, readTimeout: Int? = nil, sslCertificate: String? = nil, url: String? = nil) {
         self.connectTimeout = connectTimeout
@@ -29,7 +29,7 @@ public class GenericMessengerConfiguration:BaseMessengerConfiguration{
     }
 
 
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         
         // Get our container for this subclass' coding keys
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -37,7 +37,7 @@ public class GenericMessengerConfiguration:BaseMessengerConfiguration{
         self.headers = try container.decode(HTTPHeaders.self, forKey: .headers)
         self.httpAuthenticationPassword = try container.decode(String.self, forKey: .httpAuthenticationPassword)
         self.readTimeout = try container.decode(Int.self, forKey: .readTimeout)
-        self.sslCertificate = try container.decode(String.self, forKey: .sslCerificate)
+        self.sslCertificate = try container.decode(String.self, forKey: .sslCertificate)
         self.url = try container.decode(String.self, forKey: .url)
         
         // Get superDecoder for superclass and call super.init(from:) with it
@@ -46,13 +46,30 @@ public class GenericMessengerConfiguration:BaseMessengerConfiguration{
         
     }
     
-    public enum CodingKeys:CodingKey{
+  
+        
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(connectTimeout, forKey: .connectTimeout)
+        try container.encode(headers, forKey: .headers)
+        try container.encode(httpAuthenticationPassword, forKey: .httpAuthenticationPassword)
+        try container.encode(httpAuthenticationUsername, forKey: .httpAuthenticationUsername)
+        try container.encode(readTimeout, forKey: .readTimeout)
+        try container.encode(sslCertificate, forKey: .sslCertificate)
+        try container.encode(url, forKey: .url)
+        
+        try super.encode(to: encoder)
+    }
+
+    
+    private enum CodingKeys:CodingKey{
         case connectTimeout
         case headers
         case httpAuthenticationPassword
         case httpAuthenticationUsername
         case readTimeout
-        case sslCerificate
+        case sslCertificate
         case url
     }
+    
 }

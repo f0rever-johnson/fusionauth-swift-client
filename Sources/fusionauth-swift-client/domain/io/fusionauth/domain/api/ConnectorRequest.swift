@@ -8,7 +8,7 @@
 import Foundation
 
 public class ConnectorRequest:Codable{
-    public var connector:BaseConnectorConfiguration? = nil
+    public var connector:BaseConnectorConfiguration?
     
     public init(connector:BaseConnectorConfiguration? = nil){
         self.connector = connector

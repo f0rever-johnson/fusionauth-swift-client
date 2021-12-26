@@ -10,8 +10,8 @@ import Foundation
 
 
 public class EmailTemplateErrors:Codable{
-    public var parseErrors:[String:String]? = nil
-    public var renderErrors:[String:String]? = nil
+    public var parseErrors:[String:String]?
+    public var renderErrors:[String:String]?
 
 
     public init(parseErrors: [String:String]? = nil, renderErrors: [String:String]? = nil) {

@@ -9,8 +9,8 @@
 import Foundation
 
 public struct PreviewResponse:Codable {
-    public var email:Email? = nil
-    public var errors:Errors? = nil
+    public var email:Email?
+    public var errors:Errors?
 
     public init(email: Email? = nil, errors: Errors? = nil) {
         self.email = email

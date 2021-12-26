@@ -9,7 +9,7 @@
 import Foundation
 
 public struct SystemConfigurationRequest:Codable {
-    public var systemConfiguration:SystemConfiguration? = nil
+    public var systemConfiguration:SystemConfiguration?
 
     public init(systemConfiguration: SystemConfiguration? = nil) {
         self.systemConfiguration = systemConfiguration

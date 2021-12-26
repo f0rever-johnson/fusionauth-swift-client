@@ -9,7 +9,7 @@
 import Foundation
 
 public struct UserActionRequest:Codable {
-    public var userAction:UserAction? = nil
+    public var userAction:UserAction?
 
     public init(userAction: UserAction? = nil) {
         self.userAction = userAction

@@ -12,11 +12,11 @@ import Foundation
  */
 
 public struct UserComment:Codable {
-    public var comment:String? = nil
-    public var commenterId:UUID? = nil
-    public var id:UUID? = nil
-    public var insertInstant:Date? = nil
-    public var userId:UUID? = nil
+    public var comment:String?
+    public var commenterId:UUID?
+    public var id:UUID?
+    public var insertInstant:Date?
+    public var userId:UUID?
 
     public init(comment: String? = nil, commenterId: UUID? = nil, createInstant: Date? = nil, id: UUID? = nil, userId: UUID? = nil) {
         self.comment = comment

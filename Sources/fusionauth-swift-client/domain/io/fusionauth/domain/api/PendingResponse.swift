@@ -9,7 +9,7 @@
 import Foundation
 
 public struct PendingResponse:Codable{
-    public var users:[User]? = nil
+    public var users:[User]?
 
     public init(users: [User]? = nil) {
         self.users = users

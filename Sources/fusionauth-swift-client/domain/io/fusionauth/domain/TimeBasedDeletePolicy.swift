@@ -8,8 +8,8 @@
 import Foundation
 
 public class TimeBasedDeletePolicy:Codable, Enableable{
-    public var numberofDaysToRetain:Int? = nil
-    public var enabled: Bool? = nil
+    public var numberofDaysToRetain:Int?
+    public var enabled: Bool?
     
     public init(numberofDaysToRetain:Int? = nil, enabled:Bool? = nil){
         self.numberofDaysToRetain = numberofDaysToRetain

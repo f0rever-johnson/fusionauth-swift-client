@@ -10,8 +10,8 @@ import Foundation
 
 
 public struct ChangePasswordResponse:Codable{
-    public var oneTimePassword:String? = nil
-    public var state:[String:JSONObject]? = nil
+    public var oneTimePassword:String?
+    public var state:[String:JSONObject]?
 
     public init(oneTimePassword: String? = nil, state: [String:JSONObject]? = nil) {
         self.oneTimePassword = oneTimePassword

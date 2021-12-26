@@ -11,10 +11,10 @@ public struct UserUpdateEvent:BaseEvent, Codable {
 
     public var info: EventInfo?
     public var type: EventType?
-    public var id: UUID? = nil
-    public var tenantId: UUID? = nil
-    public var user:User? = nil
-    public var orignal:User? = nil
+    public var id: UUID?
+    public var tenantId: UUID?
+    public var user:User?
+    public var orignal:User?
 
     public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, user: User? = nil, orignal: User? = nil) {
         self.info = info

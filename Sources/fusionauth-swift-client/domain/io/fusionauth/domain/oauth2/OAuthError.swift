@@ -9,12 +9,12 @@ import Foundation
 
 
 public class OAuthError:Codable{
-    public var changePasswordId:String? = nil
-    public var error:OAuthErrorType? = nil
-    public var errorDescription:String? = nil
-    public var errorReason:OAuthErrorReason? = nil
-    public var errorURI:String? = nil
-    public var twoFactorId:String? = nil
+    public var changePasswordId:String?
+    public var error:OAuthErrorType?
+    public var errorDescription:String?
+    public var errorReason:OAuthErrorReason?
+    public var errorURI:String?
+    public var twoFactorId:String?
 
     public init(changePasswordId: String? = nil, error: OAuthErrorType? = nil, errorDescription: String? = nil, errorReason: OAuthErrorReason? = nil, errorURI: String? = nil, twoFactorId: String? = nil) {
         self.changePasswordId = changePasswordId

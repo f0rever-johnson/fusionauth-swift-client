@@ -9,7 +9,7 @@
 import Foundation
 
 public struct AuditLogResponse:Codable {
-    public var auditLog:AuditLog? = nil
+    public var auditLog:AuditLog?
 
 
     public init(auditLog: AuditLog? = nil) {

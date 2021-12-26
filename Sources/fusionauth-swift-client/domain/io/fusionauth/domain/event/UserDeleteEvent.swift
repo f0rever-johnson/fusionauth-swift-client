@@ -10,9 +10,9 @@ import Foundation
 public struct UserDeleteEvent:BaseEvent, Codable {
     public var info: EventInfo?
     public var type: EventType?
-    public var id: UUID? = nil
-    public var tenantId: UUID? = nil
-    public var user:User? = nil
+    public var id: UUID?
+    public var tenantId: UUID?
+    public var user:User?
 
 
     public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, user: User? = nil) {
