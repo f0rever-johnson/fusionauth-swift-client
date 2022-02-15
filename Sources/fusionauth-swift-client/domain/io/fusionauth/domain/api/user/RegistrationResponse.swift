@@ -13,13 +13,14 @@ public class RegistrationResponse:Codable{
     public var registration:UserRegistration?
     public var registrationVerificationId:String?
     public var token:String?
+    public var tokenExpirationInstant:Date?
     public var user:User?
-    
-    public init(registration: UserRegistration? = nil, registrationVerificationId: String? = nil, token: String? = nil, user: User? = nil) {
+
+    public init(registration: UserRegistration? = nil, registrationVerificationId: String? = nil, token: String? = nil, tokenExpirationInstant: Date? = nil, user: User? = nil) {
         self.registration = registration
         self.registrationVerificationId = registrationVerificationId
         self.token = token
+        self.tokenExpirationInstant = tokenExpirationInstant
         self.user = user
     }
-
 }

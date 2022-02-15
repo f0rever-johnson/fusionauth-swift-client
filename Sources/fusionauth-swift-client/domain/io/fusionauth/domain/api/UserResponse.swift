@@ -9,17 +9,19 @@
 import Foundation
 
 public struct UserResponse:Codable {
-
+ 
     public var emailVerificationId:String?
     public var registrationVerificationIds:[String:String]?
     public var token:String?
+    public var tokenExpirationInstant:Date?
     public var user:User?
     public var users:[User]?
     
-    public init(emailVerificationId: String? = nil, registrationVerificationIds: [String : String]? = nil, token: String? = nil, user: User? = nil, users: [User]? = nil) {
+    public init(emailVerificationId: String? = nil, registrationVerificationIds: [String : String]? = nil, token: String? = nil, tokenExpirationInstant: Date? = nil, user: User? = nil, users: [User]? = nil) {
         self.emailVerificationId = emailVerificationId
         self.registrationVerificationIds = registrationVerificationIds
         self.token = token
+        self.tokenExpirationInstant = tokenExpirationInstant
         self.user = user
         self.users = users
     }

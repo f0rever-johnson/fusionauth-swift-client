@@ -32,12 +32,13 @@ public class ExternalIdentifierConfiguration:Codable {
     public var samlv2AuthNRequestIdTimeToLiveInSeconds:Int?
     public var setupPasswordIdGenerator:SecureGeneratorConfiguration?
     public var setupPasswordIdTimeToLiveInSeconds:Int?
+    public var trustTokenTimeToLiveInSeconds:Int?
     public var twoFactorIdTimeToLiveInSeconds:Int?
     public var twoFactorOneTimeCodeIdGenerator:SecureGeneratorConfiguration?
     public var twoFactorOneTimeCodeIdTimeToLiveInSeconds:Int?
     public var twoFactorTrustIdTimeToLiveInSeconds:Int?
     
-    public init(authorizationGrantIdTimeToLiveInSeconds: Int? = nil, changePasswordIdGenerator: SecureGeneratorConfiguration? = nil, changePasswordIdTimeToLiveInSeconds: Int? = nil, deviceCodeTimeToLiveInSeconds: Int? = nil, deviceUserCodeIdGenerator: SecureGeneratorConfiguration? = nil, emailVerificationIdGenerator: SecureGeneratorConfiguration? = nil, emailVerificationIdTimeToLiveInSeconds: Int? = nil, emailVerificationOneTimeCodeGenerator: SecureGeneratorConfiguration? = nil, externalAuthenticationIdTimeToLiveInSeconds: Int? = nil, oneTimePasswordTimeToLiveInSeconds: Int? = nil, passwordlessLoginGenerator: SecureGeneratorConfiguration? = nil, passwordlessLoginTimeToLiveInSeconds: Int? = nil, pendingAccountLinkTimeToLiveInSeconds: Int? = nil, registrationVerificationIdGenerator: SecureGeneratorConfiguration? = nil, registrationVerificationIdTimeToLiveInSeconds: Int? = nil, registrationVerificationOneTimeCodeGenerator: SecureGeneratorConfiguration? = nil, samlv2AuthNRequestIdTimeToLiveInSeconds: Int? = nil, setupPasswordIdGenerator: SecureGeneratorConfiguration? = nil, setupPasswordIdTimeToLiveInSeconds: Int? = nil, twoFactorIdTimeToLiveInSeconds: Int? = nil, twoFactorOneTimeCodeIdGenerator: SecureGeneratorConfiguration? = nil, twoFactorOneTimeCodeIdTimeToLiveInSeconds: Int? = nil, twoFactorTrustIdTimeToLiveInSeconds: Int? = nil) {
+    public init(authorizationGrantIdTimeToLiveInSeconds: Int? = nil, changePasswordIdGenerator: SecureGeneratorConfiguration? = nil, changePasswordIdTimeToLiveInSeconds: Int? = nil, deviceCodeTimeToLiveInSeconds: Int? = nil, deviceUserCodeIdGenerator: SecureGeneratorConfiguration? = nil, emailVerificationIdGenerator: SecureGeneratorConfiguration? = nil, emailVerificationIdTimeToLiveInSeconds: Int? = nil, emailVerificationOneTimeCodeGenerator: SecureGeneratorConfiguration? = nil, externalAuthenticationIdTimeToLiveInSeconds: Int? = nil, oneTimePasswordTimeToLiveInSeconds: Int? = nil, passwordlessLoginGenerator: SecureGeneratorConfiguration? = nil, passwordlessLoginTimeToLiveInSeconds: Int? = nil, pendingAccountLinkTimeToLiveInSeconds: Int? = nil, registrationVerificationIdGenerator: SecureGeneratorConfiguration? = nil, registrationVerificationIdTimeToLiveInSeconds: Int? = nil, registrationVerificationOneTimeCodeGenerator: SecureGeneratorConfiguration? = nil, samlv2AuthNRequestIdTimeToLiveInSeconds: Int? = nil, setupPasswordIdGenerator: SecureGeneratorConfiguration? = nil, setupPasswordIdTimeToLiveInSeconds: Int? = nil, trustTokenTimeToLiveInSeconds: Int? = nil, twoFactorIdTimeToLiveInSeconds: Int? = nil, twoFactorOneTimeCodeIdGenerator: SecureGeneratorConfiguration? = nil, twoFactorOneTimeCodeIdTimeToLiveInSeconds: Int? = nil, twoFactorTrustIdTimeToLiveInSeconds: Int? = nil) {
         self.authorizationGrantIdTimeToLiveInSeconds = authorizationGrantIdTimeToLiveInSeconds
         self.changePasswordIdGenerator = changePasswordIdGenerator
         self.changePasswordIdTimeToLiveInSeconds = changePasswordIdTimeToLiveInSeconds
@@ -57,12 +58,11 @@ public class ExternalIdentifierConfiguration:Codable {
         self.samlv2AuthNRequestIdTimeToLiveInSeconds = samlv2AuthNRequestIdTimeToLiveInSeconds
         self.setupPasswordIdGenerator = setupPasswordIdGenerator
         self.setupPasswordIdTimeToLiveInSeconds = setupPasswordIdTimeToLiveInSeconds
+        self.trustTokenTimeToLiveInSeconds = trustTokenTimeToLiveInSeconds
         self.twoFactorIdTimeToLiveInSeconds = twoFactorIdTimeToLiveInSeconds
         self.twoFactorOneTimeCodeIdGenerator = twoFactorOneTimeCodeIdGenerator
         self.twoFactorOneTimeCodeIdTimeToLiveInSeconds = twoFactorOneTimeCodeIdTimeToLiveInSeconds
         self.twoFactorTrustIdTimeToLiveInSeconds = twoFactorTrustIdTimeToLiveInSeconds
     }
-    
 
-    
 }
