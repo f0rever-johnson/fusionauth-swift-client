@@ -33,4 +33,8 @@ public enum LambdaType:String, Codable{
     case TwitchReconcile = "TwitchReconcile"
     case XboxReconcile = "XboxReconcile"
     case ClientCredentialsJWTPopulate = "ClientCredentialsJWTPopulate"
+    case SCIMServerGroupRequestConverter = "SCIMServerGroupRequestConverter"
+    case SCIMServerGroupResponseConverter = "SCIMServerGroupResponseConverter"
+    case SCIMServerUserRequestConverter = "SCIMServerUserRequestConverter"
+    case SCIMServerUserResponseConverter = "SCIMServerUserResponseConverter"
 }

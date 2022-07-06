@@ -12,7 +12,7 @@ import Foundation
  */
 
 public struct SystemConfiguration:Codable {
-    
+
     public var auditLogConfiguration:AuditLogConfiguration?
     public var CORSConfiguration:CORSConfiguration?
     public var data:[String:JSONObject]?

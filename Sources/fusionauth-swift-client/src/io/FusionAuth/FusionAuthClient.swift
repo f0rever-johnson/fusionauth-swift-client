@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Network
 
 /// Client that connects to a FusionAuth server and provides access to the full set of FusionAuth APIs.
 /// All methods are Asynchonous
@@ -4215,6 +4216,24 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    ///  Searches group members with the specified criteria and pagination.
+    /// - Parameters:
+    ///   - request: The search criteria and pagination information.
+    ///   - clientResponse:   See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func SearchGroupMembers(request:GroupMemberSearchRequest, clientResponse:@escaping(ClientResponse<GroupMemberSearchResponse>) -> ()){
+        let urlPath:String = "/api/group/member/search"
+        let data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<GroupMemberSearchResponse>) in
+            clientResponse(response)
+        }
+    }
 
     /// Searches the IP Access Control Lists with the specified criteria and pagination.
     /// - Parameters:
@@ -4689,6 +4708,25 @@ public class FusionAuthClient{
             clientResponse(response)
         })
     }
+    
+    /// Creates a member in a group.
+    /// - Parameters:
+    ///   - request: The request object that contains all the information used to create the group member(s).
+    ///   - clientResponse: See Returns
+    /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func UpdateGroupMembers(request:MemberRequest, clientResponse:@escaping(ClientResponse<MemberResponse>) -> ()){
+        let urlPath:String = "/api/group/member"
+        let data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data, fusionAuthClientResponse: { (response:ClientResponse<MemberResponse>) in
+            clientResponse(response)
+        })
+        
+    }
 
     /// Updates the IP Access Control List with the given Id.
     /// - Parameters:
@@ -5081,6 +5119,24 @@ public class FusionAuthClient{
     /// IOException.
     public func VerifyEmailAddress(request:VerifyEmailRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
         let urlPath:String = "/api/user/verify-email"
+        let data:Data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<RESTVoid>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Administratively verify a user's email address. Use this method to bypass email verification for the user. The request body will contain the userId to be verified. An API key is required when sending the userId in the request body.
+    /// - Parameters:
+    ///   - request: The request that contains the userId to verify.
+    ///   - clientResponse: See Returns
+    /// - Returns:When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func VerifyEmailAddressByUserId(request:VerifyEmailRequest, clientResponse:@escaping(ClientResponse<RESTVoid>) -> ()){
+        let urlPath:String = ""
         let data:Data = try! jsonEncoder.encode(request)
         let httpMethod:HTTPMethod = .POST
         
