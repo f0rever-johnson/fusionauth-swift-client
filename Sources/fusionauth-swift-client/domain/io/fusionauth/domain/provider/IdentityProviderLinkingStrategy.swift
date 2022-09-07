@@ -14,11 +14,12 @@ import Foundation
  */
 
 public enum IdentityProviderLinkingStrategy:String, Codable{
-    case CreatePendingLink = "CreatePendingLink"
-    case LinkAnonymously = "LinkAnonymously"
-    case LinkByEmail = "LinkByEmail"
-    case LinkByEmailForExistingUser = "LinkByEmailForExistingUser"
-    case LinkByUsername = "LinkByUsername"
-    case LinkByUsernameForExistingUser = "LinkByUsernameForExistingUser"
-    case Unsupported = "Unsupported"
+    case createPendingLink = "CreatePendingLink"
+    case disabled = "Disabled"
+    case linkAnonymously = "LinkAnonymously"
+    case linkByEmail = "LinkByEmail"
+    case linkByEmailForExistingUser = "LinkByEmailForExistingUser"
+    case linkByUsername = "LinkByUsername"
+    case linkByUsernameForExistingUser = "LinkByUsernameForExistingUser"
+    case unsupported = "Unsupported"
 }

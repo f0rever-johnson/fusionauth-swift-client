@@ -13,8 +13,7 @@ import Foundation
  */
 
 public struct Webhook:Codable {
-    
-    public var applicationIds:[UUID]?
+
     public var connectTimeout:Int?
     public var data:[String:JSONObject]?
     public var description:String?
@@ -28,10 +27,10 @@ public struct Webhook:Codable {
     public var lastUpdateInstant:Date?
     public var readTimeout:Int?
     public var sslCertificate:String?
+    public var tenantIds:[UUID]?
     public var url:String?
     
-    public init(applicationIds: [UUID]? = nil, connectTimeout: Int? = nil, data: [String : JSONObject]? = nil, description: String? = nil, eventsEnabled: [EventType : Bool]? = nil, global: Bool? = nil, headers: HTTPHeaders? = nil, httpAuthenticationPassword: String? = nil, httpAuthenticationUsername: String? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, readTimeout: Int? = nil, sslCertificate: String? = nil, url: String? = nil) {
-        self.applicationIds = applicationIds
+    public init(connectTimeout: Int? = nil, data: [String : JSONObject]? = nil, description: String? = nil, eventsEnabled: [EventType : Bool]? = nil, global: Bool? = nil, headers: HTTPHeaders? = nil, httpAuthenticationPassword: String? = nil, httpAuthenticationUsername: String? = nil, id: UUID? = nil, insertInstant: Date? = nil, lastUpdateInstant: Date? = nil, readTimeout: Int? = nil, sslCertificate: String? = nil, tenantIds: [UUID]? = nil, url: String? = nil) {
         self.connectTimeout = connectTimeout
         self.data = data
         self.description = description
@@ -45,6 +44,7 @@ public struct Webhook:Codable {
         self.lastUpdateInstant = lastUpdateInstant
         self.readTimeout = readTimeout
         self.sslCertificate = sslCertificate
+        self.tenantIds = tenantIds
         self.url = url
     }
 

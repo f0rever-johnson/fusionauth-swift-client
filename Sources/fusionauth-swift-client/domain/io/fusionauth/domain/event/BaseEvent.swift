@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol BaseEvent: Codable{
+    var createInstant:Date? {get set}
     var id:UUID? {get set}
     var info:EventInfo? {get set}
     var tenantId:UUID? {get set}

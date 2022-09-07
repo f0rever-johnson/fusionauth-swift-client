@@ -8,7 +8,9 @@
 import Foundation
 
 public class UserTwoFactorMethodAddEvent:BaseEvent{
-
+    
+    public var applicationIds:[UUID]?
+    public var createInstant:Date?
     public var id: UUID?
     public var info: EventInfo?
     public var tenantId: UUID?
@@ -16,8 +18,9 @@ public class UserTwoFactorMethodAddEvent:BaseEvent{
     public var method:TwoFactorMethod?
     public var user:User?
 
-
-    public init(id: UUID? = nil, info: EventInfo? = nil, tenantId: UUID? = nil, type: EventType? = nil, method: TwoFactorMethod? = nil, user: User? = nil) {
+    public init(applicationIds: [UUID]? = nil, createInstant: Date? = nil, id: UUID? = nil, info: EventInfo? = nil, tenantId: UUID? = nil, type: EventType? = nil, method: TwoFactorMethod? = nil, user: User? = nil) {
+        self.applicationIds = applicationIds
+        self.createInstant = createInstant
         self.id = id
         self.info = info
         self.tenantId = tenantId
@@ -25,5 +28,4 @@ public class UserTwoFactorMethodAddEvent:BaseEvent{
         self.method = method
         self.user = user
     }
-
 }

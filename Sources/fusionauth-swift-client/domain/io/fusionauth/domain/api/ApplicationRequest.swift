@@ -10,12 +10,10 @@ import Foundation
 
 public class ApplicationRequest:BaseEventRequest{
     public var application:Application?
-    public var webhookIds:[UUID]?
     public var role:ApplicationRole?
 
-    public init(application: Application? = nil, eventInfo:EventInfo? = nil, webhookIds: [UUID]? = nil, role: ApplicationRole? = nil) {
+    public init(application: Application? = nil, eventInfo:EventInfo? = nil, role: ApplicationRole? = nil) {
         self.application = application
-        self.webhookIds = webhookIds
         self.role = role
         super.init(eventInfo: eventInfo)
     }
@@ -24,9 +22,7 @@ public class ApplicationRequest:BaseEventRequest{
         // Get our container for this subclass' coding keys
         let container = try decoder.container(keyedBy: CodingKeys.self)
         application = try container.decode(Application.self, forKey: .application)
-        webhookIds = try container.decode([UUID].self, forKey: .webhookIds)
         role = try container.decode(ApplicationRole.self, forKey: .role)
-        
         // Get superDecoder for superclass and call super.init(from:) with it
         let superDecoder = try container.superDecoder()
         try super.init(from: superDecoder)
@@ -35,7 +31,6 @@ public class ApplicationRequest:BaseEventRequest{
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(application, forKey: .application)
-        try container.encode(webhookIds, forKey: .webhookIds)
         try container.encode(role, forKey: .role)
         
         try super.encode(to: encoder)
@@ -43,7 +38,6 @@ public class ApplicationRequest:BaseEventRequest{
     
     public enum CodingKeys:CodingKey{
         case application
-        case webhookIds
         case role
     }
     

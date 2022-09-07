@@ -8,7 +8,12 @@
 
 import Foundation
 
-public struct JWTPublicKeyUpdateEvent:BaseEvent, Codable{
+/**
+   * Models the JWT public key Refresh Token Revoke Event. This event might be for a single
+   * token, a user or an entire application.
+   */
+
+public class JWTPublicKeyUpdateEvent:BaseEvent, Codable{
 
     public var info: EventInfo?
     public var type: EventType?

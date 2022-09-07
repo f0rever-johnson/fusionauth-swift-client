@@ -12,13 +12,14 @@ import Foundation
  */
 
 public struct Application:Codable{
-
+    
     public var accessControlConfiguration:ApplicationAccessControlConfiguration?
     public var active:Bool?
     public var authenticationTokenConfiguration:AuthenticationTokenConfiguration?
     public var cleanSpeakConfiguration:CleanSpeakConfiguration?
     public var data:[String:JSONObject]?
     public var emailConfiguration:ApplicationEmailConfiguration?
+    public var externalIdentifierConfiguration:ApplicationExternalIdentifierConfiguration?
     public var formConfiguration:ApplicationFormConfiguration?
     public var id:UUID?
     public var insertInstant:Date?
@@ -42,13 +43,14 @@ public struct Application:Codable{
     public var verificationStrategy:VerificationStrategy?
     public var verifyRegistration:Bool?
     
-    public init(accessControlConfiguration: ApplicationAccessControlConfiguration? = nil, active: Bool? = nil, authenticationTokenConfiguration: AuthenticationTokenConfiguration? = nil, cleanSpeakConfiguration: CleanSpeakConfiguration? = nil, data: [String : JSONObject]? = nil, emailConfiguration: ApplicationEmailConfiguration? = nil, formConfiguration: ApplicationFormConfiguration? = nil, id: UUID? = nil, insertInstant: Date? = nil, jwtConfiguration: JWTConfiguration? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: LoginConfiguration? = nil, miltiFactorConfiguration: ApplicationMultiFactorConfiguration? = nil, name: String? = nil, oauthConfiguration: OAuth2Configuration? = nil, passwordlessConfiguration: PasswordlessConfiguration? = nil, registrationConfiguration: RegistrationConfiguration? = nil, registrationDeletePolicy: ApplicationRegistrationDeletePolicy? = nil, roles: [ApplicationRole]? = nil, samlv2Configuration: SAMLV2Configuration? = nil, state: ObjectState? = nil, tenantId: UUID? = nil, themeId: UUID? = nil, unverified: RegistrationUnverifiedOptions? = nil, verificationEmailTemplateId: UUID? = nil, verificationStrategy: VerificationStrategy? = nil, verifyRegistration: Bool? = nil) {
+    public init(accessControlConfiguration: ApplicationAccessControlConfiguration? = nil, active: Bool? = nil, authenticationTokenConfiguration: AuthenticationTokenConfiguration? = nil, cleanSpeakConfiguration: CleanSpeakConfiguration? = nil, data: [String : JSONObject]? = nil, emailConfiguration: ApplicationEmailConfiguration? = nil, externalIdentifierConfiguration: ApplicationExternalIdentifierConfiguration? = nil, formConfiguration: ApplicationFormConfiguration? = nil, id: UUID? = nil, insertInstant: Date? = nil, jwtConfiguration: JWTConfiguration? = nil, lambdaConfiguration: LambdaConfiguration? = nil, lastUpdateInstant: Date? = nil, loginConfiguration: LoginConfiguration? = nil, miltiFactorConfiguration: ApplicationMultiFactorConfiguration? = nil, name: String? = nil, oauthConfiguration: OAuth2Configuration? = nil, passwordlessConfiguration: PasswordlessConfiguration? = nil, registrationConfiguration: RegistrationConfiguration? = nil, registrationDeletePolicy: ApplicationRegistrationDeletePolicy? = nil, roles: [ApplicationRole]? = nil, samlv2Configuration: SAMLV2Configuration? = nil, state: ObjectState? = nil, tenantId: UUID? = nil, themeId: UUID? = nil, unverified: RegistrationUnverifiedOptions? = nil, verificationEmailTemplateId: UUID? = nil, verificationStrategy: VerificationStrategy? = nil, verifyRegistration: Bool? = nil) {
         self.accessControlConfiguration = accessControlConfiguration
         self.active = active
         self.authenticationTokenConfiguration = authenticationTokenConfiguration
         self.cleanSpeakConfiguration = cleanSpeakConfiguration
         self.data = data
         self.emailConfiguration = emailConfiguration
+        self.externalIdentifierConfiguration = externalIdentifierConfiguration
         self.formConfiguration = formConfiguration
         self.id = id
         self.insertInstant = insertInstant
@@ -72,7 +74,6 @@ public struct Application:Codable{
         self.verificationStrategy = verificationStrategy
         self.verifyRegistration = verifyRegistration
     }
-    
     
     
 }

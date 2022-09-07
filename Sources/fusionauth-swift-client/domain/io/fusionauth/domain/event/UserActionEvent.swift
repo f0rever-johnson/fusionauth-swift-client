@@ -7,8 +7,12 @@
 
 import Foundation
 
-public struct UserActionEvent:BaseEvent, Codable{
+//Models the user action Event.
 
+public class UserActionEvent:BaseEvent, Codable{
+
+    public var applicationIds:[UUID]?
+    public var createInstant:Date?
     public var info: EventInfo?
     public var type: EventType?
     public var id: UUID?
@@ -17,7 +21,6 @@ public struct UserActionEvent:BaseEvent, Codable{
     public var actionId:UUID?
     public var actioneeUserId:UUID?
     public var actionerUserId:UUID?
-    public var applicationIds:[UUID]?
     public var comment:String?
     public var email:Email?
     public var emailedUser:Bool?
@@ -32,7 +35,9 @@ public struct UserActionEvent:BaseEvent, Codable{
     public var reason:String?
     public var reasonCode:String?
     
-    public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, action: String? = nil, actionId: UUID? = nil, actioneeUserId: UUID? = nil, actionerUserId: UUID? = nil, applicationIds: [UUID]? = nil, comment: String? = nil, email: Email? = nil, emailedUser: Bool? = nil, expiry: Date? = nil, localizedAction: String? = nil, localizedDuration: String? = nil, localizedOption: String? = nil, localizedReason: String? = nil, notifyUser: Bool? = nil, option: String? = nil, phase: UserActionPhase? = nil, reason: String? = nil, reasonCode: String? = nil) {
+    public init(applicationIds: [UUID]? = nil, createInstant: Date? = nil, info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, action: String? = nil, actionId: UUID? = nil, actioneeUserId: UUID? = nil, actionerUserId: UUID? = nil, comment: String? = nil, email: Email? = nil, emailedUser: Bool? = nil, expiry: Date? = nil, localizedAction: String? = nil, localizedDuration: String? = nil, localizedOption: String? = nil, localizedReason: String? = nil, notifyUser: Bool? = nil, option: String? = nil, phase: UserActionPhase? = nil, reason: String? = nil, reasonCode: String? = nil) {
+        self.applicationIds = applicationIds
+        self.createInstant = createInstant
         self.info = info
         self.type = type
         self.id = id

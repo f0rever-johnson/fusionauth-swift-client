@@ -7,9 +7,12 @@
 
 import Foundation
 
+//Models the User Create Registration Event.
+
 public class UserRegistrationCreateEvent:BaseEvent, Codable{
 
-    
+    public var applicationIds:[UUID]?
+    public var createInstant:Date?
     public var info: EventInfo?
     public var type: EventType?
     public var id: UUID?
@@ -17,8 +20,10 @@ public class UserRegistrationCreateEvent:BaseEvent, Codable{
     public var applicationId:UUID?
     public var registration:UserRegistration?
     public var user:User?
-
-    public init(info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, applicationId: UUID? = nil, registration: UserRegistration? = nil, user: User? = nil) {
+    
+    public init(applicationIds: [UUID]? = nil, createInstant: Date? = nil, info: EventInfo? = nil, type: EventType? = nil, id: UUID? = nil, tenantId: UUID? = nil, applicationId: UUID? = nil, registration: UserRegistration? = nil, user: User? = nil) {
+        self.applicationIds = applicationIds
+        self.createInstant = createInstant
         self.info = info
         self.type = type
         self.id = id
@@ -27,5 +32,4 @@ public class UserRegistrationCreateEvent:BaseEvent, Codable{
         self.registration = registration
         self.user = user
     }
-
 }

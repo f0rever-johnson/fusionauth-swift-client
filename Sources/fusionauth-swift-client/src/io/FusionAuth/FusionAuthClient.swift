@@ -1820,6 +1820,26 @@ public class FusionAuthClient{
         })
     }
     
+    /// Sends a ping to FusionAuth indicating that the user was automatically logged into an application. When using
+    /// FusionAuth's SSO or your own, you should call this if the user is already logged in centrally, but accesses an
+    /// application where they no longer have a session. This helps correctly track login counts, times and helps with
+    /// reporting.
+    /// - Parameters:
+    ///   - request: The login request that contains the user credentials used to log them in
+    ///   - clientResponse: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func LoginPingWithRequest(request:LoginPingRequest, clientResponse: @escaping(ClientResponse<LoginResponse>) -> ()){
+        let urlPath:String = "/api/login"
+        let data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .PUT
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<LoginResponse>) in
+            clientResponse(response)
+        }
+    }
+    
     /// The Logout API is intended to be used to remove the refresh token and access token cookies if they exist on the client and revoke the refresh token stored. This API does nothing if the request does not contain an access token or refresh token cookies.
     /// - Parameters:
     ///   - global: When this value is set to true all of the refresh tokens issued to the owner of the provided token will be revoked.
@@ -3408,15 +3428,15 @@ public class FusionAuthClient{
         })
     }
     
-    /// Retrieves a single refresh token by unique Id. This is not the same thing as the string value of the refresh token, if you have that, you already have what you need..
+    /// Retrieves a single refresh token by unique Id. This is not the same thing as the string value of the refresh token. If you have that, you already have what you need..
     /// - Parameters:
-    ///   - userId:  The Id of the user.
+    ///   - userId:  The Id of the token.
     ///   - clientResponse: See Returns
     /// - Returns: When successful, the response will contain the log of the action. If there was a validation error or any
     /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
     /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
     /// IOException.
-    public func RetrieveRefreshTokensById(userId:UUID, clientResponse:@escaping(ClientResponse<RefreshTokenResponse>) -> ()){
+    public func RetrieveRefreshTokenById(userId:UUID, clientResponse:@escaping(ClientResponse<RefreshTokenResponse>) -> ()){
         let urlPath:String = "/api/jwt/refresh"
         let urlSegment:[String] = [userId.uuidString]
         let httpMethod:HTTPMethod = .GET
@@ -3584,6 +3604,29 @@ public class FusionAuthClient{
         let httpMethod:HTTPMethod = .GET
         
         fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod) { (response:ClientResponse<TwoFactorRecoveryCodeResponse>) in
+            clientResponse(response)
+        }
+    }
+    
+    /// Retrieve a user's two-factor status.
+    ///
+    /// This can be used to see if a user will need to complete a two-factor challenge to complete a login,
+    /// and optionally identify the state of the two-factor trust across various applications.
+    /// - Parameters:
+    ///   - userId:  The user Id to retrieve the Two-Factor status.
+    ///   - applicationId: The optional applicationId to verify.
+    ///   - twoFactorTrustId: The optional two-factor trust Id to verify.
+    ///   - clientResponse: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func RetrieveTwoFactorStatus(userId:UUID?, applicationId:UUID?, twoFactorTrustId:String, clientResponse:@escaping(ClientResponse<TwoFactorStatusResponse>) -> ()){
+        let urlPath:String = "/api/two-factor/status"
+        let urlParameter:[URLQueryItem] = [URLQueryItem(name:"userId", value: userId?.uuidString), URLQueryItem(name: "applicationId", value: applicationId?.uuidString)]
+        let urlSegment:[String] = [twoFactorTrustId]
+        let httpMethod:HTTPMethod = .GET
+        
+        fusionAuth.RESTClient(urlPath: urlPath, urlSegments: urlSegment, httpMethod: httpMethod, urlParameters:urlParameter) { (response:ClientResponse<TwoFactorStatusResponse>) in
             clientResponse(response)
         }
     }

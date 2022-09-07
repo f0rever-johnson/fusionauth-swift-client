@@ -7,8 +7,12 @@
 
 import Foundation
 
-public class UserRegistrationUpdateCompleteEvent:BaseEvent{
+//Models the User Update Registration Event.
 
+public class UserRegistrationUpdateCompleteEvent:BaseEvent{
+    
+    public var applicationIds:[UUID]?
+    public var createInstant:Date?
     public var id: UUID?
     public var info: EventInfo?
     public var tenantId: UUID?
@@ -18,7 +22,9 @@ public class UserRegistrationUpdateCompleteEvent:BaseEvent{
     public var registration:UserRegistration?
     public var user:User?
 
-    internal init(id: UUID? = nil, info: EventInfo? = nil, tenantId: UUID? = nil, type: EventType? = nil, applicationId: UUID? = nil, original: UserRegistration? = nil, registration: UserRegistration? = nil, user: User? = nil) {
+    public init(applicationIds: [UUID]? = nil, createInstant: Date? = nil, id: UUID? = nil, info: EventInfo? = nil, tenantId: UUID? = nil, type: EventType? = nil, applicationId: UUID? = nil, original: UserRegistration? = nil, registration: UserRegistration? = nil, user: User? = nil) {
+        self.applicationIds = applicationIds
+        self.createInstant = createInstant
         self.id = id
         self.info = info
         self.tenantId = tenantId
@@ -28,4 +34,5 @@ public class UserRegistrationUpdateCompleteEvent:BaseEvent{
         self.registration = registration
         self.user = user
     }
+
 }
