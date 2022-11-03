@@ -4277,6 +4277,23 @@ public class FusionAuthClient{
             clientResponse(response)
         }
     }
+    
+    /// Searches groups with the specified criteria and pagination.
+    /// - Parameters:
+    ///   - request: The search criteria and pagination information.
+    ///   - clientResponse: When successful, the response will contain the log of the action. If there was a validation error or any
+    /// other type of error, this will return the Errors object in the response. Additionally, if FusionAuth could not be
+    /// contacted because it is down or experiencing a failure, the response will contain an Exception, which could be an
+    /// IOException.
+    public func SearchGroups(request:GroupSearchRequest, clientResponse:@escaping(ClientResponse<GroupSearchResponse>) -> ()){
+        let urlPath:String = "/api/group/search"
+        let data = try! jsonEncoder.encode(request)
+        let httpMethod:HTTPMethod = .POST
+        
+        fusionAuth.RESTClient(urlPath: urlPath, httpMethod: httpMethod, data:data) { (response:ClientResponse<GroupSearchResponse>) in
+            clientResponse(response)
+        }
+    }
 
     /// Searches the IP Access Control Lists with the specified criteria and pagination.
     /// - Parameters:
